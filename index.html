@@ -174,9 +174,9 @@ $("box-login").hidden=!!u;$("box-verify").hidden=!(u&&!u.emailVerified);$("box-p
 const cred=()=>[$("i-email").value.trim(),$("i-pass").value];
 $("f-daftar").onclick=async()=>{const n=$("i-nama").value.trim();if(!n)return msg("Isi nama tampilan dulu.");try{const c=await au.createUserWithEmailAndPassword(auth,...cred());await au.updateProfile(c.user,{displayName:n});await au.sendEmailVerification(c.user);msg("Akun dibuat. Cek emailmu untuk verifikasi.")}catch(x){msg("Gagal: "+x.code)}};
 $("f-masuk").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
-$("f-cek").onclick=async()=>{await auth.currentUser.reload();location.reload()};
+$("f-cek").onclick=async()=>{await auth.currentUser.reload();await auth.currentUser.getIdToken(true);location.reload()};
 document.querySelectorAll(".f-keluar").forEach(b=>b.onclick=()=>au.signOut(auth));
-$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;try{await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){msg("Gagal kirim: "+x.code)}};
+$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;try{await u.getIdToken(true);await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){let k="?";try{k=(await u.getIdTokenResult(true)).claims.email_verified}catch(e){}msg("Gagal kirim: "+x.code+" | verifikasi: "+u.emailVerified+" | token: "+k+" | v3")}};
 $("f-simpan").onclick=async()=>{try{await fs.setDoc(fs.doc(db,"topics","current"),{title:$("a-judul").value.trim(),text:$("a-teks").value.trim(),updatedAt:fs.serverTimestamp()});msg("Pembahasan disimpan.")}catch(x){msg("Gagal simpan: "+x.code)}};
 fs.onSnapshot(fs.doc(db,"topics","current"),d=>{if(d.exists()){$("t-title").textContent=d.data().title;$("t-text").textContent=d.data().text;fill()}});
 fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc"),fs.limit(50)),s=>{docs=s.docs;draw()});
