@@ -50,6 +50,9 @@ section{padding:3.5rem 0;border-top:1px solid var(--line)}
 .kitab{background:var(--kitab);color:var(--kitab-ink)}
 .kitab .btn{background:var(--kitab-accent);border-color:var(--kitab-accent);color:#fff}
 .bookimg{display:block;width:100%;max-width:280px;height:auto;margin:0 auto;border-radius:4px 10px 10px 4px;box-shadow:0 14px 30px rgba(0,0,0,.28)}
+.world>.ewrap{max-width:1040px;display:grid;gap:1.6rem;align-items:center}
+@media(min-width:800px){.world>.ewrap{grid-template-columns:auto 1fr;gap:2.5rem}}
+.ewrap .warimg{margin:0;max-width:340px}
 .warimg{display:block;width:100%;max-width:280px;height:auto;margin:0 0 1.4rem;border-radius:6px}
 [hidden]{display:none!important}
 .topic h3{font-size:1.5rem}
@@ -194,19 +197,6 @@ fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc
 }
 </script>
 
-<div class="worlds">
-<section id="endless-war" class="world war" style="border-top:0"><div>
-<img class="warimg" src="endless-war.jpg" alt="Sketsa sampul novel Endless War" onerror="this.style.display='none'">
-<h2>Endless War</h2>
-<p>Novel fantasi saya tentang perang yang tidak kunjung usai, dan orang-orang yang dipaksa memilih di dalamnya.</p>
-<a class="btn" href="endless-war.html">Masuk ke dunia Endless War</a>
-</div></section>
-<section id="kitab-suci" class="world kitab" style="border-top:0"><div>
-<h2>Kekayaan Kitab Suci</h2>
-<p>Ruang untuk menggali hikmah dan kekayaan makna dalam kitab suci, ditulis dengan tenang dan terbuka untuk didiskusikan.</p>
-<a class="btn" href="#">Buka laman Kitab Suci</a>
-</div></section>
-</div>
 <section id="dukung"><div class="wrap">
 <h2>Dukung karya ini</h2>
 <div class="box" style="margin-bottom:2rem"><h3>Donasi</h3>
@@ -262,8 +252,14 @@ $("k-sv").onclick=async()=>{try{await auth.currentUser.getIdToken(true);await fs
 <p><strong>Untuk apa:</strong> email dipakai untuk masuk dan memastikan akunmu asli. Email tidak ditampilkan kepada pengunjung lain dan tidak dibagikan atau dijual. Nama tampilan dan isi komentarmu tampil terbuka di forum.</p>
 <p><strong>Permintaan hapus:</strong> kamu bisa meminta penghapusan akun dan komentarmu kapan saja dengan menghubungi penulis lewat kontak yang tertera di website ini.</p>
 </div></section>
+<section id="endless-war" class="world war"><div class="wrap ewrap">
+<img class="warimg" src="endless-war.jpg" alt="Sketsa sampul novel Endless War" onerror="this.style.display='none'">
+<div><h2>Endless War</h2>
+<p>Novel fantasi saya tentang perang yang tidak kunjung usai, dan orang-orang yang dipaksa memilih di dalamnya.</p>
+<a class="btn" href="endless-war.html">Masuk ke dunia Endless War</a></div>
+</div></section>
 <footer><div class="wrap">
-<p><a href="#privasi">Catatan privasi</a></p>
+<p><a href="#privasi">Catatan privasi</a> &middot; <a href="#">Kekayaan Kitab Suci</a></p>
 <p>&copy; Diaz Hardika. Logika Positif, Endless War, dan Kekayaan Kitab Suci.</p>
 </div></footer>
 <button class="music-btn" id="m-btn" aria-expanded="false" aria-controls="m-panel">&#9834; Musik</button>
