@@ -143,7 +143,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 <input id="i-email" type="email" placeholder="Email" autocomplete="email">
 <input id="i-pass" type="password" placeholder="Kata sandi (min. 6 karakter)" autocomplete="current-password">
 <div class="btns" style="margin-top:0"><button class="btn" id="f-masuk">Masuk</button><button class="btn alt" id="f-daftar">Daftar</button></div>
-<p class="note" style="margin:.8rem 0 0">Email hanya dipakai untuk verifikasi dan tidak ditampilkan. Yang terlihat hanya nama tampilanmu.</p>
+<p class="note" style="margin:.8rem 0 0">Email hanya dipakai untuk verifikasi dan tidak ditampilkan. Yang terlihat hanya nama tampilanmu. <a href="#privasi">Baca catatan privasi</a>.</p>
 </div>
 <div id="box-verify" class="box" hidden><p>Kami mengirim email verifikasi. Klik tautan di email itu, lalu tekan tombol di bawah.</p><div class="btns" style="margin-top:0"><button class="btn" id="f-cek">Saya sudah verifikasi</button><button class="btn alt f-keluar">Keluar</button></div></div>
 <div id="box-post" class="box form" hidden>
@@ -155,7 +155,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 </div>
 </div></section>
 <script type="module">
-const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="";
+const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
 const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
 if(!cfg.apiKey){$("cmt-off").hidden=false}else{
 const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
@@ -198,7 +198,15 @@ fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc
 </div>
 </main>
 
+<section id="privasi"><div class="wrap">
+<h2>Catatan privasi</h2>
+<p>Website ini hanya meminta data yang diperlukan agar kolom komentar bisa dipakai dengan aman.</p>
+<p><strong>Data yang disimpan:</strong> nama tampilan, alamat email, dan kata sandi (dikelola layanan login Firebase milik Google, sehingga penulis tidak bisa melihat kata sandimu), serta isi komentar beserta waktunya.</p>
+<p><strong>Untuk apa:</strong> email dipakai untuk masuk dan memastikan akunmu asli. Email tidak ditampilkan kepada pengunjung lain dan tidak dibagikan atau dijual. Nama tampilan dan isi komentarmu tampil terbuka di forum.</p>
+<p><strong>Permintaan hapus:</strong> kamu bisa meminta penghapusan akun dan komentarmu kapan saja dengan menghubungi penulis lewat kontak yang tertera di website ini.</p>
+</div></section>
 <footer><div class="wrap">
+<p><a href="#privasi">Catatan privasi</a></p>
 <p>&copy; Diaz Hardika. Logika Positif, Endless War, dan Kekayaan Kitab Suci.</p>
 </div></footer>
 </body>
