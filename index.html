@@ -57,6 +57,12 @@ section{padding:3.5rem 0;border-top:1px solid var(--line)}
 .cm{border-top:1px solid var(--line);padding:.9rem 0}
 .cm b{display:block}.badge{font-size:.72rem;font-weight:700;background:var(--accent);color:var(--on-accent);border-radius:99px;padding:.1rem .55rem;vertical-align:middle}
 .cm p{margin:.2em 0 0;white-space:pre-wrap}
+.music-btn{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:10;padding:.7rem 1.1rem;border-radius:99px;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font:700 .95rem "Public Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.music-panel{position:fixed;right:1rem;bottom:calc(4.6rem + env(safe-area-inset-bottom,0px));z-index:10;width:min(360px,calc(100vw - 2rem));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.9rem;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.music-panel iframe{display:block;width:100%;height:152px;border:0;border-radius:12px;margin-top:.7rem}
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.tabs button{font:600 .85rem "Public Sans",system-ui,sans-serif;padding:.4rem .8rem;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.tabs .on{border-color:var(--accent)}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -209,5 +215,21 @@ fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc
 <p><a href="#privasi">Catatan privasi</a></p>
 <p>&copy; Diaz Hardika. Logika Positif, Endless War, dan Kekayaan Kitab Suci.</p>
 </div></footer>
+<button class="music-btn" id="m-btn" aria-expanded="false" aria-controls="m-panel">&#9834; Musik</button>
+<div class="music-panel" id="m-panel" hidden>
+<p class="note" style="margin:0 0 .6rem">Musik karya penulis dan teman-teman</p>
+<div class="tabs">
+<button class="on" data-id="45kmMWhRkwry1U4VhkpWTM">The Last Order</button>
+<button data-id="5OKfSbsU8OqKcDSmy5IVwe">Chemical Park</button>
+</div>
+<iframe id="m-frame" title="Pemutar musik Spotify" allow="encrypted-media"></iframe>
+</div>
+<script>
+(function(){var b=document.getElementById("m-btn"),pn=document.getElementById("m-panel"),fr=document.getElementById("m-frame"),t=pn.querySelectorAll(".tabs button");
+function play(id){fr.src="https://open.spotify.com/embed/track/"+id}
+b.onclick=function(){var open=pn.hidden;pn.hidden=!open;b.setAttribute("aria-expanded",open);if(open&&!fr.getAttribute("src"))play(t[0].dataset.id)};
+t.forEach(function(x){x.onclick=function(){t.forEach(function(y){y.classList.remove("on")});x.classList.add("on");play(x.dataset.id)}});
+})();
+</script>
 </body>
 </html>
