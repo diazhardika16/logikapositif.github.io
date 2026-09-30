@@ -26,6 +26,22 @@ section{padding:4rem 1.25rem}.head{max-width:1100px;margin:0 auto 1.6rem}.head h
 .slide h3{font-size:1.3rem;color:var(--gold);margin-bottom:.15em}
 .nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;z-index:2}.prev{left:.6rem}.next{right:.6rem}
 .dots{position:absolute;top:.8rem;left:0;right:0;display:flex;justify-content:center;gap:.4rem;z-index:2}.dots i{width:8px;height:8px;border-radius:50%;background:#fff5}.dots i.on{background:var(--gold)}
+.car{position:relative;max-width:1100px;margin:0 auto}
+.car .nav{top:38%}
+.strip{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;padding-bottom:.7rem}
+.card{flex:0 0 calc((100% - 2rem)/3);scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+@media(max-width:900px){.card{flex-basis:calc((100% - 1rem)/2)}}
+@media(max-width:560px){.card{flex-basis:85%}}
+.zoom{position:relative;display:block;width:100%;aspect-ratio:3/4;padding:0;border:0;background:var(--surface);cursor:zoom-in;color:inherit}
+.zoom img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.zoom .ph{position:absolute;inset:0;display:grid;place-items:center}
+.card.missing .zoom{cursor:default}
+.cap{padding:.9rem 1rem 1.1rem;font-size:.95rem;color:var(--muted)}.cap h3{font-size:1.1rem;color:var(--gold);margin-bottom:.15em}
+dialog#lb{width:100%;height:100%;max-width:none;max-height:none;border:0;padding:0;background:#000e;color:#fff}
+dialog#lb[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem}
+#lb-img{max-width:94vw;max-height:80vh;object-fit:contain}
+#lb-cap{margin:0;max-width:60ch;text-align:center;color:var(--muted);font-size:.95rem;padding:0 1rem}
+.lbx{position:absolute;top:.8rem;right:.8rem;width:44px;height:44px;border-radius:50%;border:0;background:#fff2;color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
 footer{padding:2.5rem 1.25rem 3rem;text-align:center;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.slide{transition:none}}
 </style></head>
@@ -45,13 +61,20 @@ footer{padding:2.5rem 1.25rem 3rem;text-align:center;color:var(--muted);font-siz
 <figure class="slide"><span class="ph">Gambar artwork dunia 4 segera hadir</span><img src="ew-dunia-4.jpg" alt="Artwork dunia 4" onerror="this.style.display='none'"><figcaption>Nama lokasi &mdash; keterangan singkat</figcaption></figure>
 <figure class="slide"><span class="ph">Gambar artwork dunia 5 segera hadir</span><img src="ew-dunia-5.jpg" alt="Artwork dunia 5" onerror="this.style.display='none'"><figcaption>Nama lokasi &mdash; keterangan singkat</figcaption></figure>
 </div></section>
-<section id="karakter"><div class="head"><h2>Karakter</h2><p>Mereka yang hidup, bertarung, dan berubah di tengah perang.</p></div>
-<div class="show portrait">
-<figure class="slide"><span class="ph">Gambar karakter 1 segera hadir</span><img src="ew-karakter-1.jpg" alt="Karakter 1" onerror="this.style.display='none'"><figcaption><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</figcaption></figure>
-<figure class="slide"><span class="ph">Gambar karakter 2 segera hadir</span><img src="ew-karakter-2.jpg" alt="Karakter 2" onerror="this.style.display='none'"><figcaption><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</figcaption></figure>
-<figure class="slide"><span class="ph">Gambar karakter 3 segera hadir</span><img src="ew-karakter-3.jpg" alt="Karakter 3" onerror="this.style.display='none'"><figcaption><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</figcaption></figure>
-<figure class="slide"><span class="ph">Gambar karakter 4 segera hadir</span><img src="ew-karakter-4.jpg" alt="Karakter 4" onerror="this.style.display='none'"><figcaption><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</figcaption></figure>
-</div></section>
+<section id="karakter"><div class="head"><h2>Karakter</h2><p>Mereka yang hidup, bertarung, dan berubah di tengah perang. Geser untuk melihat semuanya, klik gambar untuk memperbesar.</p></div>
+<div class="car"><button class="nav prev" aria-label="Karakter sebelumnya">&#8249;</button>
+<div class="strip" tabindex="0">
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 1"><span class="ph">Gambar karakter 1 segera hadir</span><img src="ew-karakter-1.jpg" alt="Karakter 1" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 2"><span class="ph">Gambar karakter 2 segera hadir</span><img src="ew-karakter-2.jpg" alt="Karakter 2" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 3"><span class="ph">Gambar karakter 3 segera hadir</span><img src="ew-karakter-3.jpg" alt="Karakter 3" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 4"><span class="ph">Gambar karakter 4 segera hadir</span><img src="ew-karakter-4.jpg" alt="Karakter 4" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 5"><span class="ph">Gambar karakter 5 segera hadir</span><img src="ew-karakter-5.jpg" alt="Karakter 5" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 6"><span class="ph">Gambar karakter 6 segera hadir</span><img src="ew-karakter-6.jpg" alt="Karakter 6" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 7"><span class="ph">Gambar karakter 7 segera hadir</span><img src="ew-karakter-7.jpg" alt="Karakter 7" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 8"><span class="ph">Gambar karakter 8 segera hadir</span><img src="ew-karakter-8.jpg" alt="Karakter 8" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 9"><span class="ph">Gambar karakter 9 segera hadir</span><img src="ew-karakter-9.jpg" alt="Karakter 9" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+<article class="card"><button class="zoom" aria-label="Lihat gambar penuh karakter 10"><span class="ph">Gambar karakter 10 segera hadir</span><img src="ew-karakter-10.jpg" alt="Karakter 10" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3>Nama Karakter</h3>Peran dan deskripsi singkat.</div></article>
+</div><button class="nav next" aria-label="Karakter berikutnya">&#8250;</button></div></section>
 <section id="proses"><div class="head"><h2>Pengembangan karakter</h2><p>Dari sketsa awal hingga wujud akhirnya.</p></div>
 <div class="show">
 <figure class="slide"><span class="ph">Gambar proses 1 segera hadir</span><img src="ew-proses-1.jpg" alt="Proses 1" onerror="this.style.display='none'"><figcaption>Tahap pengembangan &mdash; keterangan singkat</figcaption></figure>
@@ -75,5 +98,19 @@ sh.ontouchend=function(e){var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>
 sh.tabIndex=0;sh.onkeydown=function(e){if(e.key==="ArrowRight")go(i+1);if(e.key==="ArrowLeft")go(i-1)};
 go(0);auto();
 });
+</script>
+<dialog id="lb" aria-label="Gambar penuh"><button class="lbx" aria-label="Tutup">&times;</button><button class="nav prev" aria-label="Sebelumnya">&#8249;</button><img id="lb-img" alt=""><p id="lb-cap"></p><button class="nav next" aria-label="Berikutnya">&#8250;</button></dialog>
+<script>
+(function(){var car=document.querySelector(".car"),st=car.querySelector(".strip"),cards=[].slice.call(st.querySelectorAll(".card")),lb=document.getElementById("lb"),li=document.getElementById("lb-img"),lc=document.getElementById("lb-cap"),k=0;
+function step(d){st.scrollBy({left:d*(cards[0].getBoundingClientRect().width+16),behavior:"smooth"})}
+car.querySelector(".prev").onclick=function(){step(-1)};car.querySelector(".next").onclick=function(){step(1)};
+function show(n,d){for(var t=0;t<cards.length;t++){k=(n+cards.length)%cards.length;if(!cards[k].classList.contains("missing"))break;n=k+d}
+var c=cards[k],im=c.querySelector("img");li.src=im.src;li.alt=im.alt;lc.textContent=c.querySelector(".cap").textContent}
+cards.forEach(function(c,n){c.querySelector(".zoom").onclick=function(){if(c.classList.contains("missing"))return;show(n,1);lb.showModal()}});
+lb.querySelector(".prev").onclick=function(){show(k-1,-1)};lb.querySelector(".next").onclick=function(){show(k+1,1)};
+lb.querySelector(".lbx").onclick=function(){lb.close()};
+lb.onclick=function(e){if(e.target===lb)lb.close()};
+lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLeft")show(k-1,-1)};
+})();
 </script>
 </body></html>
