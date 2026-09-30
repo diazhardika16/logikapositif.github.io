@@ -219,16 +219,17 @@ fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc
 <div class="music-panel" id="m-panel" hidden>
 <p class="note" style="margin:0 0 .6rem">Musik karya penulis dan teman-teman</p>
 <div class="tabs">
-<button class="on" data-id="45kmMWhRkwry1U4VhkpWTM">The Last Order</button>
-<button data-id="5OKfSbsU8OqKcDSmy5IVwe">Chemical Park</button>
+<button class="on" data-t="track" data-id="45kmMWhRkwry1U4VhkpWTM">The Last Order</button>
+<button data-t="track" data-id="5OKfSbsU8OqKcDSmy5IVwe">Last Chance</button>
+<button data-t="artist" data-id="0ScywqIHQ3fFm4A1gbSmCG">Chemical Park (artis)</button>
 </div>
 <iframe id="m-frame" title="Pemutar musik Spotify" allow="encrypted-media"></iframe>
 </div>
 <script>
 (function(){var b=document.getElementById("m-btn"),pn=document.getElementById("m-panel"),fr=document.getElementById("m-frame"),t=pn.querySelectorAll(".tabs button");
-function play(id){fr.src="https://open.spotify.com/embed/track/"+id}
-b.onclick=function(){var open=pn.hidden;pn.hidden=!open;b.setAttribute("aria-expanded",open);if(open&&!fr.getAttribute("src"))play(t[0].dataset.id)};
-t.forEach(function(x){x.onclick=function(){t.forEach(function(y){y.classList.remove("on")});x.classList.add("on");play(x.dataset.id)}});
+function play(x){fr.style.height=x.dataset.t==="artist"?"352px":"152px";fr.src="https://open.spotify.com/embed/"+x.dataset.t+"/"+x.dataset.id}
+b.onclick=function(){var open=pn.hidden;pn.hidden=!open;b.setAttribute("aria-expanded",open);if(open&&!fr.getAttribute("src"))play(t[0])};
+t.forEach(function(x){x.onclick=function(){t.forEach(function(y){y.classList.remove("on")});x.classList.add("on");play(x)}});
 })();
 </script>
 </body>
