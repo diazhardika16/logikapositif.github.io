@@ -22,7 +22,7 @@ a{color:inherit}
 .wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 nav{display:flex;align-items:center;gap:1.25rem;padding:.8rem 0;overflow-x:auto;white-space:nowrap}
-nav .brand{font-family:"Young Serif",Georgia,serif;margin-right:auto;text-decoration:none}
+nav .brand{display:flex;align-items:center;gap:.6rem;font-family:"Young Serif",Georgia,serif;margin-right:auto;text-decoration:none}
 nav a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem}
 nav a:hover{color:var(--ink)}
 .hero{display:grid;gap:2.5rem;padding:4rem 0 4.5rem;align-items:center}
@@ -51,6 +51,11 @@ section{padding:3.5rem 0;border-top:1px solid var(--line)}
 .kitab .btn{background:var(--kitab-accent);border-color:var(--kitab-accent);color:#fff}
 .bookimg{display:block;width:100%;max-width:280px;height:auto;margin:0 auto;border-radius:4px 10px 10px 4px;box-shadow:0 14px 30px rgba(0,0,0,.28)}
 .warimg{display:block;width:100%;max-width:280px;height:auto;margin:0 0 1.4rem;border-radius:6px}
+[hidden]{display:none!important}
+.topic h3{font-size:1.5rem}
+.form input,.form textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.65rem .8rem;margin:0 0 .7rem}
+.cm{border-top:1px solid var(--line);padding:.9rem 0}
+.cm b{display:block}.cm p{margin:.2em 0 0;white-space:pre-wrap}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -58,12 +63,10 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 <body>
 <header>
 <div class="wrap"><nav aria-label="Menu utama">
-<a class="brand" href="#atas">Logika Positif</a>
+<a class="brand" href="#atas"><img src="logo.png" alt="" height="40"><span>Logika Positif</span></a>
 <a href="#buku">Buku</a>
 <a href="#dukung">Dukung</a>
 <a href="#forum">Forum</a>
-<a href="#endless-war">Endless War</a>
-<a href="#kitab-suci">Kekayaan Kitab Suci</a>
 </nav></div>
 </header>
 
@@ -122,10 +125,48 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 
 <section id="forum"><div class="wrap">
 <h2>Forum diskusi</h2>
-<p>Ada satu pikiran dari buku yang ingin kamu bantah, atau kamu setujui? Bergabunglah di ruang obrolan pembaca. Saya ikut hadir dan menjawab langsung.</p>
-<a class="btn" href="#" rel="noopener">Gabung ke ruang diskusi</a>
-<p class="note" style="margin-top:1rem">Sementara berupa grup komunitas. Forum bawaan di website ini bisa kita bangun di tahap berikutnya.</p>
+<article class="box topic">
+<p class="note">Pembahasan terbaru</p>
+<h3>Apakah berpikir positif berarti harus selalu bahagia?</h3>
+<p>Buku ini tidak memaksa kita selalu bahagia. Menurutmu, di mana batas antara berpikir positif yang sehat dan sekadar menekan perasaan yang sebenarnya? Ceritakan pengalamanmu di kolom komentar.</p>
+</article>
+<h3 style="margin-top:2rem">Komentar</h3>
+<p id="cmt-off" class="note" hidden>Kolom komentar akan aktif setelah layanan login disambungkan.</p>
+<div id="cmt-on" hidden>
+<p id="cmt-msg" class="note" role="status"></p>
+<div id="box-login" class="box form">
+<input id="i-nama" placeholder="Nama tampilan (untuk daftar)" autocomplete="nickname">
+<input id="i-email" type="email" placeholder="Email" autocomplete="email">
+<input id="i-pass" type="password" placeholder="Kata sandi (min. 6 karakter)" autocomplete="current-password">
+<div class="btns" style="margin-top:0"><button class="btn" id="f-masuk">Masuk</button><button class="btn alt" id="f-daftar">Daftar</button></div>
+<p class="note" style="margin:.8rem 0 0">Email hanya dipakai untuk verifikasi dan tidak ditampilkan. Yang terlihat hanya nama tampilanmu.</p>
+</div>
+<div id="box-verify" class="box" hidden><p>Kami mengirim email verifikasi. Klik tautan di email itu, lalu tekan tombol di bawah.</p><div class="btns" style="margin-top:0"><button class="btn" id="f-cek">Saya sudah verifikasi</button><button class="btn alt f-keluar">Keluar</button></div></div>
+<div id="box-post" class="box form" hidden>
+<p>Berkomentar sebagai <strong id="who"></strong></p>
+<textarea id="i-teks" rows="3" maxlength="1000" placeholder="Tulis komentarmu..."></textarea>
+<div class="btns" style="margin-top:0"><button class="btn" id="f-kirim">Kirim komentar</button><button class="btn alt f-keluar">Keluar</button></div>
+</div>
+<div id="list" style="margin-top:1rem"></div>
+</div>
 </div></section>
+<script type="module">
+const cfg={apiKey:"",authDomain:"",projectId:"",appId:""};
+const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
+if(!cfg.apiKey){$("cmt-off").hidden=false}else{
+const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
+const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app),msg=t=>{$("cmt-msg").textContent=t};
+$("cmt-on").hidden=false;
+au.onAuthStateChanged(auth,u=>{$("box-login").hidden=!!u;$("box-verify").hidden=!(u&&!u.emailVerified);$("box-post").hidden=!(u&&u.emailVerified);$("who").textContent=u?(u.displayName||""):""});
+const cred=()=>[$("i-email").value.trim(),$("i-pass").value];
+$("f-daftar").onclick=async()=>{const n=$("i-nama").value.trim();if(!n)return msg("Isi nama tampilan dulu.");try{const c=await au.createUserWithEmailAndPassword(auth,...cred());await au.updateProfile(c.user,{displayName:n});await au.sendEmailVerification(c.user);msg("Akun dibuat. Cek emailmu untuk verifikasi.")}catch(x){msg("Gagal: "+x.code)}};
+$("f-masuk").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
+$("f-cek").onclick=async()=>{await auth.currentUser.reload();location.reload()};
+document.querySelectorAll(".f-keluar").forEach(b=>b.onclick=()=>au.signOut(auth));
+$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;try{await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){msg("Gagal kirim: "+x.code)}};
+fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc"),fs.limit(50)),s=>{const l=$("list");l.textContent="";if(s.empty){l.textContent="Belum ada komentar. Jadilah yang pertama.";return}s.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),p=document.createElement("p");e.className="cm";b.textContent=c.name;p.textContent=c.text;e.append(b,p);l.append(e)})});
+}
+</script>
 
 <div class="worlds">
 <section id="endless-war" class="world war" style="border-top:0"><div>
