@@ -55,7 +55,8 @@ section{padding:3.5rem 0;border-top:1px solid var(--line)}
 .topic h3{font-size:1.5rem}
 .form input,.form textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.65rem .8rem;margin:0 0 .7rem}
 .cm{border-top:1px solid var(--line);padding:.9rem 0}
-.cm b{display:block}.cm p{margin:.2em 0 0;white-space:pre-wrap}
+.cm b{display:block}.badge{font-size:.72rem;font-weight:700;background:var(--accent);color:var(--on-accent);border-radius:99px;padding:.1rem .55rem;vertical-align:middle}
+.cm p{margin:.2em 0 0;white-space:pre-wrap}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -127,12 +128,15 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 <h2>Forum diskusi</h2>
 <article class="box topic">
 <p class="note">Pembahasan terbaru</p>
-<h3>Apakah berpikir positif berarti harus selalu bahagia?</h3>
-<p>Buku ini tidak memaksa kita selalu bahagia. Menurutmu, di mana batas antara berpikir positif yang sehat dan sekadar menekan perasaan yang sebenarnya? Ceritakan pengalamanmu di kolom komentar.</p>
+<h3 id="t-title">Apakah berpikir positif berarti harus selalu bahagia?</h3>
+<p id="t-text" style="white-space:pre-wrap">Buku ini tidak memaksa kita selalu bahagia. Menurutmu, di mana batas antara berpikir positif yang sehat dan sekadar menekan perasaan yang sebenarnya? Ceritakan pengalamanmu di kolom komentar.</p>
 </article>
 <h3 style="margin-top:2rem">Komentar</h3>
 <p id="cmt-off" class="note" hidden>Kolom komentar akan aktif setelah layanan login disambungkan.</p>
 <div id="cmt-on" hidden>
+<div id="box-admin" class="box form" hidden style="margin-bottom:1rem"><p><strong>Edit pembahasan (khusus penulis)</strong></p>
+<input id="a-judul" placeholder="Judul pembahasan"><textarea id="a-teks" rows="4" placeholder="Deskripsi pembahasan"></textarea>
+<div class="btns" style="margin-top:0"><button class="btn" id="f-simpan">Simpan pembahasan</button></div></div>
 <p id="cmt-msg" class="note" role="status"></p>
 <div id="box-login" class="box form">
 <input id="i-nama" placeholder="Nama tampilan (untuk daftar)" autocomplete="nickname">
@@ -151,20 +155,31 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 </div>
 </div></section>
 <script type="module">
-const cfg={apiKey:"",authDomain:"",projectId:"",appId:""};
+const cfg={apiKey:"",authDomain:"",projectId:"",appId:""},ADMIN_UID="";
 const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
 if(!cfg.apiKey){$("cmt-off").hidden=false}else{
 const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app),msg=t=>{$("cmt-msg").textContent=t};
+let docs=[],admin=false;
 $("cmt-on").hidden=false;
-au.onAuthStateChanged(auth,u=>{$("box-login").hidden=!!u;$("box-verify").hidden=!(u&&!u.emailVerified);$("box-post").hidden=!(u&&u.emailVerified);$("who").textContent=u?(u.displayName||""):""});
+const fill=()=>{if(admin&&!$("box-admin").contains(document.activeElement)){$("a-judul").value=$("t-title").textContent;$("a-teks").value=$("t-text").textContent}};
+const draw=()=>{const l=$("list");l.textContent="";if(!docs.length){l.textContent="Belum ada komentar. Jadilah yang pertama.";return}
+docs.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),p=document.createElement("p");e.className="cm";b.textContent=c.name;
+if(ADMIN_UID&&c.uid===ADMIN_UID){const g=document.createElement("span");g.className="badge";g.textContent="Penulis";b.append(" ",g)}
+p.textContent=c.text;e.append(b,p);
+if(admin){const x=document.createElement("button");x.className="btn alt";x.textContent="Hapus";x.style.cssText="padding:.3rem .7rem;font-size:.85rem;margin-top:.4rem";x.onclick=()=>{if(confirm("Hapus komentar ini?"))fs.deleteDoc(d.ref)};e.append(x)}
+l.append(e)})};
+au.onAuthStateChanged(auth,u=>{admin=!!(u&&ADMIN_UID&&u.uid===ADMIN_UID&&u.emailVerified);
+$("box-login").hidden=!!u;$("box-verify").hidden=!(u&&!u.emailVerified);$("box-post").hidden=!(u&&u.emailVerified);$("box-admin").hidden=!admin;$("who").textContent=u?(u.displayName||""):"";fill();draw()});
 const cred=()=>[$("i-email").value.trim(),$("i-pass").value];
 $("f-daftar").onclick=async()=>{const n=$("i-nama").value.trim();if(!n)return msg("Isi nama tampilan dulu.");try{const c=await au.createUserWithEmailAndPassword(auth,...cred());await au.updateProfile(c.user,{displayName:n});await au.sendEmailVerification(c.user);msg("Akun dibuat. Cek emailmu untuk verifikasi.")}catch(x){msg("Gagal: "+x.code)}};
 $("f-masuk").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
 $("f-cek").onclick=async()=>{await auth.currentUser.reload();location.reload()};
 document.querySelectorAll(".f-keluar").forEach(b=>b.onclick=()=>au.signOut(auth));
 $("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;try{await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){msg("Gagal kirim: "+x.code)}};
-fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc"),fs.limit(50)),s=>{const l=$("list");l.textContent="";if(s.empty){l.textContent="Belum ada komentar. Jadilah yang pertama.";return}s.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),p=document.createElement("p");e.className="cm";b.textContent=c.name;p.textContent=c.text;e.append(b,p);l.append(e)})});
+$("f-simpan").onclick=async()=>{try{await fs.setDoc(fs.doc(db,"topics","current"),{title:$("a-judul").value.trim(),text:$("a-teks").value.trim(),updatedAt:fs.serverTimestamp()});msg("Pembahasan disimpan.")}catch(x){msg("Gagal simpan: "+x.code)}};
+fs.onSnapshot(fs.doc(db,"topics","current"),d=>{if(d.exists()){$("t-title").textContent=d.data().title;$("t-text").textContent=d.data().text;fill()}});
+fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc"),fs.limit(50)),s=>{docs=s.docs;draw()});
 }
 </script>
 
