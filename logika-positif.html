@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logika Positif — Buku dan Blog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f2f6f4;--surface:#ffffff;--ink:#15262b;--muted:#4d6166;--accent:#0f6b6b;--on-accent:#ffffff;--line:#cfdcd8;--war:#1b1622;--war-ink:#eee8f5;--war-accent:#d9a441;--kitab:#e8efe0;--kitab-ink:#25321f;--kitab-accent:#3d6b2b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a1c;--surface:#172427;--ink:#e6efed;--muted:#9db3b3;--accent:#5cc4c0;--on-accent:#08201f;--line:#2a3d40;--kitab:#1a2416;--kitab-ink:#dfead6;--kitab-accent:#8fcf75}}
+:root[data-theme="dark"]{--bg:#0f1a1c;--surface:#172427;--ink:#e6efed;--muted:#9db3b3;--accent:#5cc4c0;--on-accent:#08201f;--line:#2a3d40;--kitab:#1a2416;--kitab-ink:#dfead6;--kitab-accent:#8fcf75}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 "Public Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Young Serif",Georgia,serif;font-weight:400;line-height:1.15;margin:0 0 .6em}
+h1{font-size:clamp(2.6rem,8vw,4.6rem)}
+h2{font-size:clamp(1.7rem,4vw,2.4rem)}
+p{margin:0 0 1em;max-width:62ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;gap:1.25rem;padding:.8rem 0;overflow-x:auto;white-space:nowrap}
+nav .brand{font-family:"Young Serif",Georgia,serif;margin-right:auto;text-decoration:none}
+nav a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem}
+nav a:hover{color:var(--ink)}
+.hero{display:grid;gap:2.5rem;padding:4rem 0 4.5rem;align-items:center}
+@media(min-width:800px){.hero{grid-template-columns:1.3fr .7fr}}
+.hero .lead{font-size:1.2rem;color:var(--muted)}
+.cover{aspect-ratio:2/3;max-width:280px;width:100%;background:var(--accent);color:var(--on-accent);border-radius:4px 10px 10px 4px;padding:2rem 1.5rem;display:flex;flex-direction:column;justify-content:space-between;box-shadow:-8px 0 0 rgba(0,0,0,.18) inset,0 14px 30px rgba(0,0,0,.22);margin:0 auto}
+.cover b{font-family:"Young Serif",Georgia,serif;font-weight:400;font-size:2.1rem;line-height:1.05}
+.cover span{font-size:.9rem}
+.btns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.4rem}
+.btn{display:inline-block;padding:.75rem 1.2rem;border-radius:8px;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font-weight:700;text-decoration:none;font-size:.98rem}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:hover{border-color:var(--ink)}
+section{padding:3.5rem 0;border-top:1px solid var(--line)}
+.cols{display:grid;gap:1.5rem}
+@media(min-width:800px){.cols{grid-template-columns:1fr 1fr}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.6rem}
+.box h3{font-size:1.3rem}
+.note{font-size:.9rem;color:var(--muted)}
+.worlds{display:grid;gap:0}
+@media(min-width:800px){.worlds{grid-template-columns:1fr 1fr}}
+.world{padding:3.5rem 1.5rem}
+.world>div{max-width:480px;margin:0 auto}
+.war{background:var(--war);color:var(--war-ink)}
+.war .btn{background:var(--war-accent);border-color:var(--war-accent);color:#1b1622}
+.kitab{background:var(--kitab);color:var(--kitab-ink)}
+.kitab .btn{background:var(--kitab-accent);border-color:var(--kitab-accent);color:#fff}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap"><nav aria-label="Menu utama">
+<a class="brand" href="#atas">Logika Positif</a>
+<a href="#buku">Buku</a>
+<a href="#dukung">Dukung</a>
+<a href="#forum">Forum</a>
+<a href="#endless-war">Endless War</a>
+<a href="#kitab-suci">Kekayaan Kitab Suci</a>
+</nav></div>
+</header>
+
+<main id="atas">
+<div class="wrap">
+<div class="hero">
+<div>
+<h1>Logika Positif</h1>
+<p class="lead">Buku pertama saya, tentang berpikir jernih dan memilih sudut pandang yang membangun. Ini awal dari sebuah seri yang akan terus berlanjut.</p>
+<div class="btns">
+<a class="btn" href="#buku">Beli bukunya</a>
+<a class="btn alt" href="#forum">Ikut berdiskusi</a>
+</div>
+</div>
+<div class="cover" role="img" aria-label="Sampul buku Logika Positif (sementara)">
+<span>Buku 1</span>
+<b>Logika Positif</b>
+<span>Nama Penulis</span>
+</div>
+</div>
+</div>
+
+<section id="buku"><div class="wrap">
+<h2>Dapatkan buku Logika Positif</h2>
+<p>Pilih tempat belanja yang paling nyaman untukmu. Bukunya sama di semua tempat.</p>
+<div class="btns">
+<a class="btn" href="#" rel="noopener">Beli di Tokopedia</a>
+<a class="btn" href="#" rel="noopener">Beli di Shopee</a>
+<a class="btn" href="#" rel="noopener">Beli di Bukunesia</a>
+</div>
+<p class="note" style="margin-top:1rem">Tempat untuk sinopsis singkat dan cuplikan bab pertama akan ditambahkan di sini.</p>
+</div></section>
+
+<section id="dukung"><div class="wrap">
+<h2>Dukung karya ini</h2>
+<div class="cols">
+<div class="box">
+<h3>Donasi</h3>
+<p>Setiap donasi membantu saya menulis buku berikutnya dan merawat website ini. Berapa pun jumlahnya, saya berterima kasih.</p>
+<a class="btn" href="#" rel="noopener">Kirim donasi</a>
+</div>
+<div class="box">
+<h3>Kaos Logika Positif</h3>
+<p>Kaos dengan desain dari dunia bukunya. Untuk memesan, hubungi saya lewat WhatsApp dan sebutkan ukuran yang kamu mau.</p>
+<a class="btn alt" href="#" rel="noopener">Pesan lewat WhatsApp</a>
+</div>
+</div>
+</div></section>
+
+<section id="forum"><div class="wrap">
+<h2>Forum diskusi</h2>
+<p>Ada satu pikiran dari buku yang ingin kamu bantah, atau kamu setujui? Bergabunglah di ruang obrolan pembaca. Saya ikut hadir dan menjawab langsung.</p>
+<a class="btn" href="#" rel="noopener">Gabung ke ruang diskusi</a>
+<p class="note" style="margin-top:1rem">Sementara berupa grup komunitas. Forum bawaan di website ini bisa kita bangun di tahap berikutnya.</p>
+</div></section>
+
+<div class="worlds">
+<section id="endless-war" class="world war" style="border-top:0"><div>
+<h2>Endless War</h2>
+<p>Novel fantasi saya tentang perang yang tidak kunjung usai, dan orang-orang yang dipaksa memilih di dalamnya.</p>
+<a class="btn" href="#">Masuk ke dunia Endless War</a>
+</div></section>
+<section id="kitab-suci" class="world kitab" style="border-top:0"><div>
+<h2>Kekayaan Kitab Suci</h2>
+<p>Ruang untuk menggali hikmah dan kekayaan makna dalam kitab suci, ditulis dengan tenang dan terbuka untuk didiskusikan.</p>
+<a class="btn" href="#">Buka laman Kitab Suci</a>
+</div></section>
+</div>
+</main>
+
+<footer><div class="wrap">
+<p>&copy; Nama Penulis. Logika Positif, Endless War, dan Kekayaan Kitab Suci.</p>
+</div></footer>
+</body>
+</html>
