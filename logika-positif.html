@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logika Positif — Diaz Hardika</title>
+<meta name="description" content="Logika Positif: Trigger Diri untuk Berpikir Lebih Positif. Buku karya Diaz Hardika tentang cara berpikir yang lebih seimbang dan rasional.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#161616;--paper:#f7f5f1;--blue:#2c5fd6;--red:#c0312f;--muted:#5d5a55;--line:#e1ddd5;box-sizing:border-box}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{margin:0;font:400 1.0625rem/1.65 Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.15;margin:0 0 .5em}
+h2{font-size:clamp(1.8rem,4vw,2.5rem)}a{color:inherit}:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+p{margin:0 0 1em}.wrap{max-width:1120px;margin:0 auto;padding:0 1.25rem}.c{text-align:center}.sub{text-align:center;color:var(--muted);margin-bottom:2rem}.note{color:var(--muted);font-size:.92rem}
+.hd{position:sticky;top:0;z-index:20;background:#0c0a09;color:#eee;padding-top:env(safe-area-inset-top,0px)}
+.hdw{display:flex;align-items:center;gap:1.5rem;padding-top:.9rem;padding-bottom:.9rem}
+.logo{font:600 1.15rem "Playfair Display",Georgia,serif;letter-spacing:.14em;text-decoration:none;white-space:nowrap}
+.hd nav{display:flex;gap:1.3rem;overflow-x:auto;margin-left:auto;white-space:nowrap}.hd nav a{text-decoration:none;font-size:.88rem;color:#bdb8b0}.hd nav a:hover,.hd nav a[aria-current]{color:#fff}
+@media(max-width:700px){.hdw{flex-wrap:wrap;gap:.5rem}.hd nav{margin-left:0;width:100%}}
+.media{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,#1a1410,#3a2a1a)}
+.media>img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000d,#0006 65%,#0003)}
+.media>*:not(img){position:relative;z-index:1}
+.btn{display:inline-block;padding:.7rem 1.25rem;border-radius:8px;border:2px solid transparent;font-weight:600;font-size:.95rem;text-decoration:none;margin:.25rem .5rem .25rem 0}
+.btn.white{background:#fff;color:#111}.btn.ghost{border-color:#fff9;color:#fff}.btn.blue{background:var(--blue);color:#fff}.btn.line{border-color:#bdb8b0;color:var(--ink)}.btn.red{background:var(--red);color:#fff}.btn.off{border-color:#fff6;color:#fffb;pointer-events:none}
+.eyebrow{letter-spacing:.2em;font-size:.78rem;font-weight:600;margin:0 0 .9rem;text-transform:uppercase}
+.hero{padding:7rem 0 6rem}.hero h1{font-size:clamp(2.7rem,9vw,5.4rem);letter-spacing:.03em;margin-bottom:.3em}.hero .lead{max-width:30ch;font-size:1.25rem;opacity:.92}
+.sec{padding:4.5rem 0}.sec.alt{background:#fff}
+.pil{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+@media(max-width:1000px){.pil{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.pil{grid-template-columns:1fr}}
+.p{min-height:340px;display:flex;align-items:flex-end;padding:1.3rem;border-radius:14px}
+.p::after{background:linear-gradient(#0000 20%,#000d)!important}.p h3{font-size:1.4rem}.p p{font-size:.92rem;opacity:.9}
+.p.k{background:linear-gradient(160deg,#3b2a14,#16110a)}.p.m{background:linear-gradient(160deg,#241a33,#0e0b14)}.p .btn{font-size:.85rem;padding:.5rem .9rem}
+.book{display:grid;gap:2.5rem;align-items:center}@media(min-width:860px){.book{grid-template-columns:1.2fr .8fr}}
+.book .eyebrow{color:var(--muted)}.book h2{font-size:clamp(2.2rem,5vw,3.2rem);margin-bottom:.1em}.st{font-family:"Playfair Display",Georgia,serif;font-size:1.25rem}
+.chk{list-style:none;padding:0;margin:0 0 1.2rem}.chk li{padding-left:1.8rem;position:relative;margin:.3rem 0}.chk li::before{content:"\2713";position:absolute;left:0;color:#fff;background:var(--blue);width:1.15rem;height:1.15rem;border-radius:4px;font-size:.78rem;display:grid;place-items:center;top:.28rem}
+.cov{text-align:center}.cov img{max-width:300px;width:100%;height:auto;border-radius:4px 10px 10px 4px;box-shadow:0 22px 40px #0004}
+.stores{display:flex;flex-wrap:wrap;gap:.6rem}.store{display:inline-flex;align-items:center;min-height:50px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.4rem .9rem}.store img{height:36px;width:auto;display:block}
+.avail{margin:1.2rem 0 .5rem;font-weight:600;font-size:.92rem}
+.disk{display:grid;gap:1.2rem}@media(min-width:800px){.disk{grid-template-columns:1fr 1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.6rem}.card h3{font-size:1.4rem}
+.tops{list-style:none;margin:0;padding:0}.tops li{border-top:1px solid var(--line);padding:.7rem 0}.tops li:first-child{border-top:0;padding-top:0}.tops a{text-decoration:none}.tops a:hover{color:var(--blue)}
+.ew{padding:5rem 0;background:linear-gradient(135deg,#1c0b0b,#3b1212)}.ew::after{background:linear-gradient(90deg,#000e,#000a 60%,#0006)}
+.ew .eyebrow{color:#e5675f}.ew h2{font-size:clamp(2.2rem,6vw,3.6rem)}.ew p{max-width:46ch}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:2.2rem}@media(max-width:860px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tiles a{display:block;background:#0009;border:1px solid #fff2;border-radius:10px;padding:1rem;text-decoration:none}.tiles b{display:block}.tiles span{font-size:.85rem;opacity:.8}
+.band{padding:4.5rem 0}.band p{max-width:46ch}.band h2{font-size:clamp(2rem,5vw,3rem)}
+.kt{background:linear-gradient(135deg,#2a1c0b,#5a3c16)}.kt .eyebrow{color:#e0b469}
+.ms{background:linear-gradient(135deg,#12141d,#2a2236)}.ms .eyebrow{color:#b9a3e6}
+.mus{display:grid;gap:2rem;align-items:center}@media(min-width:860px){.mus{grid-template-columns:1fr 1fr}}
+.mt{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem}.mt button{font:600 .85rem Inter,system-ui,sans-serif;padding:.4rem .9rem;border-radius:99px;border:2px solid #fff4;background:transparent;color:#fff;cursor:pointer}.mt .on{border-color:#fff}
+#mf{width:100%;height:352px;border:0;border-radius:12px}
+.about{display:flex;flex-wrap:wrap;gap:2rem;align-items:center}.about>div{flex:1 1 320px}.about img{max-width:320px;width:100%;border-radius:14px}
+.quote{text-align:center;padding:3.5rem 1.25rem;font-family:"Playfair Display",Georgia,serif;font-size:1.3rem;border-top:1px solid var(--line)}.quote small{display:block;font:400 .9rem Inter,system-ui,sans-serif;color:var(--muted);margin-top:.5rem}
+footer{background:#0c0a09;color:#bdb8b0;padding:3rem 0 2rem;font-size:.92rem}
+.fg{display:grid;gap:2rem;margin-bottom:2rem}@media(min-width:760px){.fg{grid-template-columns:1.5fr 1fr 1fr}}
+footer .logo{color:#fff;display:inline-block;margin-bottom:.4rem}footer h4{color:#fff;margin:0 0 .6rem;font-size:.9rem}footer ul{list-style:none;margin:0;padding:0}footer li{margin:.3rem 0}footer a{text-decoration:none}footer a:hover{color:#fff}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.bhero{padding:4.5rem 0}.bh{display:grid;gap:2.5rem;align-items:center}@media(min-width:860px){.bh{grid-template-columns:1.1fr .9fr}}
+.bh .eyebrow,.sec .eyebrow{color:var(--muted)}.bh h1{font-size:clamp(2.6rem,7vw,4.2rem);margin-bottom:.15em}
+.cover3{text-align:center}.cover3 img{max-width:320px;width:100%;height:auto;border-radius:4px 10px 10px 4px;box-shadow:0 24px 44px #0004}
+.about2{display:grid;gap:2rem}@media(min-width:860px){.about2{grid-template-columns:1.4fr .6fr}}
+.qbox{background:#ece8df;border-radius:14px;padding:1.6rem;font:600 1.25rem/1.4 "Playfair Display",Georgia,serif;align-self:start}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}@media(max-width:860px){.feat{grid-template-columns:repeat(2,1fr)}}
+.feat div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.2rem;text-align:center;font-weight:600;font-size:.95rem}.feat i{display:block;font-style:normal;font-size:1.7rem;margin-bottom:.3rem}
+.ch{background:linear-gradient(135deg,#0f1c33,#1b2d52)}.ch .eyebrow{color:#8fb0ff}
+.kaos{display:grid;gap:1.8rem;align-items:start;margin-top:1.5rem}@media(min-width:800px){.kaos{grid-template-columns:1fr 1fr}}
+.kshow{position:relative;aspect-ratio:1/1;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kstrip{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.kstrip::-webkit-scrollbar{display:none}
+.kslide{flex:0 0 100%;height:100%;margin:0;scroll-snap-align:center;position:relative;display:grid;place-items:center;cursor:zoom-in}.kslide.missing{cursor:default}
+.kslide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.kslide .ph{color:var(--muted);font-size:.95rem;padding:1rem;text-align:center}
+.knav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;z-index:2}.kprev{left:.6rem}.knext{right:.6rem}
+.kcount{position:absolute;bottom:.6rem;left:50%;transform:translateX(-50%);background:#000a;color:#fff;font-size:.8rem;padding:.15rem .7rem;border-radius:99px}
+.kinfo .p{font-weight:700;font-size:1.5rem;color:var(--blue);margin:0 0 .6rem}
+.kadmin{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding-top:1rem;border-top:1px dashed var(--line)}.kadmin .btn{font:inherit;font-size:.88rem;padding:.45rem .9rem;cursor:pointer}
+body.kedit [contenteditable=true]{outline:2px dashed var(--blue);outline-offset:3px;min-width:2ch}
+button.btn{font-family:inherit;cursor:pointer}[hidden]{display:none!important}
+dialog#klb{width:100%;height:100%;max-width:none;max-height:none;border:0;padding:0;background:#000e;color:#fff}dialog#klb[open]{display:flex;align-items:center;justify-content:center}
+#klb-img{max-width:94vw;max-height:88vh;object-fit:contain}.lbx{position:absolute;top:.8rem;right:.8rem;width:44px;height:44px;border-radius:50%;border:0;background:#fff2;color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
+dialog.box{border:1px solid var(--line);border-radius:12px;padding:1.3rem;width:min(460px,92vw)}dialog.box::backdrop{background:#000b}
+dialog.box input{width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin:0 0 .7rem}
+.mlink{font-size:.85rem;color:var(--muted);margin-top:1.2rem}
+</style></head>
+<body>
+<header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
+<nav aria-label="Menu utama"><a href="index.html">Beranda</a><a href="logika-positif.html" aria-current="page">Logika Positif</a><a href="endless-war.html">Endless War</a><a href="#kitab-suci">Kekayaan Kitab Suci</a><a href="#musik">Musik</a><a href="#tentang">Tentang</a></nav></div></header>
+<main>
+<section class="bhero"><div class="wrap bh"><div>
+<p class="eyebrow">Buku</p><h1>Logika Positif</h1><p class="st" style="font-family:'Playfair Display',Georgia,serif;font-size:1.3rem">Trigger Diri untuk Berpikir Lebih Positif</p>
+<p>Sebuah buku yang membantu kamu melihat hidup dengan lebih jernih, seimbang, dan rasional.</p>
+<a class="btn blue" href="#beli">Beli Buku</a><a class="btn line" href="#tentang-buku">Tentang Buku</a></div>
+<div class="cover3"><img src="sampul-logika-positif.jpg" alt="Sampul buku Logika Positif karya Diaz Hardika"></div></div></section>
+
+<section id="tentang-buku" class="sec alt"><div class="wrap"><div class="about2"><div>
+<h2>Tentang Buku</h2>
+<p>Di tengah gempuran informasi dan stigma yang serba cepat, rasa pesimis dan pikiran negatif sering kali menjadi tamu tak diundang dalam kehidupan sehari-hari. Mulai dari drama di media sosial hingga interaksi menjengkelkan dengan orang asing, nuansa negatif seakan menular.</p>
+<p><strong>Logika Positif: Trigger Diri untuk Berpikir Lebih Positif</strong> hadir sebagai antitesis, bukan sekadar buku motivasi kosong. Buku ini tidak memaksa Anda menjadi &ldquo;konsisten&rdquo; atau selalu &ldquo;bahagia&rdquo;, melainkan menawarkan kerangka berpikir seimbang yang rasional. Anda akan diajak untuk mengaktifkan kembali &ldquo;Logika Positif&rdquo; dengan memanfaatkan filosofi mendalam dari perumpamaan sederhana di sekeliling Anda, mulai dari pensil yang diraut hingga langit yang luas.</p>
+<p>Pahami posisi, batasan, dan potensi diri Anda dalam semesta. Dengan Logika Positif, Anda akan belajar memfilter kebisingan, mengendalikan emosi, dan menjadi pemicu perubahan kecil yang membawa dampak positif besar. Sebab, energi positif itu menular. Mulailah dari diri Anda.</p></div>
+<div class="qbox">&ldquo;Bukan tentang selalu bahagia, tapi tentang cara berpikir yang lebih seimbang.&rdquo;</div></div>
+<div class="feat"><div><i>&#9203;</i>Bukan motivasi instan</div><div><i>&#129517;</i>Pendekatan rasional</div><div><i>&#128221;</i>Contoh nyata dalam kehidupan</div><div><i>&#127793;</i>Cocok untuk semua fase hidup</div></div>
+<h3 id="beli" style="margin-top:2.5rem;font-size:1.3rem">Dapatkan di:</h3>
+<div class="stores">
+<a class="store" href="https://www.tokopedia.com/bukunesia/bukunesia-logika-positif-trigger-diri-untuk-berpikir-lebih-positif-1734410082475148664" target="_blank" rel="noopener" aria-label="Beli di Tokopedia"><img src="logo-tokopedia.png" alt="Tokopedia"></a>
+<a class="store" href="https://shopee.co.id/Bukunesia-Logika-Positif-Trigger-Diri-untuk-Berpikir-Lebih-Positif-i.717921939.43278788519" target="_blank" rel="noopener" aria-label="Beli di Shopee"><img src="logo-shopee.png" alt="Shopee"></a>
+<a class="store" href="https://bukunesiastore.com/shop/buku-logika-positif-trigger-diri-untuk-berpikir-lebih-positif" target="_blank" rel="noopener" aria-label="Beli di Bukunesia"><img src="logo-bukunesia.png" alt="Bukunesia"></a></div>
+</div></section>
+
+<section id="dukung" class="sec"><div class="wrap"><h2>Dukung karya ini</h2>
+<div class="card" style="margin-bottom:2rem"><h3>Donasi</h3><p>Setiap donasi membantu saya menulis buku berikutnya dan merawat website ini. Berapa pun jumlahnya, saya berterima kasih.</p><a class="btn blue" href="https://saweria.co/logikapositif" target="_blank" rel="noopener">Kirim donasi</a></div>
+<div class="kaos" id="kaos">
+<div class="kshow" aria-label="Galeri desain kaos"><div class="kstrip" tabindex="0"><figure class="kslide"><span class="ph">Desain kaos 1 segera hadir</span><img src="kaos-1.jpg" alt="Desain kaos Logika Positif 1" onerror="this.style.display='none';this.closest('.kslide').classList.add('missing')"></figure><figure class="kslide"><span class="ph">Desain kaos 2 segera hadir</span><img src="kaos-2.jpg" alt="Desain kaos Logika Positif 2" onerror="this.style.display='none';this.closest('.kslide').classList.add('missing')"></figure><figure class="kslide"><span class="ph">Desain kaos 3 segera hadir</span><img src="kaos-3.jpg" alt="Desain kaos Logika Positif 3" onerror="this.style.display='none';this.closest('.kslide').classList.add('missing')"></figure></div>
+<button class="knav kprev" aria-label="Gambar sebelumnya">&#8249;</button><button class="knav knext" aria-label="Gambar berikutnya">&#8250;</button><span class="kcount" id="kcount">1 / 3</span></div>
+<div class="kinfo"><h3 class="t" id="k-t">Kaos Logika Positif</h3><p class="p" id="k-p">Rp 0</p>
+<p class="d" id="k-d">Deskripsi kaos: bahan, ukuran, dan cerita di balik desainnya.</p>
+<a class="btn blue" id="k-buy" href="#" target="_blank" rel="noopener">Beli sekarang</a>
+<div id="k-admin" class="kadmin" hidden><button class="btn line" id="k-ed">&#9998; Edit teks</button><button class="btn line" id="k-url">Ubah link beli</button><button class="btn blue" id="k-sv" hidden>Simpan</button><span id="k-st" class="note" role="status"></span></div>
+<p class="mlink"><a href="#" id="lg-link">Masuk penulis</a></p></div></div></div></section>
+
+<section class="media band ch"><div class="wrap"><p class="eyebrow">Komunitas</p><h2>Curhatan Kita</h2>
+<p>Ruang aman untuk berbagi pikiran, perasaan, dan pertanyaan tentang hidup.</p><a class="btn blue" href="curhatan.html">Masuk ke Curhatan Kita &rarr;</a></div></section>
+
+<section id="privasi" class="sec alt"><div class="wrap"><h2>Catatan privasi</h2>
+<p>Website ini hanya meminta data yang diperlukan agar kolom komentar bisa dipakai dengan aman.</p>
+<p><strong>Data yang disimpan:</strong> nama tampilan, alamat email, dan kata sandi (dikelola layanan login Firebase milik Google, sehingga penulis tidak bisa melihat kata sandimu), serta isi komentar beserta waktunya.</p>
+<p><strong>Untuk apa:</strong> email dipakai untuk masuk dan memastikan akunmu asli. Email tidak ditampilkan kepada pengunjung lain dan tidak dibagikan atau dijual. Nama tampilan dan isi komentarmu tampil terbuka di forum.</p>
+<p><strong>Permintaan hapus:</strong> kamu bisa meminta penghapusan akun dan komentarmu kapan saja dengan menghubungi penulis lewat kontak yang tertera di website ini.</p></div></section>
+</main>
+<footer><div class="wrap"><div class="fg">
+<div><a class="logo" href="index.html">DIAZ HARDIKA</a><br>Writing &middot; Books &middot; Worlds &middot; Music</div>
+<div><h4>Proyek</h4><ul><li><a href="logika-positif.html">Logika Positif</a></li><li><a href="endless-war.html">Endless War</a></li><li><a href="#kitab-suci">Kekayaan Kitab Suci</a></li><li><a href="#musik">Musik</a></li></ul></div>
+<div><h4>Navigasi</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="curhatan.html">Curhatan Kita</a></li><li><a href="#tentang">Tentang</a></li><li><a href="logika-positif.html#privasi">Catatan privasi</a></li></ul></div>
+</div><p class="note" style="margin:0">&copy; 2026 Diaz Hardika. Semua hak cipta dilindungi.</p></div></footer>
+<dialog id="klb" aria-label="Gambar penuh"><button class="lbx" aria-label="Tutup">&times;</button><button class="knav kprev" aria-label="Sebelumnya">&#8249;</button><img id="klb-img" alt=""><button class="knav knext" aria-label="Berikutnya">&#8250;</button></dialog>
+<dialog id="lg" class="box" aria-label="Masuk penulis"><p><strong>Masuk penulis</strong></p><input id="lg-e" type="email" placeholder="Email" autocomplete="email"><input id="lg-p" type="password" placeholder="Kata sandi" autocomplete="current-password">
+<p id="lg-msg" class="note" role="status"></p><button class="btn blue" id="lg-go">Masuk</button><button class="btn line" id="lg-cancel">Batal</button></dialog>
+
+<script>
+(function(){var st=document.querySelector(".kstrip"),sl=[].slice.call(st.children),ct=document.getElementById("kcount"),lb=document.getElementById("klb"),li=document.getElementById("klb-img"),k=0;
+function idx(){return Math.round(st.scrollLeft/st.clientWidth)}
+function go(n){n=(n+sl.length)%sl.length;st.scrollTo({left:n*st.clientWidth,behavior:"smooth"})}
+st.addEventListener("scroll",function(){ct.textContent=(idx()+1)+" / "+sl.length});
+document.querySelector(".kshow .kprev").onclick=function(){go(idx()-1)};document.querySelector(".kshow .knext").onclick=function(){go(idx()+1)};
+function show(n,d){for(var t=0;t<sl.length;t++){k=(n+sl.length)%sl.length;if(!sl[k].classList.contains("missing"))break;n=k+d}var im=sl[k].querySelector("img");li.src=im.src;li.alt=im.alt}
+sl.forEach(function(s,n){s.onclick=function(){if(s.classList.contains("missing"))return;show(n,1);lb.showModal()}});
+lb.querySelector(".kprev").onclick=function(){show(k-1,-1)};lb.querySelector(".knext").onclick=function(){show(k+1,1)};
+lb.querySelector(".lbx").onclick=function(){lb.close()};lb.onclick=function(e){if(e.target===lb)lb.close()};
+lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLeft")show(k-1,-1)};
+})();
+</script>
+<script type="module">
+const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
+const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/",ok=u=>/^https?:\/\//i.test(u);
+try{
+const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
+const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app),ref=fs.doc(db,"captions","kaos");
+const F={t:$("k-t"),p:$("k-p"),d:$("k-d")};let url="",editing=false,dirty=false,first=true;
+fs.onSnapshot(ref,s=>{if(!s.exists()||editing)return;const v=s.data();for(const k in F)if(v[k]!=null)F[k].textContent=v[k];if(v.url&&ok(v.url)){url=v.url;$("k-buy").href=url}});
+const lk=$("lg-link");
+au.onAuthStateChanged(auth,u=>{$("k-admin").hidden=!(u&&u.uid===ADMIN_UID&&u.emailVerified);lk.textContent=u?"Keluar":"Masuk penulis";if(first){first=false;if(!u&&location.hash==="#masuk")$("lg").showModal()}});
+lk.onclick=e=>{e.preventDefault();if(auth.currentUser)au.signOut(auth);else{$("lg-msg").textContent="";$("lg").showModal()}};
+$("lg-go").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,$("lg-e").value.trim(),$("lg-p").value);$("lg").close()}catch(x){$("lg-msg").textContent="Gagal masuk: "+x.code}};
+$("lg-cancel").onclick=()=>$("lg").close();
+Object.values(F).forEach(n=>n.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()}));
+const setEdit=on=>{editing=on;document.body.classList.toggle("kedit",on);Object.values(F).forEach(n=>n.contentEditable=on?"true":"false");$("k-ed").innerHTML=on?"Selesai":"&#9998; Edit teks";$("k-sv").hidden=!on&&!dirty;$("k-st").textContent=on?"Klik teks lalu ketik, tekan Simpan.":""};
+$("k-ed").onclick=()=>setEdit(!editing);
+$("k-url").onclick=()=>{const v=prompt("Tempel link tombol Beli sekarang (diawali https://), misalnya link WhatsApp atau toko:",url);if(v===null)return;if(!ok(v.trim())){$("k-st").textContent="Link harus diawali https://";return}url=v.trim();$("k-buy").href=url;dirty=true;$("k-sv").hidden=false;$("k-st").textContent="Link diubah, tekan Simpan."};
+$("k-sv").onclick=async()=>{try{await auth.currentUser.getIdToken(true);await fs.setDoc(ref,{t:F.t.textContent.trim(),p:F.p.textContent.trim(),d:F.d.textContent.trim(),url,updatedAt:fs.serverTimestamp()},{merge:true});dirty=false;$("k-st").textContent="Tersimpan."}catch(x){$("k-st").textContent="Gagal simpan: "+(x.code||x.message)}};
+}catch(e){console.error(e)}
+</script>
+
+</body></html>
