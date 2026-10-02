@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diaz Hardika — Writing, Books, Worlds, Music</title>
+<meta name="description" content="Ide, cerita, dan refleksi untuk memahami diri, dunia, dan hal-hal yang lebih besar. Logika Positif, Endless War, Kekayaan Kitab Suci, dan musik.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--dark:#0f0c0a;--ink:#17140f;--paper:#fbfaf7;--muted:#6b6459;--blue:#2b5fd9;--red:#b3261e;--gold:#d9a441;--line:#e4dfd6}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.65 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;font-weight:700;line-height:1.15;margin:0 0 .5em}
+a{color:inherit}:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.in{max-width:1120px;margin:0 auto}.sec{padding:4.5rem 1.25rem}
+.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:0 0 .8rem}
+.dk{background:var(--dark);color:#f3eee6}.dk .eyebrow{color:#c9a46a}
+h2{font-size:clamp(1.8rem,4.5vw,2.8rem)}.sub{color:var(--muted);margin:0 0 2rem}.dk .sub{color:#b9afa2}
+.btn{display:inline-block;padding:.7rem 1.2rem;border-radius:8px;border:1.5px solid transparent;font:600 .92rem Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;margin:.25rem .4rem .25rem 0}
+.b-white{background:#fff;color:#111}.b-line{border-color:#ffffff88;color:#fff;background:#0000002e}
+.b-blue{background:var(--blue);color:#fff}.b-out{border-color:#bdb7ac;color:var(--ink);background:#fff}
+.b-red{background:var(--red);color:#fff}.b-ghost{border-color:#ffffff66;color:#fff}.btn.off{opacity:.55;cursor:default;border:1.5px dashed #ffffff66;color:#fff}
+header{position:fixed;top:0;left:0;right:0;z-index:20;background:linear-gradient(#0f0c0aee,#0f0c0a00);padding-top:env(safe-area-inset-top,0px)}
+nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:1.4rem;padding:.9rem 1.25rem;overflow-x:auto;white-space:nowrap}
+nav .brand{font:700 1.15rem "Playfair Display",Georgia,serif;letter-spacing:.06em;text-decoration:none;color:#fff;margin-right:auto}
+nav a:not(.brand){color:#e8e1d6;text-decoration:none;font-size:.85rem;font-weight:500}nav a:not(.brand):hover{color:#fff}
+.hero{min-height:82vh;display:flex;align-items:center;padding:7rem 1.25rem 4rem;color:#fff;background:linear-gradient(90deg,#0f0c0af5 0%,#0f0c0aa8 55%,#0f0c0a55 100%),url(hero.jpg) center/cover,linear-gradient(135deg,#3a2615,#0f0c0a)}
+.hero h1{font-size:clamp(2.8rem,9vw,5.4rem);letter-spacing:.02em;text-transform:uppercase;margin:.2rem 0 1rem}
+.hero p.t{font-size:1.2rem;max-width:30rem;color:#e8e1d6;margin:0 0 1.6rem}
+.pilar{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
+.pc{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:400px;border-radius:12px;overflow:hidden;padding:1.3rem;color:#fff;background:linear-gradient(#0000 25%,#000e 85%),var(--img) center/cover,linear-gradient(160deg,#2b2118,#0f0c0a)}
+.pc h3{font-size:1.4rem;margin-bottom:.2em}.pc p{font-size:.9rem;color:#ddd3c4;margin:0 0 .9rem}.pc .btn{align-self:flex-start;border-color:#ffffff88;color:#fff;font-size:.82rem;padding:.5rem .9rem}
+.two{display:grid;gap:2.4rem;align-items:center}@media(min-width:820px){.two{grid-template-columns:1.15fr .85fr}}
+.book h2{margin-bottom:.1em}.book .st{font-size:1.2rem;margin:0 0 1rem}.book ul{list-style:none;padding:0;margin:1.2rem 0}
+.book li{padding-left:1.7rem;position:relative;margin:.3rem 0}.book li:before{content:"\2713";position:absolute;left:0;color:var(--blue);font-weight:700}
+.cover{width:100%;max-width:320px;margin:0 auto;display:block;border-radius:6px;box-shadow:0 24px 50px rgba(0,0,0,.25)}
+.stores{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}.store{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.4rem .9rem;min-height:48px}.store img{height:30px;width:auto;display:block}
+.cm{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.6rem}.cm h3{font-size:1.4rem}
+.cm ul{list-style:none;padding:0;margin:0}.cm li{border-bottom:1px solid var(--line);padding:.6rem 0}.cm li:last-child{border:0}.cm li a{text-decoration:none}.cm li a:hover{text-decoration:underline}
+.ew{background:linear-gradient(90deg,#0f0c0af2 0%,#0f0c0a99 60%,#0f0c0a66 100%),url(endless-war.jpg) center/cover,#1a1018;color:#f3eee6}
+.ew .eyebrow{color:#e0795a}.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-top:2.2rem}
+.tile{border:1px solid #ffffff2e;border-radius:10px;padding:1rem 1.1rem;background:#0f0c0a99;text-decoration:none;display:block}.tile b{display:block}.tile span{font-size:.85rem;color:#b9afa2}
+.kt{background:linear-gradient(90deg,#0f0c0af0 0%,#0f0c0a99 100%),url(kitab-suci.jpg) center/cover,linear-gradient(135deg,#4a3015,#0f0c0a);color:#f3eee6}
+.ms{background:linear-gradient(90deg,#0f0c0af0 0%,#0f0c0a99 100%),url(musik.jpg) center/cover,linear-gradient(135deg,#1c1a2a,#0f0c0a);color:#f3eee6}
+.abt p{max-width:46rem}.q{text-align:center;padding:3.5rem 1.25rem}.q p{font:italic 600 1.35rem "Playfair Display",Georgia,serif;margin:0}.q span{color:var(--muted);font-size:.9rem}
+footer{background:var(--dark);color:#b9afa2;padding:3rem 1.25rem 2rem;font-size:.9rem}
+.fg{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.fg b{display:block;color:#f3eee6;margin-bottom:.5rem}.fg a{display:block;text-decoration:none;padding:.15rem 0}.fg a:hover{color:#fff}
+.fb{font:700 1.2rem "Playfair Display",Georgia,serif;color:#fff;letter-spacing:.06em}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head>
+<body>
+<header><nav aria-label="Menu utama">
+<a class="brand" href="index.html">DIAZ HARDIKA</a>
+<a href="index.html">Beranda</a><a href="logika-positif.html">Logika Positif</a><a href="endless-war.html">Endless War</a><a href="#kitab-suci">Kekayaan Kitab Suci</a><a href="#musik">Musik</a><a href="#tentang">Tentang</a>
+</nav></header>
+
+<main>
+<section class="hero"><div class="in" style="width:100%">
+<p class="eyebrow" style="color:#e8d9bd">Writing &middot; Books &middot; Worlds &middot; Music</p>
+<h1>Diaz Hardika</h1>
+<p class="t">Ide, cerita, dan refleksi untuk memahami diri, dunia, dan hal-hal yang lebih besar.</p>
+<a class="btn b-white" href="#pilar">Jelajahi Karya &rarr;</a><a class="btn b-line" href="#tentang">Tentang Saya</a>
+</div></section>
+
+<section class="sec" id="pilar"><div class="in">
+<h2 style="text-align:center">Empat Pilar Karya</h2>
+<p class="sub" style="text-align:center">Empat dunia, satu tujuan: memahami kehidupan dari berbagai sudut.</p>
+<div class="pilar">
+<article class="pc" style="--img:url(sampul-logika-positif.jpg)"><h3>Logika Positif</h3><p>Pengembangan diri dengan cara yang rasional.</p><a class="btn" href="logika-positif.html">Lihat Lebih Lanjut &rarr;</a></article>
+<article class="pc" style="--img:url(endless-war.jpg)"><h3>Endless War</h3><p>Dunia dark fantasy yang terus berkembang.</p><a class="btn" href="endless-war.html">Jelajahi Dunia &rarr;</a></article>
+<article class="pc" style="--img:url(kitab-suci.jpg)"><h3>Kekayaan Kitab Suci</h3><p>Tulisan, refleksi, dan pemahaman yang lebih dalam.</p><a class="btn" href="#kitab-suci">Selengkapnya &rarr;</a></article>
+<article class="pc" style="--img:url(musik.jpg)"><h3>Musik</h3><p>Lagu-lagu original dan proyek musik.</p><a class="btn" href="#musik">Dengarkan &rarr;</a></article>
+</div></div></section>
+
+<section class="sec book" style="background:#fff"><div class="in two">
+<div>
+<p class="eyebrow">Buku terbaru</p>
+<h2>Logika Positif</h2><p class="st">Trigger Diri untuk Berpikir Lebih Positif</p>
+<p>Hadir sebagai antitesis, bukan sekadar buku motivasi kosong. Buku ini tidak memaksa Anda menjadi &ldquo;konsisten&rdquo; atau selalu &ldquo;bahagia&rdquo;, melainkan menawarkan kerangka berpikir seimbang yang rasional.</p>
+<ul><li>Perspektif yang lebih jernih</li><li>Logika dalam menghadapi emosi</li><li>Cocok untuk semua fase kehidupan</li></ul>
+<a class="btn b-blue" href="logika-positif.html#buku">Beli Buku</a><a class="btn b-out" href="logika-positif.html">Selengkapnya</a>
+<p class="eyebrow" style="margin-top:1.6rem">Tersedia di:</p>
+<div class="stores">
+<a class="store" href="https://www.tokopedia.com/bukunesia/bukunesia-logika-positif-trigger-diri-untuk-berpikir-lebih-positif-1734410082475148664" target="_blank" rel="noopener" aria-label="Beli di Tokopedia"><img src="logo-tokopedia.png" alt="Tokopedia"></a>
+<a class="store" href="https://shopee.co.id/Bukunesia-Logika-Positif-Trigger-Diri-untuk-Berpikir-Lebih-Positif-i.717921939.43278788519" target="_blank" rel="noopener" aria-label="Beli di Shopee"><img src="logo-shopee.png" alt="Shopee"></a>
+<a class="store" href="https://bukunesiastore.com/shop/buku-logika-positif-trigger-diri-untuk-berpikir-lebih-positif" target="_blank" rel="noopener" aria-label="Beli di Bukunesia"><img src="logo-bukunesia.png" alt="Bukunesia"></a>
+</div></div>
+<img class="cover" src="sampul-logika-positif.jpg" alt="Sampul buku Logika Positif karya Diaz Hardika" onerror="this.style.display='none'">
+</div></section>
+
+<section class="sec" id="komunitas"><div class="in">
+<h2 style="text-align:center">Diskusi &amp; Komunitas</h2>
+<p class="sub" style="text-align:center">Tempat berbagi, bertanya, dan bertumbuh bersama.</p>
+<div class="two" style="grid-template-columns:none">
+<div class="pilar" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<div class="cm"><h3>Curhatan Kita</h3><p>Ruang aman untuk berbagi pikiran, perasaan, dan pertanyaan tentang hidup.</p><a class="btn b-blue" href="curhatan.html">Masuk ke Curhatan Kita &rarr;</a></div>
+<div class="cm"><h3>Topik Terbaru</h3><ul id="tl"><li><a href="curhatan.html">Lihat semua curhatan</a></li></ul></div>
+</div></div></div></section>
+
+<section class="sec ew" id="endless-war"><div class="in">
+<p class="eyebrow">Proyek fiksi</p><h2>Endless War</h2>
+<p class="sub" style="max-width:34rem">Sebuah dunia dark fantasy dengan karakter kompleks, konflik yang mendalam, dan cerita yang terus berkembang.</p>
+<a class="btn b-red" href="endless-war.html">Jelajahi Dunia</a><a class="btn b-ghost" href="endless-war.html#karakter">Lihat Karakter</a>
+<div class="tiles">
+<a class="tile" href="endless-war.html#dunia"><b>Dunia</b><span>Artwork dan lokasi dunia Endless War.</span></a>
+<a class="tile" href="endless-war.html#karakter"><b>Karakter</b><span>Tokoh-tokoh utama dan pendukung.</span></a>
+<a class="tile" href="endless-war.html#proses"><b>Proses Pengembangan</b><span>Dari sketsa awal hingga wujud akhir.</span></a>
+</div></div></section>
+
+<section class="sec kt dk" id="kitab-suci"><div class="in">
+<p class="eyebrow">Tulisan &amp; refleksi</p><h2>Kekayaan Kitab Suci</h2>
+<p class="sub" style="max-width:34rem">Tulisan, refleksi, dan pemahaman yang lebih dalam mengenal kehidupan dan spiritualitas.</p>
+<span class="btn off">Segera hadir</span>
+</div></section>
+
+<section class="sec ms dk" id="musik"><div class="in">
+<p class="eyebrow">Musik</p><h2>Original Projects</h2>
+<p class="sub" style="max-width:34rem">Lagu-lagu yang lahir dari pengalaman, keresahan, dan hal-hal yang bermakna.</p>
+<a class="btn b-ghost" href="https://open.spotify.com/artist/0ScywqIHQ3fFm4A1gbSmCG" target="_blank" rel="noopener">Chemical Park di Spotify &rarr;</a><a class="btn b-ghost" href="https://open.spotify.com/artist/2JXm1VBSqTfcJdfg1eaeZx" target="_blank" rel="noopener">The Last Order di Spotify &rarr;</a>
+</div></section>
+
+<section class="sec abt" id="tentang"><div class="in">
+<p class="eyebrow">Tentang</p><h2>Tentang Diaz Hardika</h2>
+<p>Seorang penulis, kreator, dan pemikir yang tertarik pada manusia, cerita, dunia, dan hal-hal yang lebih besar.</p>
+<p>Lewat Logika Positif, Endless War, tulisan keagamaan, dan musik, saya mencoba memahami kehidupan dari berbagai sudut pandang, dan membagikannya melalui karya-karya ini.</p>
+</div></section>
+
+<div class="q"><p>&ldquo;Setiap karya adalah cara lain untuk memahami kehidupan.&rdquo;</p><span>&mdash; Diaz Hardika &mdash;</span></div>
+</main>
+
+<footer><div class="in fg">
+<div><span class="fb">DIAZ HARDIKA</span><p>Writing &middot; Books &middot; Worlds &middot; Music</p></div>
+<div><b>Proyek</b><a href="logika-positif.html">Logika Positif</a><a href="endless-war.html">Endless War</a><a href="#kitab-suci">Kekayaan Kitab Suci</a><a href="#musik">Musik</a></div>
+<div><b>Navigasi</b><a href="index.html">Beranda</a><a href="#tentang">Tentang</a><a href="curhatan.html">Curhatan Kita</a><a href="logika-positif.html#dukung">Dukung karya</a><a href="logika-positif.html#privasi">Catatan privasi</a></div>
+</div><div class="in" style="margin-top:2rem">&copy; Diaz Hardika. Semua hak cipta dilindungi.</div></footer>
+
+<script type="module">
+const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},V="https://www.gstatic.com/firebasejs/10.12.2/";
+try{
+const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),fs=await import(V+"firebase-firestore.js");
+const db=fs.getFirestore(getApps().length?getApp():initializeApp(cfg));
+const s=await fs.getDocs(fs.query(fs.collection(db,"topics"),fs.orderBy("createdAt","desc"),fs.limit(4)));
+if(!s.empty){const ul=document.getElementById("tl");ul.textContent="";s.forEach(d=>{const li=document.createElement("li"),a=document.createElement("a");a.href="curhatan.html#t="+d.id;a.textContent=d.data().title;li.append(a);ul.append(li)})}
+}catch(e){console.error(e)}
+</script>
+</body></html>
