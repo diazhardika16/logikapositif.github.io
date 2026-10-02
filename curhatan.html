@@ -33,6 +33,12 @@ dialog.pop::backdrop{background:#000b}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem}
 .cm{border-top:1px solid var(--line);padding:.9rem 0}.cm b{display:block}.cm p{margin:.2em 0 0;white-space:pre-wrap}
 .badge{font-size:.72rem;font-weight:700;background:var(--accent);color:var(--on-accent);border-radius:99px;padding:.1rem .55rem}
+.pkb{display:flex;gap:.5rem;margin:-.2rem 0 .7rem}
+.pkb button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:.25rem .8rem;font:500 .85rem "Public Sans",system-ui,sans-serif;cursor:pointer}
+.pkp{display:flex;flex-wrap:wrap;gap:.3rem;max-height:190px;overflow:auto;padding:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:.7rem}
+.pkp button{border:0;background:transparent;font-size:1.5rem;line-height:1;padding:.2rem;cursor:pointer;border-radius:6px}.pkp button:hover{background:var(--line)}
+.pkp img{height:64px;width:auto;display:block}
+.stk{height:96px;width:auto;vertical-align:middle;margin:.1rem}
 </style></head>
 <body>
 <header class="top"><div class="wrap bar"><a class="brand" href="index.html"><img src="logo.png" alt="" height="40"><span>Logika Positif</span></a><a href="index.html">&larr; Kembali ke beranda</a></div></header>
@@ -61,6 +67,15 @@ dialog.pop::backdrop{background:#000b}
 <script type="module">
 const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
 const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/",G=$("grid");
+const EMO="😀 😁 😂 🤣 😊 😍 🥰 😘 😎 🤔 😢 😭 😡 🥺 😴 🤗 🙏 👍 👏 🙌 💪 ❤️ 💔 🔥 ✨ 🌟 🌈 ☀️ 🌙 🍀 🌸 🎉 🎶 📚 💡 😅 🙂 😉 😌 😇 🤝 💬 ☕".split(" "),NS=12;
+const rich=(el,text)=>{el.textContent="";String(text).split(/(\[stiker:\d{1,2}\])/).forEach(p=>{const m=p.match(/^\[stiker:(\d{1,2})\]$/);if(m){const i=document.createElement("img");i.className="stk";i.src="stiker-"+m[1]+".png";i.alt="stiker";i.loading="lazy";i.onerror=()=>i.remove();el.append(i)}else if(p)el.append(document.createTextNode(p))})};
+const picker=ta=>{const w=document.createElement("div"),bar=document.createElement("div"),pn=document.createElement("div");bar.className="pkb";pn.className="pkp";pn.hidden=true;let mode="";
+const ins=t=>{ta.setRangeText(t,ta.selectionStart,ta.selectionEnd,"end");ta.focus()};
+const mk=(label,m,fill)=>{const b=document.createElement("button");b.type="button";b.textContent=label;b.onclick=()=>{if(mode===m){pn.hidden=true;mode="";return}mode=m;pn.textContent="";fill();pn.hidden=false};bar.append(b)};
+mk("😊 Emoji","e",()=>EMO.forEach(x=>{const b=document.createElement("button");b.type="button";b.textContent=x;b.onclick=()=>ins(x);pn.append(b)}));
+mk("🖼 Stiker","s",()=>{for(let i=1;i<=NS;i++){const b=document.createElement("button"),im=document.createElement("img");b.type="button";b.setAttribute("aria-label","Stiker "+i);im.src="stiker-"+i+".png";im.alt="";im.onerror=()=>b.remove();b.onclick=()=>ins("[stiker:"+i+"]");b.append(im);pn.append(b)}});
+w.append(bar,pn);ta.after(w)};
+
 try{
 const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
@@ -69,15 +84,15 @@ const msg=t=>{$("msg").textContent=t},fmt=ms=>ms?new Date(ms).toLocaleDateString
 const ms=d=>{const c=d.createdAt;return c&&c.toMillis?c.toMillis():0};
 function grid(){G.textContent="";if(!topics.length){G.innerHTML='<p class="note">Belum ada curhatan.</p>';return}
 topics.forEach(t=>{const c=document.createElement("article"),h=document.createElement("h3"),s=document.createElement("small"),p=document.createElement("p");c.className="card";c.tabIndex=0;c.setAttribute("role","button");
-h.textContent=t.title;s.textContent=fmt(ms(t));p.textContent=t.text.replace(/\s+/g," ").slice(0,160);c.append(h,s,p);
+h.textContent=t.title;s.textContent=fmt(ms(t));p.textContent=t.text.replace(/\[stiker:\d+\]/g,"").replace(/\s+/g," ").slice(0,160);c.append(h,s,p);
 c.onclick=()=>open(t.id);c.onkeydown=e=>{if(e.key==="Enter")open(t.id)};G.append(c)})}
 fs.onSnapshot(fs.collection(db,"topics"),s=>{topics=s.docs.filter(d=>d.id!=="current").map(d=>({id:d.id,...d.data({serverTimestamps:"estimate"})})).sort((a,b)=>ms(b)-ms(a));grid();const m=location.hash.match(/^#t=(.+)$/);if(m&&!cur&&topics.some(t=>t.id===m[1]))open(m[1])},e=>{G.innerHTML='<p class="note">Curhatan belum bisa dimuat ('+e.code+').</p>'});
 function drawC(){const l=$("list");l.textContent="";if(!cms.length){l.textContent="Belum ada komentar. Jadilah yang pertama.";return}
 cms.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),p=document.createElement("p");e.className="cm";b.textContent=c.name;
 if(c.uid===ADMIN_UID){const g=document.createElement("span");g.className="badge";g.textContent="Penulis";b.append(" ",g)}
-p.textContent=c.text;e.append(b,p);
+rich(p,c.text);e.append(b,p);
 if(admin){const x=document.createElement("button");x.className="btn alt";x.textContent="Hapus";x.style.cssText="padding:.25rem .7rem;font-size:.82rem;margin-top:.4rem";x.onclick=()=>{if(confirm("Hapus komentar ini?"))fs.deleteDoc(d.ref)};e.append(x)}l.append(e)})}
-function open(id){const t=topics.find(x=>x.id===id);if(!t)return;cur=t;$("tp-t").textContent=t.title;$("tp-d").textContent=fmt(ms(t));$("tp-b").textContent=t.text;
+function open(id){const t=topics.find(x=>x.id===id);if(!t)return;cur=t;$("tp-t").textContent=t.title;$("tp-d").textContent=fmt(ms(t));rich($("tp-b"),t.text);
 const u=location.origin+location.pathname+"#t="+id,e=encodeURIComponent;
 $("s-wa").href="https://wa.me/?text="+e(t.title+" "+u);$("s-fb").href="https://www.facebook.com/sharer/sharer.php?u="+e(u);$("s-x").href="https://twitter.com/intent/tweet?text="+e(t.title)+"&url="+e(u);
 $("s-cp").onclick=async()=>{try{await navigator.clipboard.writeText(u);$("s-cp").textContent="Tersalin"}catch(x){prompt("Salin tautan:",u)}};$("s-cp").textContent="Salin tautan";
@@ -94,7 +109,8 @@ $("f-daftar").onclick=async()=>{const n=$("i-nama").value.trim();if(!n)return ms
 $("f-masuk").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
 $("f-cek").onclick=async()=>{await auth.currentUser.reload();await auth.currentUser.getIdToken(true);location.reload()};
 document.querySelectorAll(".f-out").forEach(b=>b.onclick=()=>au.signOut(auth));
-$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t||!cur)return;try{await u.getIdToken(true);await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,topicId:cur.id,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){msg("Gagal kirim: "+(x.code||x.message))}};
+$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t||!cur)return;if(t.length>1000)return msg("Komentar terlalu panjang (maks. 1000 karakter).");try{await u.getIdToken(true);await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,topicId:cur.id,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){msg("Gagal kirim: "+(x.code||x.message))}};
+picker($("i-teks"));picker($("n-b"));
 $("new").onclick=()=>{$("n-m").textContent="";$("nw").showModal()};
 $("n-go").onclick=async()=>{const t=$("n-t").value.trim(),b=$("n-b").value.trim();if(!t||!b){$("n-m").textContent="Judul dan isi wajib diisi.";return}try{await auth.currentUser.getIdToken(true);await fs.addDoc(fs.collection(db,"topics"),{title:t,text:b,createdAt:fs.serverTimestamp()});$("n-t").value=$("n-b").value="";$("nw").close()}catch(x){$("n-m").textContent="Gagal terbitkan: "+(x.code||x.message)}};
 $("tp-del").onclick=async()=>{if(cur&&confirm("Hapus curhatan ini? Komentarnya tidak ikut tampil lagi.")){try{await fs.deleteDoc(fs.doc(db,"topics",cur.id));$("tp").close()}catch(x){msg("Gagal hapus: "+x.code)}}};

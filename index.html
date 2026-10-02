@@ -86,6 +86,12 @@ dialog#klb{width:100%;height:100%;max-width:none;max-height:none;border:0;paddin
 dialog#klb[open]{display:flex;align-items:center;justify-content:center}
 #klb-img{max-width:94vw;max-height:88vh;object-fit:contain}
 .lbx{position:absolute;top:.8rem;right:.8rem;width:44px;height:44px;border-radius:50%;border:0;background:#fff2;color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
+.pkb{display:flex;gap:.5rem;margin:-.2rem 0 .7rem}
+.pkb button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:.25rem .8rem;font:500 .85rem "Public Sans",system-ui,sans-serif;cursor:pointer}
+.pkp{display:flex;flex-wrap:wrap;gap:.3rem;max-height:190px;overflow:auto;padding:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:.7rem}
+.pkp button{border:0;background:transparent;font-size:1.5rem;line-height:1;padding:.2rem;cursor:pointer;border-radius:6px}.pkp button:hover{background:var(--line)}
+.pkp img{height:64px;width:auto;display:block}
+.stk{height:96px;width:auto;vertical-align:middle;margin:.1rem}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -172,16 +178,25 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.92rem;border-top:1px so
 <script type="module">
 const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
 const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
+const EMO="😀 😁 😂 🤣 😊 😍 🥰 😘 😎 🤔 😢 😭 😡 🥺 😴 🤗 🙏 👍 👏 🙌 💪 ❤️ 💔 🔥 ✨ 🌟 🌈 ☀️ 🌙 🍀 🌸 🎉 🎶 📚 💡 😅 🙂 😉 😌 😇 🤝 💬 ☕".split(" "),NS=12;
+const rich=(el,text)=>{el.textContent="";String(text).split(/(\[stiker:\d{1,2}\])/).forEach(p=>{const m=p.match(/^\[stiker:(\d{1,2})\]$/);if(m){const i=document.createElement("img");i.className="stk";i.src="stiker-"+m[1]+".png";i.alt="stiker";i.loading="lazy";i.onerror=()=>i.remove();el.append(i)}else if(p)el.append(document.createTextNode(p))})};
+const picker=ta=>{const w=document.createElement("div"),bar=document.createElement("div"),pn=document.createElement("div");bar.className="pkb";pn.className="pkp";pn.hidden=true;let mode="";
+const ins=t=>{ta.setRangeText(t,ta.selectionStart,ta.selectionEnd,"end");ta.focus()};
+const mk=(label,m,fill)=>{const b=document.createElement("button");b.type="button";b.textContent=label;b.onclick=()=>{if(mode===m){pn.hidden=true;mode="";return}mode=m;pn.textContent="";fill();pn.hidden=false};bar.append(b)};
+mk("😊 Emoji","e",()=>EMO.forEach(x=>{const b=document.createElement("button");b.type="button";b.textContent=x;b.onclick=()=>ins(x);pn.append(b)}));
+mk("🖼 Stiker","s",()=>{for(let i=1;i<=NS;i++){const b=document.createElement("button"),im=document.createElement("img");b.type="button";b.setAttribute("aria-label","Stiker "+i);im.src="stiker-"+i+".png";im.alt="";im.onerror=()=>b.remove();b.onclick=()=>ins("[stiker:"+i+"]");b.append(im);pn.append(b)}});
+w.append(bar,pn);ta.after(w)};
+
 if(!cfg.apiKey){$("cmt-off").hidden=false}else{
 const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app),msg=t=>{$("cmt-msg").textContent=t};
 let docs=[],admin=false;
-$("cmt-on").hidden=false;
-const fill=()=>{if(admin&&!$("box-admin").contains(document.activeElement)){$("a-judul").value=$("t-title").textContent;$("a-teks").value=$("t-text").textContent}};
+$("cmt-on").hidden=false;picker($("i-teks"));picker($("a-teks"));
+const fill=()=>{if(admin&&!$("box-admin").contains(document.activeElement)){$("a-judul").value=$("t-title").textContent;$("a-teks").value=$("t-text").dataset.raw||$("t-text").textContent}};
 const draw=()=>{const l=$("list");l.textContent="";if(!docs.length){l.textContent="Belum ada komentar. Jadilah yang pertama.";return}
 docs.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),p=document.createElement("p");e.className="cm";b.textContent=c.name;
 if(ADMIN_UID&&c.uid===ADMIN_UID){const g=document.createElement("span");g.className="badge";g.textContent="Penulis";b.append(" ",g)}
-p.textContent=c.text;e.append(b,p);
+rich(p,c.text);e.append(b,p);
 if(admin){const x=document.createElement("button");x.className="btn alt";x.textContent="Hapus";x.style.cssText="padding:.3rem .7rem;font-size:.85rem;margin-top:.4rem";x.onclick=()=>{if(confirm("Hapus komentar ini?"))fs.deleteDoc(d.ref)};e.append(x)}
 l.append(e)})};
 au.onAuthStateChanged(auth,u=>{admin=!!(u&&ADMIN_UID&&u.uid===ADMIN_UID&&u.emailVerified);
@@ -191,9 +206,9 @@ $("f-daftar").onclick=async()=>{const n=$("i-nama").value.trim();if(!n)return ms
 $("f-masuk").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
 $("f-cek").onclick=async()=>{await auth.currentUser.reload();await auth.currentUser.getIdToken(true);location.reload()};
 document.querySelectorAll(".f-keluar").forEach(b=>b.onclick=()=>au.signOut(auth));
-$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;try{await u.getIdToken(true);await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){let k="?";try{k=(await u.getIdTokenResult(true)).claims.email_verified}catch(e){}msg("Gagal kirim: "+x.code+" | verifikasi: "+u.emailVerified+" | token: "+k+" | v3")}};
+$("f-kirim").onclick=async()=>{const t=$("i-teks").value.trim(),u=auth.currentUser;if(!t)return;if(t.length>1000)return msg("Komentar terlalu panjang (maks. 1000 karakter).");try{await u.getIdToken(true);await fs.addDoc(fs.collection(db,"comments"),{uid:u.uid,name:u.displayName,text:t,createdAt:fs.serverTimestamp()});$("i-teks").value="";msg("")}catch(x){let k="?";try{k=(await u.getIdTokenResult(true)).claims.email_verified}catch(e){}msg("Gagal kirim: "+x.code+" | verifikasi: "+u.emailVerified+" | token: "+k+" | v3")}};
 $("f-simpan").onclick=async()=>{try{await fs.setDoc(fs.doc(db,"topics","current"),{title:$("a-judul").value.trim(),text:$("a-teks").value.trim(),updatedAt:fs.serverTimestamp()});msg("Pembahasan disimpan.")}catch(x){msg("Gagal simpan: "+x.code)}};
-fs.onSnapshot(fs.doc(db,"topics","current"),d=>{if(d.exists()){$("t-title").textContent=d.data().title;$("t-text").textContent=d.data().text;fill()}});
+fs.onSnapshot(fs.doc(db,"topics","current"),d=>{if(d.exists()){$("t-title").textContent=d.data().title;{const tx=d.data().text;$("t-text").dataset.raw=tx;rich($("t-text"),tx)}fill()}});
 fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.orderBy("createdAt","desc"),fs.limit(50)),s=>{docs=s.docs;draw()});
 }
 </script>
