@@ -106,6 +106,21 @@ dialog.pop::backdrop{background:#000b}
 .music-panel{position:fixed;right:1rem;bottom:calc(4.6rem + env(safe-area-inset-bottom,0px));z-index:30;width:min(360px,calc(100vw - 2rem));background:#fff;border:1px solid var(--line);border-radius:14px;padding:.9rem;box-shadow:0 10px 30px #0006}
 .music-panel iframe{display:block;width:100%;height:352px;border:0;border-radius:12px;margin-top:.7rem}
 .tabs{display:flex;gap:.4rem;flex-wrap:wrap}.tabs button{font:600 .85rem Inter,system-ui,sans-serif;padding:.4rem .8rem;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.tabs .on{border-color:var(--blue)}
+.tw{background:#fff;border:1px solid #e1e8ed;border-radius:12px;padding:14px 16px;color:#14171a;box-shadow:0 1px 3px #0001;text-align:left}
+.twh{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.twav{width:44px;height:44px;border-radius:50%;border:1px solid #e1e8ed;background:#fff url(logo.png) center/72% no-repeat;flex:none}
+.twh b{display:flex;align-items:center;gap:.3rem;font-size:.98rem}.twu{color:#657786;font-size:.88rem}
+.twv{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#1da1f2;color:#fff;font-size:.65rem;font-style:normal}
+.twb{margin-left:auto;font-size:1.3rem}
+.twt{margin:.2rem 0 .6rem;font-size:1.08rem;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}.twl{color:#1b95e0}
+.twd{color:#657786;font-size:.85rem;padding-bottom:.6rem;border-bottom:1px solid #e1e8ed}
+.twa{display:flex;flex-wrap:wrap;gap:1.2rem;padding-top:.6rem}
+.twa button{border:0;background:none;color:#657786;font:500 .85rem Inter,system-ui,sans-serif;cursor:pointer;padding:.2rem 0}.twa button:hover{color:#1b95e0}
+.twlist{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:1.2rem}
+.tw-btn{position:fixed;right:7.6rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:30;padding:.7rem 1.1rem;border-radius:99px;border:2px solid #1da1f2;background:#1da1f2;color:#fff;font:700 .95rem Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 6px 18px #0005}
+.tw-pop{position:fixed;right:1rem;bottom:calc(4.6rem + env(safe-area-inset-bottom,0px));z-index:30;width:min(400px,calc(100vw - 2rem));max-height:70vh;overflow:auto;background:#f5f8fa;border:1px solid var(--line);border-radius:14px;padding:.8rem;box-shadow:0 10px 30px #0006}
+.twfoot{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-top:.7rem;font-size:.9rem}.twfoot a{color:#1b95e0}.twfoot .btn{padding:.4rem .8rem;font-size:.85rem}
+dialog.box textarea{width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin:0 0 .5rem}
 </style></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -147,7 +162,12 @@ dialog.pop::backdrop{background:#000b}
 <div id="adm" hidden><button class="btn blue" id="new">+ Tulis curhatan baru</button></div>
 <div id="grid" class="grid"><p class="note">Memuat curhatan...</p></div></div></section>
 
-<section id="privasi" class="sec"><div class="wrap"><h2>Catatan privasi</h2>
+<section id="kicauan" class="sec"><div class="wrap"><h2>Kicauan</h2>
+<p style="color:var(--muted)">Catatan singkat dari saya. Klik Komentar untuk menanggapi, atau Bagikan ke temanmu.</p>
+<div id="tw-new1" hidden style="margin-top:1rem"><button class="btn blue" id="tw-new">+ Tweet baru</button></div>
+<div id="tw-list" class="twlist"><p class="note">Memuat kicauan...</p></div></div></section>
+
+<section id="privasi" class="sec alt"><div class="wrap"><h2>Catatan privasi</h2>
 <p>Website ini hanya meminta data yang diperlukan agar kolom komentar bisa dipakai dengan aman.</p>
 <p><strong>Data yang disimpan:</strong> nama tampilan, alamat email, dan kata sandi (dikelola layanan login Firebase milik Google, sehingga penulis tidak bisa melihat kata sandimu), serta isi komentar beserta waktunya.</p>
 <p><strong>Untuk apa:</strong> email dipakai untuk masuk dan memastikan akunmu asli. Email tidak ditampilkan kepada pengunjung lain dan tidak dibagikan atau dijual. Nama tampilan dan isi komentarmu tampil terbuka di forum.</p>
@@ -239,8 +259,8 @@ const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=f
 let topics=[],cur=null,cms=[],unsub=null,admin=false;
 const msg=t=>{$("msg").textContent=t},fmt=ms=>ms?new Date(ms).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
 const ms=d=>{const c=d.createdAt;return c&&c.toMillis?c.toMillis():0};
-function grid(){G.textContent="";if(!topics.length){G.innerHTML='<p class="note">Belum ada curhatan.</p>';return}
-topics.forEach(t=>{const c=document.createElement("article"),h=document.createElement("h3"),s=document.createElement("small"),p=document.createElement("p");c.className="tcard";c.tabIndex=0;c.setAttribute("role","button");
+function grid(){G.textContent="";const vis=topics.filter(t=>t.kind!=="tweet");if(!vis.length){G.innerHTML='<p class="note">Belum ada curhatan.</p>';return}
+vis.forEach(t=>{const c=document.createElement("article"),h=document.createElement("h3"),s=document.createElement("small"),p=document.createElement("p");c.className="tcard";c.tabIndex=0;c.setAttribute("role","button");
 h.textContent=t.title;s.textContent=fmt(ms(t));p.textContent=t.text.replace(/\[stiker:\d+\]/g,"").replace(/\s+/g," ").slice(0,160);c.append(h,s,p);
 c.onclick=()=>open(t.id);c.onkeydown=e=>{if(e.key==="Enter")open(t.id)};G.append(c)})}
 fs.onSnapshot(fs.collection(db,"topics"),s=>{topics=s.docs.filter(d=>d.id!=="current").map(d=>({id:d.id,...d.data({serverTimestamps:"estimate"})})).sort((a,b)=>ms(b)-ms(a));grid();const m=location.hash.match(/^#t=(.+)$/);if(m&&!cur&&topics.some(t=>t.id===m[1]))open(m[1])},e=>{G.innerHTML='<p class="note">Curhatan belum bisa dimuat ('+e.code+').</p>'});
@@ -249,14 +269,14 @@ cms.forEach(d=>{const c=d.data(),e=document.createElement("div"),b=document.crea
 if(c.uid===ADMIN_UID){const g=document.createElement("span");g.className="badge";g.textContent="Penulis";b.append(" ",g)}
 rich(p,c.text);e.append(b,p);
 if(admin){const x=document.createElement("button");x.className="btn line";x.textContent="Hapus";x.style.cssText="padding:.25rem .7rem;font-size:.82rem;margin-top:.4rem";x.onclick=()=>{if(confirm("Hapus komentar ini?"))fs.deleteDoc(d.ref)};e.append(x)}l.append(e)})}
-function open(id){const t=topics.find(x=>x.id===id);if(!t)return;cur=t;$("tp-t").textContent=t.title;$("tp-d").textContent=fmt(ms(t));rich($("tp-b"),t.text);
+function open(id){const t=topics.find(x=>x.id===id);if(!t)return;cur=t;$("tp-t").textContent=t.kind==="tweet"?"Kicauan Diaz Hardika":t.title;$("tp-d").textContent=fmt(ms(t));rich($("tp-b"),t.text);
 const u=location.origin+location.pathname+"#t="+id,e=encodeURIComponent;
 $("s-wa").href="https://wa.me/?text="+e(t.title+" "+u);$("s-fb").href="https://www.facebook.com/sharer/sharer.php?u="+e(u);$("s-x").href="https://twitter.com/intent/tweet?text="+e(t.title)+"&url="+e(u);
 $("s-cp").onclick=async()=>{try{await navigator.clipboard.writeText(u);$("s-cp").textContent="Tersalin"}catch(x){prompt("Salin tautan:",u)}};$("s-cp").textContent="Salin tautan";
 cms=[];drawC();msg("");if(unsub)unsub();
 unsub=fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.where("topicId","==",id)),s=>{cms=s.docs.slice().sort((a,b)=>(a.data().createdAt?.toMillis?.()||Infinity)-(b.data().createdAt?.toMillis?.()||Infinity));drawC()});
 history.replaceState(null,"","#t="+id);if(!$("tp").open)$("tp").showModal()}
-$("tp").addEventListener("close",()=>{if(unsub)unsub();unsub=null;cur=null;history.replaceState(null,"",location.pathname)});
+window.openTopic=open;$("tp").addEventListener("close",()=>{if(unsub)unsub();unsub=null;cur=null;history.replaceState(null,"",location.pathname)});
 document.querySelectorAll("dialog .x").forEach(b=>b.onclick=()=>b.closest("dialog").close());
 document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d)d.close()}));
 au.onAuthStateChanged(auth,u=>{admin=!!(u&&u.uid===ADMIN_UID&&u.emailVerified);$("adm").hidden=!admin;$("tp-adm").hidden=!admin;
@@ -272,5 +292,45 @@ $("new").onclick=()=>{$("n-m").textContent="";$("nw").showModal()};
 $("n-go").onclick=async()=>{const t=$("n-t").value.trim(),b=$("n-b").value.trim();if(!t||!b){$("n-m").textContent="Judul dan isi wajib diisi.";return}try{await auth.currentUser.getIdToken(true);await fs.addDoc(fs.collection(db,"topics"),{title:t,text:b,createdAt:fs.serverTimestamp()});$("n-t").value=$("n-b").value="";$("nw").close()}catch(x){$("n-m").textContent="Gagal terbitkan: "+(x.code||x.message)}};
 $("tp-del").onclick=async()=>{if(cur&&confirm("Hapus curhatan ini? Komentarnya tidak ikut tampil lagi.")){try{await fs.deleteDoc(fs.doc(db,"topics",cur.id));$("tp").close()}catch(x){msg("Gagal hapus: "+x.code)}}};
 }catch(e){console.error(e);G.innerHTML='<p class="note">Curhatan belum bisa dimuat.</p>'}
+</script>
+<button class="tw-btn" id="tw-btn" aria-expanded="false" aria-controls="tw-pop">&#128038; Kicauan</button>
+<div class="tw-pop" id="tw-pop" hidden><div id="tw-cur"><p class="note">Memuat kicauan...</p></div>
+<div class="twfoot"><a href="logika-positif.html#kicauan">Lihat semua kicauan &rarr;</a><button class="btn blue" id="tw-new2" hidden>+ Tweet baru</button></div></div>
+<dialog id="twd" class="box" aria-label="Tweet"><p><strong id="twd-h">Tweet baru</strong></p><textarea id="twd-t" rows="4" maxlength="280" placeholder="Apa yang sedang kamu pikirkan?"></textarea>
+<p class="note" id="twd-c">0 / 280</p><p id="twd-m" class="note" role="status"></p><button class="btn blue" id="twd-go">Simpan</button><button class="btn line" id="twd-x">Batal</button></dialog>
+<script type="module">
+const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
+const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
+try{
+const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
+const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
+let tw=[],admin=false,eid=null;
+const ms=d=>d.createdAt&&d.createdAt.toMillis?d.createdAt.toMillis():0,fmt=m=>m?new Date(m).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+const url=id=>new URL("logika-positif.html#t="+id,location.href).href;
+const link=(p,text)=>String(text).split(/(https?:\/\/\S+|[@#][\p{L}\p{N}_]+)/u).forEach(x=>{if(!x)return;if(/^https?:\/\//.test(x)){const a=document.createElement("a");a.href=x;a.target="_blank";a.rel="noopener";a.className="twl";a.textContent=x;p.append(a)}else if(/^[@#]/.test(x)){const s=document.createElement("span");s.className="twl";s.textContent=x;p.append(s)}else p.append(document.createTextNode(x))});
+const mk=(txt,fn)=>{const b=document.createElement("button");b.type="button";b.textContent=txt;b.onclick=fn;return b};
+const cmt=id=>{if(window.openTopic)window.openTopic(id);else location.href=url(id)};
+async function sh(t){const u=url(t.id);if(navigator.share){try{await navigator.share({title:"Kicauan Diaz Hardika",text:t.text.slice(0,120),url:u});return}catch(e){if(e.name==="AbortError")return}}try{await navigator.clipboard.writeText(u);alert("Tautan disalin.")}catch(e){prompt("Salin tautan:",u)}}
+const dlg=$("twd"),ta=$("twd-t"),cn=$("twd-c");
+ta.oninput=()=>{cn.textContent=ta.value.length+" / 280"};
+const ed=t=>{eid=t?t.id:null;$("twd-h").textContent=t?"Edit tweet":"Tweet baru";ta.value=t?t.text:"";ta.oninput();$("twd-m").textContent="";dlg.showModal()};
+$("twd-x").onclick=()=>dlg.close();
+$("twd-go").onclick=async()=>{const v=ta.value.trim();if(!v){$("twd-m").textContent="Tulis sesuatu dulu.";return}try{await auth.currentUser.getIdToken(true);if(eid)await fs.updateDoc(fs.doc(db,"topics",eid),{text:v,updatedAt:fs.serverTimestamp()});else await fs.addDoc(fs.collection(db,"topics"),{kind:"tweet",title:"Kicauan",text:v,createdAt:fs.serverTimestamp()});dlg.close()}catch(x){$("twd-m").textContent="Gagal simpan: "+(x.code||x.message)}};
+const del=async t=>{if(confirm("Hapus tweet ini?")){try{await fs.deleteDoc(fs.doc(db,"topics",t.id))}catch(x){alert("Gagal hapus: "+x.code)}}};
+const card=t=>{const c=document.createElement("article");c.className="tw";
+c.innerHTML='<div class="twh"><span class="twav" aria-hidden="true"></span><div><b>Diaz Hardika <i class="twv" title="Terverifikasi">\u2713</i></b><span class="twu">@DiazHardika</span></div><span class="twb" aria-hidden="true">\uD83D\uDC26</span></div><p class="twt"></p><div class="twd"></div><div class="twa"></div>';
+link(c.querySelector(".twt"),t.text);c.querySelector(".twd").textContent=fmt(ms(t));
+const a=c.querySelector(".twa");a.append(mk("\uD83D\uDCAC Komentar",()=>cmt(t.id)),mk("\uD83D\uDD17 Bagikan",()=>sh(t)));
+if(admin)a.append(mk("\u270E Edit",()=>ed(t)),mk("\uD83D\uDDD1 Hapus",()=>del(t)));return c};
+function render(){const cur=$("tw-cur");cur.textContent="";if(!tw.length){cur.innerHTML='<p class="note">Belum ada kicauan.</p>'}else cur.append(card(tw[0]));
+const L=$("tw-list");if(L){L.textContent="";if(!tw.length)L.innerHTML='<p class="note">Belum ada kicauan.</p>';tw.forEach(t=>L.append(card(t)))}
+$("tw-new2").hidden=!admin;const n1=$("tw-new1");if(n1)n1.hidden=!admin}
+fs.onSnapshot(fs.query(fs.collection(db,"topics"),fs.where("kind","==","tweet")),s=>{tw=s.docs.map(d=>({id:d.id,...d.data({serverTimestamps:"estimate"})})).sort((a,b)=>ms(b)-ms(a));render()},e=>{$("tw-cur").innerHTML='<p class="note">Kicauan belum bisa dimuat.</p>'});
+au.onAuthStateChanged(auth,u=>{admin=!!(u&&u.uid===ADMIN_UID&&u.emailVerified);render()});
+$("tw-new2").onclick=()=>ed(null);const nb=$("tw-new");if(nb)nb.onclick=()=>ed(null);
+const mb=$("m-btn"),mp=$("m-panel"),tb=$("tw-btn"),tp=$("tw-pop");
+tb.onclick=()=>{tp.hidden=!tp.hidden;tb.setAttribute("aria-expanded",String(!tp.hidden));if(mp&&!tp.hidden){mp.hidden=true;mb.setAttribute("aria-expanded","false")}};
+if(mb)mb.addEventListener("click",()=>{tp.hidden=true;tb.setAttribute("aria-expanded","false")});
+}catch(e){console.error(e)}
 </script>
 </body></html>
