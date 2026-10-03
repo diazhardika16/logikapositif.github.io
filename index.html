@@ -93,7 +93,7 @@ dialog.box input{width:100%;font:inherit;border:1px solid var(--line);border-rad
 <div class="cov"><img src="sampul-logika-positif.jpg" alt="Sampul buku Logika Positif karya Diaz Hardika"></div></div></section>
 
 <section class="sec"><div class="wrap"><h2 class="c">Diskusi &amp; Komunitas</h2><p class="sub">Tempat berbagi, bertanya, dan bertumbuh bersama.</p>
-<div class="disk"><article class="card"><h3>Curhatan Kita</h3><p>Ruang aman untuk berbagi pikiran, perasaan, dan pertanyaan tentang hidup.</p><a class="btn blue" href="curhatan.html">Masuk ke Curhatan Kita &rarr;</a></article>
+<div class="disk"><article class="card"><h3>Curhatan Kita</h3><p>Ruang aman untuk berbagi pikiran, perasaan, dan pertanyaan tentang hidup.</p><a class="btn blue" href="logika-positif.html#curhatan">Masuk ke Curhatan Kita &rarr;</a></article>
 <article class="card"><h3>Topik Terbaru</h3><ul id="tops" class="tops"><li class="note">Memuat topik...</li></ul></article></div></div></section>
 
 <section id="katalog" class="sec alt"><div class="wrap"><h2 class="c">Katalog Kaos</h2><p class="sub">Kaos dengan desain dari dunia karya saya.</p>
@@ -131,7 +131,7 @@ dialog.box input{width:100%;font:inherit;border:1px solid var(--line);border-rad
 <footer><div class="wrap"><div class="fg">
 <div><a class="logo" href="index.html">DIAZ HARDIKA</a><br>Writing &middot; Books &middot; Worlds &middot; Music</div>
 <div><h4>Proyek</h4><ul><li><a href="logika-positif.html">Logika Positif</a></li><li><a href="endless-war.html">Endless War</a></li><li><a href="#kitab-suci">Kekayaan Kitab Suci</a></li></ul></div>
-<div><h4>Navigasi</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="curhatan.html">Curhatan Kita</a></li><li><a href="#tentang">Tentang</a></li><li><a href="logika-positif.html#privasi">Catatan privasi</a></li></ul></div>
+<div><h4>Navigasi</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="logika-positif.html#curhatan">Curhatan Kita</a></li><li><a href="#tentang">Tentang</a></li><li><a href="logika-positif.html#privasi">Catatan privasi</a></li></ul></div>
 </div><p class="note" style="margin:0">&copy; 2026 Diaz Hardika. Semua hak cipta dilindungi.</p></div></footer>
 
 <button class="music-btn" id="m-btn" aria-expanded="false" aria-controls="m-panel">&#9834; Musik</button>
@@ -189,7 +189,7 @@ const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),fs=await 
 const db=fs.getFirestore(getApps().length?getApp():initializeApp(cfg)),s=await fs.getDocs(fs.collection(db,"topics")),ms=d=>{const c=d.data().createdAt;return c&&c.toMillis?c.toMillis():0};
 const l=s.docs.filter(d=>d.id!=="current"&&ms(d)).sort((a,b)=>ms(b)-ms(a)).slice(0,4);T.textContent="";
 if(!l.length){const li=document.createElement("li");li.className="note";li.textContent="Belum ada curhatan.";T.append(li)}
-l.forEach(d=>{const li=document.createElement("li"),a=document.createElement("a");a.href="curhatan.html#t="+d.id;a.textContent=d.data().title;li.append(a);T.append(li)});
+l.forEach(d=>{const li=document.createElement("li"),a=document.createElement("a");a.href="logika-positif.html#t="+d.id;a.textContent=d.data().title;li.append(a);T.append(li)});
 }catch(e){T.textContent="Topik belum bisa dimuat."}
 </script>
 </body></html>
