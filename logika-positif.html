@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8">
+<html lang="id"><head><meta charset="utf-8"><script>try{if(localStorage.getItem("lang")==="en"){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},2500)}}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Logika Positif — Diaz Hardika</title>
 <meta name="description" content="Logika Positif: Trigger Diri untuk Berpikir Lebih Positif. Buku karya Diaz Hardika tentang cara berpikir yang lebih seimbang dan rasional.">
@@ -121,7 +121,7 @@ dialog.pop::backdrop{background:#000b}
 .tw-pop{position:fixed;right:1rem;bottom:calc(4.6rem + env(safe-area-inset-bottom,0px));z-index:30;width:min(400px,calc(100vw - 2rem));max-height:70vh;overflow:auto;background:#f5f8fa;border:1px solid var(--line);border-radius:14px;padding:.8rem;box-shadow:0 10px 30px #0006}
 .twfoot{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-top:.7rem;font-size:.9rem}.twfoot a{color:#1b95e0}.twfoot .btn{padding:.4rem .8rem;font-size:.85rem}
 dialog.box textarea{width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin:0 0 .5rem}
-</style></head>
+</style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
 <nav aria-label="Menu utama"><a href="index.html">Beranda</a><a href="logika-positif.html" aria-current="page">Logika Positif</a><a href="endless-war.html">Endless War</a><a href="index.html#tentang">Tentang</a></nav></div></header>
@@ -257,7 +257,7 @@ try{
 const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
 let topics=[],cur=null,cms=[],unsub=null,admin=false;
-const msg=t=>{$("msg").textContent=t},fmt=ms=>ms?new Date(ms).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+const msg=t=>{$("msg").textContent=t},fmt=ms=>ms?new Date(ms).toLocaleDateString(document.documentElement.lang==="en"?"en-US":"id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
 const ms=d=>{const c=d.createdAt;return c&&c.toMillis?c.toMillis():0};
 function grid(){G.textContent="";const vis=topics.filter(t=>t.kind!=="tweet");if(!vis.length){G.innerHTML='<p class="note">Belum ada curhatan.</p>';return}
 vis.forEach(t=>{const c=document.createElement("article"),h=document.createElement("h3"),s=document.createElement("small"),p=document.createElement("p");c.className="tcard";c.tabIndex=0;c.setAttribute("role","button");
@@ -305,7 +305,7 @@ try{
 const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
 let tw=[],admin=false,eid=null;
-const ms=d=>d.createdAt&&d.createdAt.toMillis?d.createdAt.toMillis():0,fmt=m=>m?new Date(m).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+const ms=d=>d.createdAt&&d.createdAt.toMillis?d.createdAt.toMillis():0,fmt=m=>m?new Date(m).toLocaleDateString(document.documentElement.lang==="en"?"en-US":"id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
 const url=id=>new URL("logika-positif.html#t="+id,location.href).href;
 const link=(p,text)=>String(text).split(/(https?:\/\/\S+|[@#][\p{L}\p{N}_]+)/u).forEach(x=>{if(!x)return;if(/^https?:\/\//.test(x)){const a=document.createElement("a");a.href=x;a.target="_blank";a.rel="noopener";a.className="twl";a.textContent=x;p.append(a)}else if(/^[@#]/.test(x)){const s=document.createElement("span");s.className="twl";s.textContent=x;p.append(s)}else p.append(document.createTextNode(x))});
 const mk=(txt,fn)=>{const b=document.createElement("button");b.type="button";b.textContent=txt;b.onclick=fn;return b};
@@ -333,4 +333,5 @@ tb.onclick=()=>{tp.hidden=!tp.hidden;tb.setAttribute("aria-expanded",String(!tp.
 if(mb)mb.addEventListener("click",()=>{tp.hidden=true;tb.setAttribute("aria-expanded","false")});
 }catch(e){console.error(e)}
 </script>
+<script src="i18n.js"></script>
 </body></html>

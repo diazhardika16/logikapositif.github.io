@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8">
+<html lang="id"><head><meta charset="utf-8"><script>try{if(localStorage.getItem("lang")==="en"){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},2500)}}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Endless War — Diaz Hardika</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap">
@@ -76,7 +76,7 @@ footer{text-align:left;border-top:0}footer a{color:inherit}
 #dunia .slide figcaption{padding:2rem .8rem .8rem;font-size:.85rem}#dunia .slide h3{font-size:1.05rem}
 body.editing #dunia .slide{cursor:default}
 @media(max-width:900px){#dunia .show{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory}#dunia .slide{scroll-snap-align:start}}
-</style></head>
+</style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
 <nav aria-label="Menu utama"><a href="index.html">Beranda</a><a href="logika-positif.html">Logika Positif</a><a href="endless-war.html" aria-current="page">Endless War</a><a href="index.html#tentang">Tentang</a></nav></div></header>
@@ -174,4 +174,5 @@ document.querySelectorAll("#dunia .slide").forEach(function(s){s.addEventListene
 lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""})});
 })();
 </script>
+<script src="i18n.js"></script>
 </body></html>
