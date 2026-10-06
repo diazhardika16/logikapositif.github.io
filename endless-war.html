@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><script>try{if(localStorage.getItem("lang")==="en"){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},2500)}}catch(e){}</script>
+<html lang="id"><head><meta charset="utf-8"><script>try{if(localStorage.getItem("lang")==="en"){document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility=""},2500);document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){document.documentElement.style.visibility=""},60)})}}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Endless War — Diaz Hardika</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap">
@@ -79,7 +79,10 @@ body.editing #dunia .slide{cursor:default}
 
 /* Pemutar Musik */
 .audio-player{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.4rem;box-shadow:0 8px 24px #000a}
-.audio-player .btn{margin:0;padding:.4rem .8rem;font-size:.85rem;cursor:pointer}
+.audio-player{gap:.3rem;flex-wrap:wrap;max-width:calc(100vw - 2rem);justify-content:flex-end}
+.audio-player .btn{margin:0;padding:.4rem .65rem;font-size:.85rem;cursor:pointer;min-width:2.2rem}
+.audio-player select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:.35rem .4rem;font:inherit;font-size:.82rem;max-width:7.5rem}
+#bgm-hint{flex-basis:100%;text-align:right;font-size:.78rem;color:var(--muted);padding:0 .3rem}
 
 /* Seksi Cerita & Arc */
 .admin-ctrl{display:none!important}
@@ -185,9 +188,14 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 <div id="admin" hidden><button class="btn alt" id="ed">&#9998; Edit teks</button><button class="btn" id="sv" hidden>Simpan</button><span id="st" role="status"></span></div>
 
 <!-- Pemutar Musik Floating -->
-<div class="audio-player">
-  <button id="bgm-btn" class="btn alt">🎵 Putar Musik</button>
-  <audio id="bgm" src="musik-endless-war.mp3" loop></audio>
+<div class="audio-player" id="bgm-box" role="group" aria-label="Musik latar">
+  <button id="bgm-play" type="button" class="btn alt" aria-label="Putar atau jeda">&#9654;</button>
+  <button id="bgm-prev" type="button" class="btn alt" aria-label="Lagu sebelumnya">&#9198;</button>
+  <button id="bgm-next" type="button" class="btn alt" aria-label="Lagu berikutnya">&#9197;</button>
+  <select id="bgm-sel" aria-label="Pilih lagu"></select>
+  <button id="bgm-mute" type="button" class="btn alt" aria-label="Bisukan">&#128266;</button>
+  <span id="bgm-hint" hidden>Ketuk di mana saja untuk memulai musik</span>
+  <audio id="bgm" preload="auto"></audio>
 </div>
 
 <script type="module">
@@ -198,7 +206,7 @@ try{
 const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
 const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
 const ref=fs.doc(db,"captions","endless-war");
-const storyRef=fs.doc(db,"cerita","endless-war");
+const storyRef=fs.doc(db,"captions","endless-war-cerita");
 
 let editing=false;
 let storyData=[];
@@ -223,11 +231,29 @@ au.onAuthStateChanged(auth,u=>{
   document.body.classList.toggle("is-admin",isAdmin);
 });
 
+// Ambil isi terbaru dari layar supaya ketikan yang belum disimpan tidak hilang saat menambah atau menghapus
+function syncFromDom(){
+  const out=[];
+  document.querySelectorAll("#story-container .arc-block").forEach(arcEl=>{
+    const chapters=[];
+    arcEl.querySelectorAll(".chapter-block").forEach(chEl=>{
+      chapters.push({
+        title:(chEl.querySelector(".chapter-title")?.innerText||"").trim(),
+        content:(chEl.querySelector(".chapter-content")?.innerText||"").replace(/\u00a0/g," ").trim()
+      });
+    });
+    out.push({title:(arcEl.querySelector(".arc-title")?.innerText||"").trim(),chapters});
+  });
+  return out;
+}
+const keep=()=>{ if(editing && document.querySelector("#story-container .arc-block")) storyData=syncFromDom(); };
+const mkBtn=(cls,txt,fn)=>{const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=txt;b.addEventListener("click",fn);return b;};
+const plainPaste=e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData("text/plain");document.execCommand("insertText",false,t);};
+
 function renderStory(){
   const container=$("story-container");
   if(!container)return;
-  container.innerHTML="";
-
+  container.textContent="";
   if(storyData.length===0){
     $("btn-add-first-arc").hidden=false;
     return;
@@ -237,60 +263,59 @@ function renderStory(){
   storyData.forEach((arc,aIdx)=>{
     const arcEl=document.createElement("div");
     arcEl.className="arc-block";
-    arcEl.dataset.aidx=aIdx;
 
-    let chaptersHtml="";
+    const h=document.createElement("h3");
+    h.className="arc-title t";
+    h.textContent=arc.title||"Judul Arc";
+    h.addEventListener("paste",plainPaste);
+    arcEl.appendChild(h);
+
+    const bar=document.createElement("div");
+    bar.className="story-btns admin-ctrl";
+    bar.style.marginBottom="1.2rem";
+    bar.append(
+      mkBtn("btn alt btn-sm","+ Arc Sebelum",()=>{keep();addArc(aIdx);}),
+      mkBtn("btn alt btn-sm","+ Arc Sesudah",()=>{keep();addArc(aIdx+1);}),
+      mkBtn("btn alt btn-sm","+ Tambah Chapter",()=>{keep();addChapter(aIdx,(storyData[aIdx].chapters||[]).length);}),
+      mkBtn("btn btn-sm btn-danger","Hapus Arc",()=>{
+        if(confirm("Hapus Arc ini beserta seluruh chapter di dalamnya?")){keep();storyData.splice(aIdx,1);renderStory();}
+      })
+    );
+    arcEl.appendChild(bar);
+
+    const list=document.createElement("div");
+    list.className="chapters-list";
     (arc.chapters||[]).forEach((ch,cIdx)=>{
-      chaptersHtml+=`
-        <div class="chapter-block" data-cidx="${cIdx}">
-          <h4 class="chapter-title t">${ch.title||"Judul Chapter"}</h4>
-          <div class="chapter-content d">${ch.content||"Uraian cerita..."}</div>
-          <div class="story-btns admin-ctrl">
-            <button class="btn alt btn-sm btn-add-ch-prev">+ Chapter Sebelum</button>
-            <button class="btn alt btn-sm btn-add-ch-next">+ Chapter Sesudah</button>
-            <button class="btn btn-sm btn-danger btn-del-ch">Hapus Chapter</button>
-          </div>
-        </div>
-      `;
+      const chEl=document.createElement("div");
+      chEl.className="chapter-block";
+
+      const ct=document.createElement("h4");
+      ct.className="chapter-title t";
+      ct.textContent=ch.title||"Judul Chapter";
+      ct.addEventListener("paste",plainPaste);
+
+      const cc=document.createElement("div");
+      cc.className="chapter-content d";
+      cc.textContent=ch.content||"Uraian cerita...";
+      cc.addEventListener("paste",plainPaste);
+
+      const cb=document.createElement("div");
+      cb.className="story-btns admin-ctrl";
+      cb.append(
+        mkBtn("btn alt btn-sm","+ Chapter Sebelum",()=>{keep();addChapter(aIdx,cIdx);}),
+        mkBtn("btn alt btn-sm","+ Chapter Sesudah",()=>{keep();addChapter(aIdx,cIdx+1);}),
+        mkBtn("btn btn-sm btn-danger","Hapus Chapter",()=>{
+          if(confirm("Hapus chapter ini?")){keep();storyData[aIdx].chapters.splice(cIdx,1);renderStory();}
+        })
+      );
+      chEl.append(ct,cc,cb);
+      list.appendChild(chEl);
     });
-
-    arcEl.innerHTML=`
-      <h3 class="arc-title t">${arc.title||"Judul Arc"}</h3>
-      <div class="story-btns admin-ctrl" style="margin-bottom:1.2rem;">
-        <button class="btn alt btn-sm btn-add-arc-prev">+ Arc Sebelum</button>
-        <button class="btn alt btn-sm btn-add-arc-next">+ Arc Sesudah</button>
-        <button class="btn alt btn-sm btn-add-ch">+ Tambah Chapter</button>
-        <button class="btn btn-sm btn-danger btn-del-arc">Hapus Arc</button>
-      </div>
-      <div class="chapters-list">${chaptersHtml}</div>
-    `;
-
-    // Event listeners
-    arcEl.querySelector(".btn-add-arc-prev")?.addEventListener("click",()=>addArc(aIdx));
-    arcEl.querySelector(".btn-add-arc-next")?.addEventListener("click",()=>addArc(aIdx+1));
-    arcEl.querySelector(".btn-add-ch")?.addEventListener("click",()=>addChapter(aIdx, (arc.chapters||[]).length));
-    arcEl.querySelector(".btn-del-arc")?.addEventListener("click",()=>{
-      if(confirm("Hapus Arc ini beserta seluruh chapter di dalamnya?")){
-        storyData.splice(aIdx,1);
-        renderStory();
-      }
-    });
-
-    arcEl.querySelectorAll(".chapter-block").forEach((chEl,cIdx)=>{
-      chEl.querySelector(".btn-add-ch-prev")?.addEventListener("click",()=>addChapter(aIdx,cIdx));
-      chEl.querySelector(".btn-add-ch-next")?.addEventListener("click",()=>addChapter(aIdx,cIdx+1));
-      chEl.querySelector(".btn-del-ch")?.addEventListener("click",()=>{
-        storyData[aIdx].chapters.splice(cIdx,1);
-        renderStory();
-      });
-    });
-
+    arcEl.appendChild(list);
     container.appendChild(arcEl);
   });
 
-  if(editing){
-    setEdit(true);
-  }
+  if(editing){ setEdit(true); }
 }
 
 function addArc(index){
@@ -330,33 +355,26 @@ const setEdit=on=>{
 $("ed").onclick=()=>setEdit(!editing);
 
 $("sv").onclick=async()=>{
-  // Collect Captions
+  // Teks keterangan gambar
   const captionData={};
   items.forEach(el=>{
     captionData[el.dataset.k]={
-      t:el.querySelector(".t")?.textContent.trim(),
-      d:el.querySelector(".d")?.textContent.trim()
-    }
+      t:(el.querySelector(".t")?.textContent||"").trim(),
+      d:(el.querySelector(".d")?.textContent||"").trim()
+    };
   });
-
-  // Collect Story Data from DOM
-  const newStoryData=[];
-  document.querySelectorAll(".arc-block").forEach(arcEl=>{
-    const arcTitle=arcEl.querySelector(".arc-title")?.textContent.trim()||"";
-    const chapters=[];
-    arcEl.querySelectorAll(".chapter-block").forEach(chEl=>{
-      chapters.push({
-        title:chEl.querySelector(".chapter-title")?.textContent.trim()||"",
-        content:chEl.querySelector(".chapter-content")?.innerText.trim()||""
-      });
-    });
-    newStoryData.push({title:arcTitle, chapters});
-  });
-
+  // Cerita (arc dan chapter)
+  const newStoryData=document.querySelector("#story-container .arc-block")?syncFromDom():storyData;
+  const bytes=new Blob([JSON.stringify(newStoryData)]).size;
+  if(bytes>900000){
+    $("st").textContent="Cerita terlalu besar untuk satu penyimpanan ("+Math.round(bytes/1024)+" KB, batas sekitar 900 KB). Pisahkan menjadi beberapa arc terlebih dahulu.";
+    return;
+  }
+  $("st").textContent="Menyimpan...";
   try{
     await auth.currentUser.getIdToken(true);
     await fs.setDoc(ref,{...captionData,updatedAt:fs.serverTimestamp()},{merge:true});
-    await fs.setDoc(storyRef,{arcs:newStoryData,updatedAt:fs.serverTimestamp()},{merge:true});
+    await fs.setDoc(storyRef,{arcs:newStoryData,updatedAt:fs.serverTimestamp()});
     storyData=newStoryData;
     $("st").textContent="Tersimpan.";
   }catch(x){
@@ -374,19 +392,45 @@ lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""
 })();
 </script>
 
-<!-- Skrip Kontrol Audio -->
+<!-- Skrip Kontrol Audio: 3 lagu, putar otomatis, bisu, lanjut, pilih lagu -->
 <script>
 (function(){
-  var bgm=document.getElementById("bgm"),btn=document.getElementById("bgm-btn");
-  if(!bgm||!btn)return;
-  btn.onclick=function(){
-    if(bgm.paused){
-      bgm.play().then(function(){btn.textContent="⏸ Hentikan Musik"}).catch(function(e){console.error(e)});
-    }else{
-      bgm.pause();
-      btn.textContent="🎵 Putar Musik";
-    }
-  };
+  // Ganti judul dan nama file sesuai lagumu. Unggah ketiga file MP3 ke lapisan luar repositori.
+  var TRACKS=[
+    {t:"Lagu 1",src:"musik-endless-war.mp3"},
+    {t:"Lagu 2",src:"musik-endless-war-2.mp3"},
+    {t:"Lagu 3",src:"musik-endless-war-3.mp3"}
+  ];
+  var a=document.getElementById("bgm"),play=document.getElementById("bgm-play"),prev=document.getElementById("bgm-prev"),
+      next=document.getElementById("bgm-next"),sel=document.getElementById("bgm-sel"),mute=document.getElementById("bgm-mute"),
+      hint=document.getElementById("bgm-hint");
+  if(!a)return;
+  function get(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  var i=parseInt(get("ewTrack","0"),10);if(!(i>=0&&i<TRACKS.length))i=0;
+  var wantPlay=get("ewMusic","on")!=="off",fails=0;
+  a.volume=0.35;a.muted=get("ewMuted","0")==="1";
+  TRACKS.forEach(function(t,n){var o=document.createElement("option");o.value=n;o.textContent=t.t;sel.appendChild(o)});
+  function icons(){play.innerHTML=a.paused?"&#9654;":"&#9208;";mute.innerHTML=a.muted?"&#128263;":"&#128266;";
+    mute.setAttribute("aria-label",a.muted?"Suarakan":"Bisukan");sel.value=i}
+  function load(n,go){i=(n+TRACKS.length)%TRACKS.length;set("ewTrack",i);a.src=TRACKS[i].src;sel.value=i;
+    if(go){var p=a.play();if(p&&p.catch)p.catch(function(){blocked()})}icons()}
+  function blocked(){hint.hidden=false;icons();
+    function once(){document.removeEventListener("pointerdown",once);document.removeEventListener("keydown",once);
+      if(wantPlay){var p=a.play();if(p&&p.then)p.then(function(){hint.hidden=true}).catch(function(){})}}
+    document.addEventListener("pointerdown",once);document.addEventListener("keydown",once)}
+  a.addEventListener("play",function(){hint.hidden=true;icons()});
+  a.addEventListener("pause",icons);
+  a.addEventListener("ended",function(){load(i+1,true)});
+  a.addEventListener("error",function(){ // file belum diunggah: lompat ke lagu berikutnya
+    fails++;if(fails<TRACKS.length&&wantPlay)load(i+1,true);else icons()});
+  a.addEventListener("playing",function(){fails=0});
+  play.onclick=function(){if(a.paused){wantPlay=true;set("ewMusic","on");var p=a.play();if(p&&p.catch)p.catch(function(){})}else{wantPlay=false;set("ewMusic","off");a.pause()}};
+  next.onclick=function(){wantPlay=true;set("ewMusic","on");load(i+1,true)};
+  prev.onclick=function(){wantPlay=true;set("ewMusic","on");load(i-1,true)};
+  sel.onchange=function(){wantPlay=true;set("ewMusic","on");load(parseInt(sel.value,10),true)};
+  mute.onclick=function(){a.muted=!a.muted;set("ewMuted",a.muted?"1":"0");icons()};
+  load(i,wantPlay); // coba putar otomatis; bila diblokir browser, mulai pada ketukan pertama
 })();
 </script>
 <script src="i18n.js"></script>
