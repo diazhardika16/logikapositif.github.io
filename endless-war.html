@@ -76,6 +76,10 @@ footer{text-align:left;border-top:0}footer a{color:inherit}
 #dunia .slide figcaption{padding:2rem .8rem .8rem;font-size:.85rem}#dunia .slide h3{font-size:1.05rem}
 body.editing #dunia .slide{cursor:default}
 @media(max-width:900px){#dunia .show{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory}#dunia .slide{scroll-snap-align:start}}
+
+/* Styling Pemutar Musik */
+.audio-player{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.4rem;box-shadow:0 8px 24px #000a}
+.audio-player .btn{margin:0;padding:.4rem .8rem;font-size:.85rem;cursor:pointer}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -151,6 +155,13 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 })();
 </script>
 <div id="admin" hidden><button class="btn alt" id="ed">&#9998; Edit teks</button><button class="btn" id="sv" hidden>Simpan</button><span id="st" role="status"></span></div>
+
+<!-- Elemen Pemutar Musik Floating -->
+<div class="audio-player">
+  <button id="bgm-btn" class="btn alt">🎵 Putar Musik</button>
+  <audio id="bgm" src="musik-endless-war.mp3" loop></audio>
+</div>
+
 <script type="module">
 const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
 const V="https://www.gstatic.com/firebasejs/10.12.2/",$=id=>document.getElementById(id),items=[...document.querySelectorAll("[data-k]")];
@@ -172,6 +183,22 @@ try{await auth.currentUser.getIdToken(true);await fs.setDoc(ref,{...data,updated
 (function(){var lb=document.getElementById("lb"),li=document.getElementById("lb-img"),lc=document.getElementById("lb-cap"),nv=lb.querySelectorAll(".nav");
 document.querySelectorAll("#dunia .slide").forEach(function(s){s.addEventListener("click",function(){var im=s.querySelector("img");if(window.ewEdit||!im||im.style.display==="none")return;li.src=im.src;li.alt=im.alt;lc.textContent=s.querySelector(".t").textContent+" \u2014 "+s.querySelector(".d").textContent;nv.forEach(function(b){b.style.display="none"});lb.showModal()})});
 lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""})});
+})();
+</script>
+
+<!-- Skrip Kontrol Audio -->
+<script>
+(function(){
+  var bgm=document.getElementById("bgm"),btn=document.getElementById("bgm-btn");
+  if(!bgm||!btn)return;
+  btn.onclick=function(){
+    if(bgm.paused){
+      bgm.play().then(function(){btn.textContent="⏸ Hentikan Musik"}).catch(function(e){console.error(e)});
+    }else{
+      bgm.pause();
+      btn.textContent="🎵 Putar Musik";
+    }
+  };
 })();
 </script>
 <script src="i18n.js"></script>
