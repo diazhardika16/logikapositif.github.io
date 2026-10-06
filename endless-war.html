@@ -77,9 +77,21 @@ footer{text-align:left;border-top:0}footer a{color:inherit}
 body.editing #dunia .slide{cursor:default}
 @media(max-width:900px){#dunia .show{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory}#dunia .slide{scroll-snap-align:start}}
 
-/* Styling Pemutar Musik */
+/* Pemutar Musik */
 .audio-player{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.4rem;box-shadow:0 8px 24px #000a}
 .audio-player .btn{margin:0;padding:.4rem .8rem;font-size:.85rem;cursor:pointer}
+
+/* Seksi Cerita & Arc */
+.admin-ctrl{display:none!important}
+body.is-admin .admin-ctrl{display:inline-flex!important}
+.arc-block{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+.arc-title{color:var(--gold);font-size:1.6rem;border-bottom:1px solid var(--line);padding-bottom:.5rem;margin-bottom:1.2rem}
+.chapter-block{background:rgba(0,0,0,0.25);border-left:3px solid var(--red);padding:1.2rem;margin-bottom:1.2rem;border-radius:0 8px 8px 0}
+.chapter-title{color:#fff;font-size:1.25rem;margin-bottom:.6rem}
+.chapter-content{color:var(--ink);font-size:1rem;line-height:1.75;white-space:pre-wrap}
+.story-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0}
+.btn-sm{padding:.25rem .5rem!important;font-size:.78rem!important;border-radius:6px!important;cursor:pointer}
+.btn-danger{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -112,6 +124,7 @@ body.editing #dunia .slide{cursor:default}
 <article class="card" data-k="karakter-9"><button class="zoom" aria-label="Lihat gambar penuh karakter 9"><span class="ph">Gambar karakter 9 segera hadir</span><img src="ew-karakter-9.jpg" alt="Karakter 9" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 <article class="card" data-k="karakter-10"><button class="zoom" aria-label="Lihat gambar penuh karakter 10"><span class="ph">Gambar karakter 10 segera hadir</span><img src="ew-karakter-10.jpg" alt="Karakter 10" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 </div><button class="nav next" aria-label="Karakter berikutnya">&#8250;</button></div></section>
+
 <section id="proses"><div class="head"><h2>Pengembangan karakter</h2><p>Dari sketsa awal hingga wujud akhirnya.</p></div>
 <div class="show">
 <figure class="slide" data-k="proses-1"><span class="ph">Gambar proses 1 segera hadir</span><img src="ew-proses-1.jpg" alt="Proses 1" onerror="this.style.display='none'"><figcaption><h3 class="t">Tahap pengembangan</h3><p class="d">Keterangan singkat.</p></figcaption></figure>
@@ -119,12 +132,26 @@ body.editing #dunia .slide{cursor:default}
 <figure class="slide" data-k="proses-3"><span class="ph">Gambar proses 3 segera hadir</span><img src="ew-proses-3.jpg" alt="Proses 3" onerror="this.style.display='none'"><figcaption><h3 class="t">Tahap pengembangan</h3><p class="d">Keterangan singkat.</p></figcaption></figure>
 <figure class="slide" data-k="proses-4"><span class="ph">Gambar proses 4 segera hadir</span><img src="ew-proses-4.jpg" alt="Proses 4" onerror="this.style.display='none'"><figcaption><h3 class="t">Tahap pengembangan</h3><p class="d">Keterangan singkat.</p></figcaption></figure>
 </div></section>
+
+<!-- Seksi Cerita & Arc (Baru) -->
+<section id="cerita">
+  <div class="head">
+    <h2>Cerita Endless War</h2>
+    <p>Kisah-kisah arc dan chapter perjalanan di dunia Endless War.</p>
+    <div style="margin-top: 1rem;">
+      <button class="btn red btn-sm admin-ctrl" id="btn-add-first-arc">+ Tambah Arc Pertama</button>
+    </div>
+  </div>
+  <div class="head" id="story-container"></div>
+</section>
 </main>
+
 <footer><div class="wrap"><div class="fg">
 <div><a class="logo" href="index.html">DIAZ HARDIKA</a><br>Writing &middot; Books &middot; Worlds &middot; Music</div>
 <div><h4>Proyek</h4><ul><li><a href="logika-positif.html">Logika Positif</a></li><li><a href="endless-war.html">Endless War</a></li><li><a href="index.html#kitab-suci">Kekayaan Kitab Suci</a></li></ul></div>
 <div><h4>Navigasi</h4><ul><li><a href="index.html">Beranda</a></li><li><a href="logika-positif.html#curhatan">Curhatan Kita</a></li><li><a href="index.html#tentang">Tentang</a></li><li><a href="logika-positif.html#privasi">Catatan privasi</a></li></ul></div>
 </div><p class="note" style="margin:0">&copy; 2026 Diaz Hardika. Semua hak cipta dilindungi. &middot; <a href="logika-positif.html#masuk">Masuk penulis</a></p></div></footer>
+
 <script>
 document.querySelectorAll(".show").forEach(function(sh){
 var s=sh.querySelectorAll(".slide"),d=document.createElement("div"),i=0,tm,x0,rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -154,9 +181,10 @@ lb.onclick=function(e){if(e.target===lb)lb.close()};
 lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLeft")show(k-1,-1)};
 })();
 </script>
+
 <div id="admin" hidden><button class="btn alt" id="ed">&#9998; Edit teks</button><button class="btn" id="sv" hidden>Simpan</button><span id="st" role="status"></span></div>
 
-<!-- Elemen Pemutar Musik Floating -->
+<!-- Pemutar Musik Floating -->
 <div class="audio-player">
   <button id="bgm-btn" class="btn alt">🎵 Putar Musik</button>
   <audio id="bgm" src="musik-endless-war.mp3" loop></audio>
@@ -165,20 +193,180 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 <script type="module">
 const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2";
 const V="https://www.gstatic.com/firebasejs/10.12.2/",$=id=>document.getElementById(id),items=[...document.querySelectorAll("[data-k]")];
+
 try{
 const {initializeApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
-const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app),ref=fs.doc(db,"captions","endless-war");
+const app=initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
+const ref=fs.doc(db,"captions","endless-war");
+const storyRef=fs.doc(db,"cerita","endless-war");
+
 let editing=false;
+let storyData=[];
+
+// Sync Captions
 fs.onSnapshot(ref,d=>{if(!d.exists()||editing)return;const v=d.data();items.forEach(el=>{const c=v[el.dataset.k];if(!c)return;if(c.t!=null)el.querySelector(".t").textContent=c.t;if(c.d!=null)el.querySelector(".d").textContent=c.d})});
-au.onAuthStateChanged(auth,u=>{$("admin").hidden=!(u&&u.uid===ADMIN_UID&&u.emailVerified)});
-const nodes=()=>items.flatMap(el=>[...el.querySelectorAll(".t,.d")]);
-nodes().forEach(n=>n.addEventListener("keydown",e=>{if(e.key==="Enter")e.preventDefault()}));
-const setEdit=on=>{editing=on;window.ewEdit=on;document.body.classList.toggle("editing",on);nodes().forEach(n=>n.contentEditable=on?"true":"false");$("ed").innerHTML=on?"Selesai":"&#9998; Edit teks";$("sv").hidden=!on;$("st").textContent=on?"Klik teks lalu ketik, tekan Simpan.":""};
+
+// Sync Story Data
+fs.onSnapshot(storyRef,d=>{
+  if(editing)return;
+  if(d.exists() && d.data().arcs){
+    storyData=d.data().arcs;
+  }else{
+    storyData=[];
+  }
+  renderStory();
+});
+
+au.onAuthStateChanged(auth,u=>{
+  const isAdmin=!!(u&&u.uid===ADMIN_UID&&u.emailVerified);
+  $("admin").hidden=!isAdmin;
+  document.body.classList.toggle("is-admin",isAdmin);
+});
+
+function renderStory(){
+  const container=$("story-container");
+  if(!container)return;
+  container.innerHTML="";
+
+  if(storyData.length===0){
+    $("btn-add-first-arc").hidden=false;
+    return;
+  }
+  $("btn-add-first-arc").hidden=true;
+
+  storyData.forEach((arc,aIdx)=>{
+    const arcEl=document.createElement("div");
+    arcEl.className="arc-block";
+    arcEl.dataset.aidx=aIdx;
+
+    let chaptersHtml="";
+    (arc.chapters||[]).forEach((ch,cIdx)=>{
+      chaptersHtml+=`
+        <div class="chapter-block" data-cidx="${cIdx}">
+          <h4 class="chapter-title t">${ch.title||"Judul Chapter"}</h4>
+          <div class="chapter-content d">${ch.content||"Uraian cerita..."}</div>
+          <div class="story-btns admin-ctrl">
+            <button class="btn alt btn-sm btn-add-ch-prev">+ Chapter Sebelum</button>
+            <button class="btn alt btn-sm btn-add-ch-next">+ Chapter Sesudah</button>
+            <button class="btn btn-sm btn-danger btn-del-ch">Hapus Chapter</button>
+          </div>
+        </div>
+      `;
+    });
+
+    arcEl.innerHTML=`
+      <h3 class="arc-title t">${arc.title||"Judul Arc"}</h3>
+      <div class="story-btns admin-ctrl" style="margin-bottom:1.2rem;">
+        <button class="btn alt btn-sm btn-add-arc-prev">+ Arc Sebelum</button>
+        <button class="btn alt btn-sm btn-add-arc-next">+ Arc Sesudah</button>
+        <button class="btn alt btn-sm btn-add-ch">+ Tambah Chapter</button>
+        <button class="btn btn-sm btn-danger btn-del-arc">Hapus Arc</button>
+      </div>
+      <div class="chapters-list">${chaptersHtml}</div>
+    `;
+
+    // Event listeners
+    arcEl.querySelector(".btn-add-arc-prev")?.addEventListener("click",()=>addArc(aIdx));
+    arcEl.querySelector(".btn-add-arc-next")?.addEventListener("click",()=>addArc(aIdx+1));
+    arcEl.querySelector(".btn-add-ch")?.addEventListener("click",()=>addChapter(aIdx, (arc.chapters||[]).length));
+    arcEl.querySelector(".btn-del-arc")?.addEventListener("click",()=>{
+      if(confirm("Hapus Arc ini beserta seluruh chapter di dalamnya?")){
+        storyData.splice(aIdx,1);
+        renderStory();
+      }
+    });
+
+    arcEl.querySelectorAll(".chapter-block").forEach((chEl,cIdx)=>{
+      chEl.querySelector(".btn-add-ch-prev")?.addEventListener("click",()=>addChapter(aIdx,cIdx));
+      chEl.querySelector(".btn-add-ch-next")?.addEventListener("click",()=>addChapter(aIdx,cIdx+1));
+      chEl.querySelector(".btn-del-ch")?.addEventListener("click",()=>{
+        storyData[aIdx].chapters.splice(cIdx,1);
+        renderStory();
+      });
+    });
+
+    container.appendChild(arcEl);
+  });
+
+  if(editing){
+    setEdit(true);
+  }
+}
+
+function addArc(index){
+  storyData.splice(index,0,{
+    title:"Judul Arc Baru",
+    chapters:[{title:"Judul Chapter 1",content:"Uraian cerita..."}]
+  });
+  renderStory();
+}
+
+function addChapter(aIdx,cIdx){
+  if(!storyData[aIdx].chapters)storyData[aIdx].chapters=[];
+  storyData[aIdx].chapters.splice(cIdx,0,{
+    title:"Judul Chapter Baru",
+    content:"Uraian cerita..."
+  });
+  renderStory();
+}
+
+$("btn-add-first-arc")?.addEventListener("click",()=>addArc(0));
+
+const nodes=()=>[
+  ...items.flatMap(el=>[...el.querySelectorAll(".t,.d")]),
+  ...document.querySelectorAll("#story-container .t, #story-container .d")
+];
+
+const setEdit=on=>{
+  editing=on;
+  window.ewEdit=on;
+  document.body.classList.toggle("editing",on);
+  nodes().forEach(n=>n.contentEditable=on?"true":"false");
+  $("ed").innerHTML=on?"Selesai":"&#9998; Edit teks";
+  $("sv").hidden=!on;
+  $("st").textContent=on?"Klik teks lalu ketik, tekan Simpan.":"";
+};
+
 $("ed").onclick=()=>setEdit(!editing);
-$("sv").onclick=async()=>{const data={};items.forEach(el=>{data[el.dataset.k]={t:el.querySelector(".t").textContent.trim(),d:el.querySelector(".d").textContent.trim()}});
-try{await auth.currentUser.getIdToken(true);await fs.setDoc(ref,{...data,updatedAt:fs.serverTimestamp()},{merge:true});$("st").textContent="Tersimpan."}catch(x){$("st").textContent="Gagal simpan: "+(x.code||x.message)}};
+
+$("sv").onclick=async()=>{
+  // Collect Captions
+  const captionData={};
+  items.forEach(el=>{
+    captionData[el.dataset.k]={
+      t:el.querySelector(".t")?.textContent.trim(),
+      d:el.querySelector(".d")?.textContent.trim()
+    }
+  });
+
+  // Collect Story Data from DOM
+  const newStoryData=[];
+  document.querySelectorAll(".arc-block").forEach(arcEl=>{
+    const arcTitle=arcEl.querySelector(".arc-title")?.textContent.trim()||"";
+    const chapters=[];
+    arcEl.querySelectorAll(".chapter-block").forEach(chEl=>{
+      chapters.push({
+        title:chEl.querySelector(".chapter-title")?.textContent.trim()||"",
+        content:chEl.querySelector(".chapter-content")?.innerText.trim()||""
+      });
+    });
+    newStoryData.push({title:arcTitle, chapters});
+  });
+
+  try{
+    await auth.currentUser.getIdToken(true);
+    await fs.setDoc(ref,{...captionData,updatedAt:fs.serverTimestamp()},{merge:true});
+    await fs.setDoc(storyRef,{arcs:newStoryData,updatedAt:fs.serverTimestamp()},{merge:true});
+    storyData=newStoryData;
+    $("st").textContent="Tersimpan.";
+  }catch(x){
+    $("st").textContent="Gagal simpan: "+(x.code||x.message);
+  }
+};
+
 }catch(e){console.error(e)}
 </script>
+
 <script>
 (function(){var lb=document.getElementById("lb"),li=document.getElementById("lb-img"),lc=document.getElementById("lb-cap"),nv=lb.querySelectorAll(".nav");
 document.querySelectorAll("#dunia .slide").forEach(function(s){s.addEventListener("click",function(){var im=s.querySelector("img");if(window.ewEdit||!im||im.style.display==="none")return;li.src=im.src;li.alt=im.alt;lc.textContent=s.querySelector(".t").textContent+" \u2014 "+s.querySelector(".d").textContent;nv.forEach(function(b){b.style.display="none"});lb.showModal()})});
