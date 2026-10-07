@@ -95,6 +95,24 @@ body.is-admin .admin-ctrl{display:inline-flex!important}
 .story-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0}
 .btn-sm{padding:.25rem .5rem!important;font-size:.78rem!important;border-radius:6px!important;cursor:pointer}
 .btn-danger{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+
+.chapter-block{scroll-margin-top:5rem}
+.ch-head{display:flex;gap:.8rem;align-items:flex-start;justify-content:space-between}.ch-head .chapter-title{margin:0 0 .6rem}
+.read-btn{flex:none;cursor:pointer}
+.chapter-block:not(.open) .chapter-content{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.chapter-block:not(.open) .read-bottom{display:none}
+body.editing .chapter-block .chapter-content{display:block!important;overflow:visible;-webkit-mask-image:none;mask-image:none}
+body.editing .read-btn{display:none}
+.cmbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.2rem;margin-bottom:1rem}
+.cmbox input,.cmbox textarea,.cmrf textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin:0 0 .7rem}
+.cmnote{color:var(--muted);font-size:.9rem;min-height:1.2em;margin:0 0 .6rem}.cmbox a{color:var(--gold)}
+.cmi{border-top:1px solid var(--line);padding:1rem 0}.cmi b{margin-right:.5rem}.cmi small{color:var(--muted)}
+.cmi p{margin:.3rem 0 .4rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.cmr{margin-left:1.4rem;padding:.6rem 0 .6rem 1rem;border-top:0;border-left:2px solid var(--line)}
+.cmbadge{font-size:.7rem;font-weight:700;background:var(--red);color:#fff;border-radius:99px;padding:.1rem .5rem}
+.cmact{display:flex;gap:1rem}.cmact button{border:0;background:none;color:var(--muted);font:600 .82rem Inter,system-ui,sans-serif;cursor:pointer;padding:0}.cmact button:hover{color:#fff}
+.cmrf{margin:.6rem 0 0 1.4rem}
+.cmbtns{display:flex;flex-wrap:wrap;gap:.4rem}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -116,6 +134,7 @@ body.is-admin .admin-ctrl{display:inline-flex!important}
 <section id="karakter"><div class="head"><h2>Karakter Utama</h2><p>Tokoh-tokoh yang membentuk cerita Endless War. Geser untuk melihat semuanya, klik gambar untuk memperbesar.</p></div>
 <div class="car"><button class="nav prev" aria-label="Karakter sebelumnya">&#8249;</button>
 <div class="strip" tabindex="0">
+<article class="card" data-k="karakter-rexwald"><button class="zoom" aria-label="Lihat gambar penuh karakter Rexwald Grave"><span class="ph">Gambar Rexwald Grave segera hadir</span><img src="ew-rexwald-grave.jpg" alt="Rexwald Grave" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Rexwald Grave</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 <article class="card" data-k="karakter-1"><button class="zoom" aria-label="Lihat gambar penuh karakter 1"><span class="ph">Gambar karakter 1 segera hadir</span><img src="ew-karakter-1.jpg" alt="Karakter 1" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Am'Hun</h3><p class="d">King of Fortune</p></div></article>
 <article class="card" data-k="karakter-2"><button class="zoom" aria-label="Lihat gambar penuh karakter 2"><span class="ph">Gambar karakter 2 segera hadir</span><img src="ew-karakter-2.jpg" alt="Karakter 2" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Andremelch</h3><p class="d">Thunder Demon Lord</p></div></article>
 <article class="card" data-k="karakter-3"><button class="zoom" aria-label="Lihat gambar penuh karakter 3"><span class="ph">Gambar karakter 3 segera hadir</span><img src="ew-karakter-3.jpg" alt="Karakter 3" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Baldr</h3><p class="d">Abyss Knight</p></div></article>
@@ -126,6 +145,7 @@ body.is-admin .admin-ctrl{display:inline-flex!important}
 <article class="card" data-k="karakter-8"><button class="zoom" aria-label="Lihat gambar penuh karakter 8"><span class="ph">Gambar karakter 8 segera hadir</span><img src="ew-karakter-8.jpg" alt="Karakter 8" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 <article class="card" data-k="karakter-9"><button class="zoom" aria-label="Lihat gambar penuh karakter 9"><span class="ph">Gambar karakter 9 segera hadir</span><img src="ew-karakter-9.jpg" alt="Karakter 9" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 <article class="card" data-k="karakter-10"><button class="zoom" aria-label="Lihat gambar penuh karakter 10"><span class="ph">Gambar karakter 10 segera hadir</span><img src="ew-karakter-10.jpg" alt="Karakter 10" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
+<article class="card" data-k="karakter-11"><button class="zoom" aria-label="Lihat gambar penuh karakter 11"><span class="ph">Gambar karakter 11 segera hadir</span><img src="ew-karakter-11.jpg" alt="Karakter 11" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 </div><button class="nav next" aria-label="Karakter berikutnya">&#8250;</button></div></section>
 
 <section id="proses"><div class="head"><h2>Pengembangan karakter</h2><p>Dari sketsa awal hingga wujud akhirnya.</p></div>
@@ -146,6 +166,25 @@ body.is-admin .admin-ctrl{display:inline-flex!important}
     </div>
   </div>
   <div class="head" id="story-container"></div>
+</section>
+<section id="komentar">
+  <div class="head"><h2>Komentar</h2><p>Bagikan kesan dan pendapatmu tentang cerita dan dunia Endless War. Kamu juga bisa membalas komentar orang lain.</p></div>
+  <div class="head">
+    <p id="cm-msg" class="cmnote" role="status"></p>
+    <div id="cm-login" class="cmbox">
+      <input id="cm-name" placeholder="Nama tampilan (untuk daftar)" autocomplete="nickname">
+      <input id="cm-email" type="email" placeholder="Email" autocomplete="email">
+      <input id="cm-pass" type="password" placeholder="Kata sandi (min. 6 karakter)" autocomplete="current-password">
+      <div class="cmbtns"><button class="btn red" id="cm-in" type="button">Masuk</button><button class="btn alt" id="cm-up" type="button">Daftar</button></div>
+      <p class="cmnote" style="margin:.8rem 0 0">Email hanya untuk verifikasi dan tidak ditampilkan. <a href="logika-positif.html#privasi">Baca catatan privasi</a>.</p>
+    </div>
+    <div id="cm-verify" class="cmbox" hidden><p>Kami mengirim email verifikasi. Klik tautan di email itu, lalu tekan tombol di bawah.</p>
+      <div class="cmbtns"><button class="btn red" id="cm-check" type="button">Saya sudah verifikasi</button><button class="btn alt cm-out" type="button">Keluar</button></div></div>
+    <div id="cm-post" class="cmbox" hidden><p>Berkomentar sebagai <strong id="cm-who"></strong></p>
+      <textarea id="cm-text" rows="3" maxlength="1000" placeholder="Tulis komentarmu..."></textarea>
+      <div class="cmbtns"><button class="btn red" id="cm-send" type="button">Kirim komentar</button><button class="btn alt cm-out" type="button">Keluar</button></div></div>
+    <div id="cm-list"></div>
+  </div>
 </section>
 </main>
 
@@ -308,7 +347,10 @@ function renderStory(){
           if(confirm("Hapus chapter ini?")){keep();storyData[aIdx].chapters.splice(cIdx,1);renderStory();}
         })
       );
-      chEl.append(ct,cc,cb);
+      const hd=document.createElement("div");hd.className="ch-head";
+      hd.append(ct,mkBtn("btn alt btn-sm read-btn","Baca",()=>toggleCh(chEl)));
+      const bt=mkBtn("btn alt btn-sm read-btn read-bottom","Sembunyikan",()=>{toggleCh(chEl);chEl.scrollIntoView({block:"start",behavior:"smooth"});});
+      chEl.append(hd,cc,bt,cb);
       list.appendChild(chEl);
     });
     arcEl.appendChild(list);
@@ -316,6 +358,12 @@ function renderStory(){
   });
 
   if(editing){ setEdit(true); }
+}
+
+function toggleCh(chEl){
+  const open=chEl.classList.toggle("open");
+  const top=chEl.querySelector(".ch-head .read-btn");
+  if(top){top.textContent=open?"Sembunyikan":"Baca";top.setAttribute("aria-expanded",String(open));}
 }
 
 function addArc(index){
@@ -432,6 +480,49 @@ lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""
   mute.onclick=function(){a.muted=!a.muted;set("ewMuted",a.muted?"1":"0");icons()};
   load(i,wantPlay); // coba putar otomatis; bila diblokir browser, mulai pada ketukan pertama
 })();
+</script>
+<script type="module">
+const cfg={apiKey:"AIzaSyCeFURXeByDgD4Ei2LNElAPpbsY29So3xo",authDomain:"logikapositif-871c7.firebaseapp.com",projectId:"logikapositif-871c7",appId:"1:15150768014:web:7438da241ce4ea02850edf"},ADMIN_UID="1Kbncm2ZPDRl96eEPh54neI7VPE2",TOPIC="endless-war";
+const $=id=>document.getElementById(id),V="https://www.gstatic.com/firebasejs/10.12.2/";
+try{
+const {initializeApp,getApps,getApp}=await import(V+"firebase-app.js"),au=await import(V+"firebase-auth.js"),fs=await import(V+"firebase-firestore.js");
+const app=getApps().length?getApp():initializeApp(cfg),auth=au.getAuth(app),db=fs.getFirestore(app);
+let docs=[],admin=false,me=null,rform=null,dirty=false;
+const msg=t=>{$("cm-msg").textContent=t};
+const ms=d=>{const c=d.data().createdAt;return c&&c.toMillis?c.toMillis():Infinity};
+const fmt=m=>isFinite(m)?new Date(m).toLocaleDateString(document.documentElement.lang==="en"?"en-US":"id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+const mkb=(txt,fn,cls)=>{const b=document.createElement("button");b.type="button";b.className=cls||"btn red btn-sm";b.textContent=txt;b.onclick=fn;return b};
+async function send(text,parent){const t=text.trim(),u=auth.currentUser;if(!t||!u)return false;if(t.length>1000){msg("Komentar terlalu panjang (maks. 1000 karakter).");return false}
+try{await u.getIdToken(true);const data={uid:u.uid,name:u.displayName,text:t,topicId:TOPIC,createdAt:fs.serverTimestamp()};if(parent)data.parentId=parent;await fs.addDoc(fs.collection(db,"comments"),data);msg("");return true}catch(x){msg("Gagal kirim: "+(x.code||x.message));return false}}
+async function del(d){if(!confirm("Hapus komentar ini beserta balasannya?"))return;try{const kids=docs.filter(k=>k.data().parentId===d.id);await Promise.all([d,...kids].map(k=>fs.deleteDoc(k.ref)))}catch(x){msg("Gagal hapus: "+(x.code||x.message))}}
+function closeReply(){if(rform){rform.remove();rform=null}if(dirty){dirty=false;draw()}}
+function openReply(d,e){if(!me||!me.emailVerified){msg("Masuk dan verifikasi email dulu untuk membalas.");$("cm-login").scrollIntoView({block:"center"});return}
+closeReply();const f=document.createElement("div"),t=document.createElement("textarea");f.className="cmrf";t.rows=2;t.maxLength=1000;t.placeholder="Tulis balasanmu...";
+const row=document.createElement("div");row.className="cmbtns";row.append(mkb("Kirim balasan",async()=>{if(await send(t.value,d.id))closeReply()}),mkb("Batal",closeReply,"btn alt btn-sm"));
+f.append(t,row);e.append(f);rform=f;t.focus()}
+function node(d,reply){const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),m=document.createElement("small"),p=document.createElement("p"),a=document.createElement("div");
+e.className="cmi"+(reply?" cmr":"");b.textContent=c.name||"";
+if(c.uid===ADMIN_UID){const g=document.createElement("span");g.className="cmbadge";g.textContent="Penulis";b.append(" ",g)}
+m.textContent=fmt(ms(d));p.textContent=c.text;a.className="cmact";
+if(!reply)a.append(mkb("Balas",()=>openReply(d,e),""));
+if(admin)a.append(mkb("Hapus",()=>del(d),""));
+e.append(b,m,p,a);return e}
+function draw(){if(rform&&rform.querySelector("textarea").value.trim()){dirty=true;return}
+const L=$("cm-list");L.textContent="";rform=null;
+const tops=docs.filter(d=>!d.data().parentId).sort((a,b)=>ms(b)-ms(a)),kids={};
+docs.filter(d=>d.data().parentId).sort((a,b)=>ms(a)-ms(b)).forEach(d=>{(kids[d.data().parentId]=kids[d.data().parentId]||[]).push(d)});
+if(!tops.length){L.textContent="Belum ada komentar. Jadilah yang pertama.";return}
+tops.forEach(d=>{const w=document.createElement("div");w.append(node(d,false));(kids[d.id]||[]).forEach(k=>w.append(node(k,true)));L.append(w)})}
+fs.onSnapshot(fs.query(fs.collection(db,"comments"),fs.where("topicId","==",TOPIC)),s=>{docs=s.docs;draw()},e=>msg("Komentar belum bisa dimuat ("+e.code+")."));
+au.onAuthStateChanged(auth,u=>{me=u;admin=!!(u&&u.uid===ADMIN_UID&&u.emailVerified);
+$("cm-login").hidden=!!u;$("cm-verify").hidden=!(u&&!u.emailVerified);$("cm-post").hidden=!(u&&u.emailVerified);$("cm-who").textContent=u?(u.displayName||""):"";draw()});
+const cred=()=>[$("cm-email").value.trim(),$("cm-pass").value];
+$("cm-up").onclick=async()=>{const n=$("cm-name").value.trim();if(!n)return msg("Isi nama tampilan dulu.");try{const c=await au.createUserWithEmailAndPassword(auth,...cred());await au.updateProfile(c.user,{displayName:n});await au.sendEmailVerification(c.user);msg("Akun dibuat. Cek emailmu untuk verifikasi.")}catch(x){msg("Gagal: "+x.code)}};
+$("cm-in").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cred());msg("")}catch(x){msg("Gagal masuk: "+x.code)}};
+$("cm-check").onclick=async()=>{await auth.currentUser.reload();await auth.currentUser.getIdToken(true);location.reload()};
+document.querySelectorAll(".cm-out").forEach(b=>b.onclick=()=>au.signOut(auth));
+$("cm-send").onclick=async()=>{if(await send($("cm-text").value,null))$("cm-text").value=""};
+}catch(e){console.error(e)}
 </script>
 <script src="i18n.js"></script>
 </body></html>
