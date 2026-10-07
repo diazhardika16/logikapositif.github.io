@@ -113,6 +113,12 @@ body.editing .read-btn{display:none}
 .cmact{display:flex;gap:1rem}.cmact button{border:0;background:none;color:var(--muted);font:600 .82rem Inter,system-ui,sans-serif;cursor:pointer;padding:0}.cmact button:hover{color:#fff}
 .cmrf{margin:.6rem 0 0 1.4rem}
 .cmbtns{display:flex;flex-wrap:wrap;gap:.4rem}
+.pkb{display:flex;gap:.5rem;margin:-.2rem 0 .7rem}
+.pkb button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:.25rem .8rem;font:500 .85rem Inter,system-ui,sans-serif;cursor:pointer}
+.pkp{display:flex;flex-wrap:wrap;gap:.3rem;max-height:190px;overflow:auto;padding:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:.7rem}
+.pkp button{border:0;background:transparent;font-size:1.5rem;line-height:1;padding:.2rem;cursor:pointer;border-radius:6px}.pkp button:hover{background:var(--line)}
+.pkp img{height:64px;width:auto;display:block}
+.stk{height:96px;width:auto;vertical-align:middle;margin:.1rem}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -491,6 +497,16 @@ let docs=[],admin=false,me=null,rform=null,dirty=false;
 const msg=t=>{$("cm-msg").textContent=t};
 const ms=d=>{const c=d.data().createdAt;return c&&c.toMillis?c.toMillis():Infinity};
 const fmt=m=>isFinite(m)?new Date(m).toLocaleDateString(document.documentElement.lang==="en"?"en-US":"id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+
+// Emoji dan stiker khusus Endless War: berkas ew-stiker-1.png sampai ew-stiker-12.png
+const EMO="😀 😁 😂 🤣 😊 😍 😎 🤔 😢 😭 😡 😱 🥺 🙏 👍 👏 🙌 💪 ❤️ 💔 🔥 ✨ ⚡ ⚔️ 🗡️ 🛡️ 🏰 🐉 👹 💀 🩸 🌑 🌙 🌋 🎶 😅 🙂 😉 🤝 💬".split(" "),NS=12;
+const rich=(el,text)=>{el.textContent="";String(text).split(/(\[ewstiker:\d{1,2}\])/).forEach(p=>{const m=p.match(/^\[ewstiker:(\d{1,2})\]$/);if(m){const i=document.createElement("img");i.className="stk";i.src="ew-stiker-"+m[1]+".png";i.alt="stiker";i.loading="lazy";i.onerror=()=>i.remove();el.append(i)}else if(p)el.append(document.createTextNode(p))})};
+const picker=ta=>{const w=document.createElement("div"),bar=document.createElement("div"),pn=document.createElement("div");bar.className="pkb";pn.className="pkp";pn.hidden=true;let mode="";
+const ins=t=>{ta.setRangeText(t,ta.selectionStart,ta.selectionEnd,"end");ta.focus()};
+const mk=(label,m,fill)=>{const b=document.createElement("button");b.type="button";b.textContent=label;b.onclick=()=>{if(mode===m){pn.hidden=true;mode="";return}mode=m;pn.textContent="";fill();pn.hidden=false};bar.append(b)};
+mk("😊 Emoji","e",()=>EMO.forEach(x=>{const b=document.createElement("button");b.type="button";b.textContent=x;b.onclick=()=>ins(x);pn.append(b)}));
+mk("🖼 Stiker","s",()=>{for(let i=1;i<=NS;i++){const b=document.createElement("button"),im=document.createElement("img");b.type="button";b.setAttribute("aria-label","Stiker "+i);im.src="ew-stiker-"+i+".png";im.alt="";im.onerror=()=>b.remove();b.onclick=()=>ins("[ewstiker:"+i+"]");b.append(im);pn.append(b)}});
+w.append(bar,pn);ta.after(w)};
 const mkb=(txt,fn,cls)=>{const b=document.createElement("button");b.type="button";b.className=cls||"btn red btn-sm";b.textContent=txt;b.onclick=fn;return b};
 async function send(text,parent){const t=text.trim(),u=auth.currentUser;if(!t||!u)return false;if(t.length>1000){msg("Komentar terlalu panjang (maks. 1000 karakter).");return false}
 try{await u.getIdToken(true);const data={uid:u.uid,name:u.displayName,text:t,topicId:TOPIC,createdAt:fs.serverTimestamp()};if(parent)data.parentId=parent;await fs.addDoc(fs.collection(db,"comments"),data);msg("");return true}catch(x){msg("Gagal kirim: "+(x.code||x.message));return false}}
@@ -499,11 +515,11 @@ function closeReply(){if(rform){rform.remove();rform=null}if(dirty){dirty=false;
 function openReply(d,e){if(!me||!me.emailVerified){msg("Masuk dan verifikasi email dulu untuk membalas.");$("cm-login").scrollIntoView({block:"center"});return}
 closeReply();const f=document.createElement("div"),t=document.createElement("textarea");f.className="cmrf";t.rows=2;t.maxLength=1000;t.placeholder="Tulis balasanmu...";
 const row=document.createElement("div");row.className="cmbtns";row.append(mkb("Kirim balasan",async()=>{if(await send(t.value,d.id))closeReply()}),mkb("Batal",closeReply,"btn alt btn-sm"));
-f.append(t,row);e.append(f);rform=f;t.focus()}
+f.append(t,row);picker(t);e.append(f);rform=f;t.focus()}
 function node(d,reply){const c=d.data(),e=document.createElement("div"),b=document.createElement("b"),m=document.createElement("small"),p=document.createElement("p"),a=document.createElement("div");
 e.className="cmi"+(reply?" cmr":"");b.textContent=c.name||"";
 if(c.uid===ADMIN_UID){const g=document.createElement("span");g.className="cmbadge";g.textContent="Penulis";b.append(" ",g)}
-m.textContent=fmt(ms(d));p.textContent=c.text;a.className="cmact";
+m.textContent=fmt(ms(d));rich(p,c.text);a.className="cmact";
 if(!reply)a.append(mkb("Balas",()=>openReply(d,e),""));
 if(admin)a.append(mkb("Hapus",()=>del(d),""));
 e.append(b,m,p,a);return e}
@@ -522,6 +538,7 @@ $("cm-in").onclick=async()=>{try{await au.signInWithEmailAndPassword(auth,...cre
 $("cm-check").onclick=async()=>{await auth.currentUser.reload();await auth.currentUser.getIdToken(true);location.reload()};
 document.querySelectorAll(".cm-out").forEach(b=>b.onclick=()=>au.signOut(auth));
 $("cm-send").onclick=async()=>{if(await send($("cm-text").value,null))$("cm-text").value=""};
+picker($("cm-text"));
 }catch(e){console.error(e)}
 </script>
 <script src="i18n.js"></script>
