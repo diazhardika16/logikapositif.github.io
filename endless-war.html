@@ -119,6 +119,39 @@ body.editing .read-btn{display:none}
 .pkp button{border:0;background:transparent;font-size:1.5rem;line-height:1;padding:.2rem;cursor:pointer;border-radius:6px}.pkp button:hover{background:var(--line)}
 .pkp img{height:64px;width:auto;display:block}
 .stk{height:96px;width:auto;vertical-align:middle;margin:.1rem}
+[hidden]{display:none!important}
+.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.arc-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.arc-cover{position:relative;aspect-ratio:16/9;background:radial-gradient(circle at 80% 20%,#8a1b1b88,transparent 50%),linear-gradient(135deg,#2a0d0d,#0d0a0b)}
+.arc-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arc-cover span{position:absolute;left:1rem;bottom:.7rem;font:600 .75rem Inter,system-ui,sans-serif;letter-spacing:.15em;color:#fff;text-transform:uppercase;text-shadow:0 1px 6px #000}
+.arc-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.arc-body h3{margin:0;font-size:1.35rem}
+.arc-body p{margin:0;color:var(--muted);font-size:.95rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.arc-meta{font-size:.82rem;color:var(--muted)}.arc-body .btn{margin:auto 0 0;align-self:flex-start}
+.arc-fields{display:grid;gap:.4rem;margin:0 0 1.2rem}.arc-fields label{font-size:.8rem;color:var(--muted)}
+.arc-img-input{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.5rem .7rem}
+.arc-summary{border:1px dashed var(--line);border-radius:8px;padding:.5rem .7rem;min-height:3rem}
+dialog#reader{width:min(900px,96vw);max-height:94vh;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);overflow:hidden}
+dialog#reader::backdrop{background:#000d}
+.rd-box{max-height:94vh;overflow:auto}
+.rd-x{position:sticky;top:.6rem;float:right;margin:.6rem .6rem 0 0;z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#000a;color:#fff;font-size:1.4rem;line-height:1;cursor:pointer}
+.rd-hero{position:relative;aspect-ratio:21/9;background:radial-gradient(circle at 80% 20%,#8a1b1b88,transparent 50%),linear-gradient(135deg,#2a0d0d,#0d0a0b)}
+@media(max-width:600px){.rd-hero{aspect-ratio:16/9}}
+.rd-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rd-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(#0000 30%,#0d0a0bf2)}
+.rd-hero-t{position:absolute;left:1.4rem;right:1.4rem;bottom:1rem;z-index:1}
+.rd-eb{margin:0 0 .2rem;font:600 .75rem Inter,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#e5675f}
+.rd-hero-t h2{margin:0;font-size:clamp(1.6rem,4vw,2.4rem)}
+.rd-body{padding:1.4rem 1.6rem 2rem}
+.rd-sum{color:var(--muted);margin:0 0 1.2rem}
+.rd-toc{display:grid;gap:.5rem}
+.rd-item{display:flex;gap:.9rem;align-items:center;text-align:left;width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;font:500 1rem Inter,system-ui,sans-serif;cursor:pointer}
+.rd-item:hover{border-color:var(--gold)}.rd-item span:first-child{flex:none;width:1.9rem;height:1.9rem;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:.82rem;font-weight:700}
+#rd-chap h3{font-size:1.5rem;margin:0 0 1rem}
+.rd-text{white-space:pre-wrap;font-size:1.08rem;line-height:1.9;overflow-wrap:anywhere}
+.rd-nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between;margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.rd-nav .btn{margin:0}.rd-nav .btn:disabled{opacity:.4;cursor:default}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -233,6 +266,24 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 <div id="admin" hidden><button class="btn alt" id="ed">&#9998; Edit teks</button><button class="btn" id="sv" hidden>Simpan</button><span id="st" role="status"></span></div>
 
 <!-- Pemutar Musik Floating -->
+<dialog id="reader" aria-label="Pembaca cerita">
+ <div class="rd-box">
+  <button class="rd-x" type="button" aria-label="Tutup">&times;</button>
+  <div class="rd-hero"><img id="rd-img" alt="" hidden><div class="rd-hero-t"><p class="rd-eb" id="rd-eb">Arc</p><h2 id="rd-arc"></h2></div></div>
+  <div class="rd-body">
+   <p id="rd-sum" class="rd-sum" hidden></p>
+   <div id="rd-toc" class="rd-toc"></div>
+   <article id="rd-chap" hidden><h3 id="rd-ct"></h3><div id="rd-text" class="rd-text"></div></article>
+   <div class="rd-nav" id="rd-nav" hidden>
+    <button type="button" class="btn alt btn-sm" id="rd-prev">&larr; Sebelumnya</button>
+    <button type="button" class="btn alt btn-sm" id="rd-list">Daftar chapter</button>
+    <button type="button" class="btn alt btn-sm" id="rd-share">Bagikan</button>
+    <button type="button" class="btn red btn-sm" id="rd-next">Berikutnya &rarr;</button>
+   </div>
+  </div>
+ </div>
+</dialog>
+
 <div class="audio-player" id="bgm-box" role="group" aria-label="Musik latar">
   <button id="bgm-play" type="button" class="btn alt" aria-label="Putar atau jeda">&#9654;</button>
   <button id="bgm-prev" type="button" class="btn alt" aria-label="Lagu sebelumnya">&#9198;</button>
@@ -260,14 +311,14 @@ let storyData=[];
 fs.onSnapshot(ref,d=>{if(!d.exists()||editing)return;const v=d.data();items.forEach(el=>{const c=v[el.dataset.k];if(!c)return;if(c.t!=null)el.querySelector(".t").textContent=c.t;if(c.d!=null)el.querySelector(".d").textContent=c.d})});
 
 // Sync Story Data
+let deepDone=false,lastSaved="[]";
 fs.onSnapshot(storyRef,d=>{
   if(editing)return;
-  if(d.exists() && d.data().arcs){
-    storyData=d.data().arcs;
-  }else{
-    storyData=[];
-  }
+  storyData=(d.exists()&&d.data().arcs)?d.data().arcs:[];
+  lastSaved=JSON.stringify(storyData);
   renderStory();
+  if(!deepDone){deepDone=true;const m=location.hash.match(/^#baca-(\d+)(?:-(\d+))?$/);
+    if(m){const ai=+m[1]-1,ci=m[2]?+m[2]-1:-1;if(storyData[ai])readerShow(ai,(ci>=0&&(storyData[ai].chapters||[])[ci])?ci:-1)}}
 });
 
 au.onAuthStateChanged(auth,u=>{
@@ -276,7 +327,7 @@ au.onAuthStateChanged(auth,u=>{
   document.body.classList.toggle("is-admin",isAdmin);
 });
 
-// Ambil isi terbaru dari layar supaya ketikan yang belum disimpan tidak hilang saat menambah atau menghapus
+// Ambil isi terbaru dari layar editor supaya ketikan yang belum disimpan tidak hilang
 function syncFromDom(){
   const out=[];
   document.querySelectorAll("#story-container .arc-block").forEach(arcEl=>{
@@ -287,120 +338,163 @@ function syncFromDom(){
         content:(chEl.querySelector(".chapter-content")?.innerText||"").replace(/\u00a0/g," ").trim()
       });
     });
-    out.push({title:(arcEl.querySelector(".arc-title")?.innerText||"").trim(),chapters});
+    out.push({
+      title:(arcEl.querySelector(".arc-title")?.innerText||"").trim(),
+      summary:(arcEl.querySelector(".arc-summary")?.innerText||"").trim(),
+      image:(arcEl.querySelector(".arc-img-input")?.value||"").trim(),
+      chapters
+    });
   });
   return out;
 }
 const keep=()=>{ if(editing && document.querySelector("#story-container .arc-block")) storyData=syncFromDom(); };
 const mkBtn=(cls,txt,fn)=>{const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=txt;b.addEventListener("click",fn);return b;};
 const plainPaste=e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData("text/plain");document.execCommand("insertText",false,t);};
+const safeImg=n=>/^[\w.-]+\.(jpe?g|png|webp)$/i.test(n||"")?n:"";
 
-function renderStory(){
-  const container=$("story-container");
-  if(!container)return;
-  container.textContent="";
-  if(storyData.length===0){
-    $("btn-add-first-arc").hidden=false;
-    return;
+function renderStory(){ if(editing)renderEditor(); else renderCards(); }
+
+// Tampilan pengunjung: kartu per arc
+function renderCards(){
+  const box=$("story-container");
+  box.textContent="";
+  $("btn-add-first-arc").hidden=storyData.length>0;
+  if(!storyData.length){
+    const p=document.createElement("p");p.className="note";p.textContent="Cerita segera hadir.";box.appendChild(p);return;
   }
-  $("btn-add-first-arc").hidden=true;
+  const grid=document.createElement("div");grid.className="arc-grid";
+  storyData.forEach((arc,i)=>{
+    const card=document.createElement("article");card.className="arc-card";
+    const cov=document.createElement("div");cov.className="arc-cover";
+    const src=safeImg(arc.image);
+    if(src){const im=document.createElement("img");im.src=src;im.alt="";im.loading="lazy";im.onerror=()=>im.remove();cov.appendChild(im);}
+    const tag=document.createElement("span");tag.textContent="Arc "+(i+1);cov.appendChild(tag);
+    const body=document.createElement("div");body.className="arc-body";
+    const h=document.createElement("h3");h.textContent=arc.title||"Judul Arc";body.appendChild(h);
+    if(arc.summary){const p=document.createElement("p");p.textContent=arc.summary;body.appendChild(p);}
+    const meta=document.createElement("div");meta.className="arc-meta";meta.textContent=(arc.chapters||[]).length+" chapter";body.appendChild(meta);
+    body.appendChild(mkBtn("btn red btn-sm","Baca arc ini",()=>readerShow(i,-1)));
+    card.append(cov,body);grid.appendChild(card);
+  });
+  box.appendChild(grid);
+}
 
+// Tampilan penulis: editor lengkap
+function renderEditor(){
+  const container=$("story-container");
+  container.textContent="";
+  $("btn-add-first-arc").hidden=storyData.length>0;
   storyData.forEach((arc,aIdx)=>{
-    const arcEl=document.createElement("div");
-    arcEl.className="arc-block";
+    const arcEl=document.createElement("div");arcEl.className="arc-block";
+    const h=document.createElement("h3");h.className="arc-title t";h.textContent=arc.title||"Judul Arc";h.addEventListener("paste",plainPaste);arcEl.appendChild(h);
 
-    const h=document.createElement("h3");
-    h.className="arc-title t";
-    h.textContent=arc.title||"Judul Arc";
-    h.addEventListener("paste",plainPaste);
-    arcEl.appendChild(h);
+    const f=document.createElement("div");f.className="arc-fields";
+    const l1=document.createElement("label");l1.textContent="Gambar landscape arc (nama file di GitHub, contoh: ew-arc-obsidian.jpg)";
+    const inp=document.createElement("input");inp.className="arc-img-input";inp.type="text";inp.value=arc.image||"";inp.placeholder="ew-arc-obsidian.jpg";
+    const l2=document.createElement("label");l2.textContent="Ringkasan arc (tampil di kartu)";
+    const sm=document.createElement("div");sm.className="arc-summary d";sm.textContent=arc.summary||"";sm.addEventListener("paste",plainPaste);
+    f.append(l1,inp,l2,sm);arcEl.appendChild(f);
 
-    const bar=document.createElement("div");
-    bar.className="story-btns admin-ctrl";
-    bar.style.marginBottom="1.2rem";
+    const bar=document.createElement("div");bar.className="story-btns admin-ctrl";bar.style.marginBottom="1.2rem";
     bar.append(
       mkBtn("btn alt btn-sm","+ Arc Sebelum",()=>{keep();addArc(aIdx);}),
       mkBtn("btn alt btn-sm","+ Arc Sesudah",()=>{keep();addArc(aIdx+1);}),
       mkBtn("btn alt btn-sm","+ Tambah Chapter",()=>{keep();addChapter(aIdx,(storyData[aIdx].chapters||[]).length);}),
-      mkBtn("btn btn-sm btn-danger","Hapus Arc",()=>{
-        if(confirm("Hapus Arc ini beserta seluruh chapter di dalamnya?")){keep();storyData.splice(aIdx,1);renderStory();}
-      })
+      mkBtn("btn btn-sm btn-danger","Hapus Arc",()=>{if(confirm("Hapus Arc ini beserta seluruh chapter di dalamnya?")){keep();storyData.splice(aIdx,1);renderStory();}})
     );
     arcEl.appendChild(bar);
 
-    const list=document.createElement("div");
-    list.className="chapters-list";
+    const list=document.createElement("div");list.className="chapters-list";
     (arc.chapters||[]).forEach((ch,cIdx)=>{
-      const chEl=document.createElement("div");
-      chEl.className="chapter-block";
-
-      const ct=document.createElement("h4");
-      ct.className="chapter-title t";
-      ct.textContent=ch.title||"Judul Chapter";
-      ct.addEventListener("paste",plainPaste);
-
-      const cc=document.createElement("div");
-      cc.className="chapter-content d";
-      cc.textContent=ch.content||"Uraian cerita...";
-      cc.addEventListener("paste",plainPaste);
-
-      const cb=document.createElement("div");
-      cb.className="story-btns admin-ctrl";
+      const chEl=document.createElement("div");chEl.className="chapter-block";
+      const ct=document.createElement("h4");ct.className="chapter-title t";ct.textContent=ch.title||"Judul Chapter";ct.addEventListener("paste",plainPaste);
+      const cc=document.createElement("div");cc.className="chapter-content d";cc.textContent=ch.content||"Uraian cerita...";cc.addEventListener("paste",plainPaste);
+      const cb=document.createElement("div");cb.className="story-btns admin-ctrl";
       cb.append(
         mkBtn("btn alt btn-sm","+ Chapter Sebelum",()=>{keep();addChapter(aIdx,cIdx);}),
         mkBtn("btn alt btn-sm","+ Chapter Sesudah",()=>{keep();addChapter(aIdx,cIdx+1);}),
-        mkBtn("btn btn-sm btn-danger","Hapus Chapter",()=>{
-          if(confirm("Hapus chapter ini?")){keep();storyData[aIdx].chapters.splice(cIdx,1);renderStory();}
-        })
+        mkBtn("btn btn-sm btn-danger","Hapus Chapter",()=>{if(confirm("Hapus chapter ini?")){keep();storyData[aIdx].chapters.splice(cIdx,1);renderStory();}})
       );
-      const hd=document.createElement("div");hd.className="ch-head";
-      hd.append(ct,mkBtn("btn alt btn-sm read-btn","Baca",()=>toggleCh(chEl)));
-      const bt=mkBtn("btn alt btn-sm read-btn read-bottom","Sembunyikan",()=>{toggleCh(chEl);chEl.scrollIntoView({block:"start",behavior:"smooth"});});
-      chEl.append(hd,cc,bt,cb);
-      list.appendChild(chEl);
+      chEl.append(ct,cc,cb);list.appendChild(chEl);
     });
-    arcEl.appendChild(list);
-    container.appendChild(arcEl);
+    arcEl.appendChild(list);container.appendChild(arcEl);
   });
-
-  if(editing){ setEdit(true); }
-}
-
-function toggleCh(chEl){
-  const open=chEl.classList.toggle("open");
-  const top=chEl.querySelector(".ch-head .read-btn");
-  if(top){top.textContent=open?"Sembunyikan":"Baca";top.setAttribute("aria-expanded",String(open));}
+  applyEditable();
 }
 
 function addArc(index){
-  storyData.splice(index,0,{
-    title:"Judul Arc Baru",
-    chapters:[{title:"Judul Chapter 1",content:"Uraian cerita..."}]
-  });
+  storyData.splice(index,0,{title:"Judul Arc Baru",summary:"",image:"",chapters:[{title:"Judul Chapter 1",content:"Uraian cerita..."}]});
   renderStory();
 }
-
 function addChapter(aIdx,cIdx){
   if(!storyData[aIdx].chapters)storyData[aIdx].chapters=[];
-  storyData[aIdx].chapters.splice(cIdx,0,{
-    title:"Judul Chapter Baru",
-    content:"Uraian cerita..."
-  });
+  storyData[aIdx].chapters.splice(cIdx,0,{title:"Judul Chapter Baru",content:"Uraian cerita..."});
   renderStory();
 }
 
-$("btn-add-first-arc")?.addEventListener("click",()=>addArc(0));
+// Pembaca cerita (pop up): daftar chapter, isi chapter, sebelumnya / berikutnya
+const rd=$("reader"),rdBox=rd.querySelector(".rd-box");
+let ra=-1,rc=-1;
+function readerShow(a,c){
+  const arc=storyData[a];if(!arc)return;
+  ra=a;rc=c;
+  const chs=arc.chapters||[];
+  $("rd-eb").textContent="Arc "+(a+1);
+  $("rd-arc").textContent=arc.title||"";
+  const im=$("rd-img"),src=safeImg(arc.image);
+  im.hidden=!src;im.onerror=()=>{im.hidden=true};if(src)im.src=src;
+  const toc=$("rd-toc"),chap=$("rd-chap"),nav=$("rd-nav"),sum=$("rd-sum");
+  if(c<0||!chs[c]){
+    rc=-1;chap.hidden=true;nav.hidden=true;toc.hidden=false;sum.hidden=!arc.summary;sum.textContent=arc.summary||"";
+    toc.textContent="";
+    chs.forEach((x,i)=>{const b=document.createElement("button");b.type="button";b.className="rd-item";
+      const n=document.createElement("span");n.textContent=String(i+1);const t=document.createElement("span");t.textContent=x.title||("Chapter "+(i+1));
+      b.append(n,t);b.addEventListener("click",()=>readerShow(a,i));toc.appendChild(b);});
+    if(!chs.length){const p=document.createElement("p");p.className="note";p.textContent="Belum ada chapter.";toc.appendChild(p);}
+  }else{
+    toc.hidden=true;sum.hidden=true;chap.hidden=false;nav.hidden=false;
+    $("rd-ct").textContent=chs[c].title||"";
+    $("rd-text").textContent=chs[c].content||"";
+    $("rd-prev").disabled=c===0;
+    const last=c===chs.length-1,more=a<storyData.length-1,nx=$("rd-next");
+    nx.textContent=last?(more?"Arc berikutnya \u2192":"Tamat sejauh ini"):"Berikutnya \u2192";
+    nx.disabled=last&&!more;
+  }
+  rdBox.scrollTop=0;
+  history.replaceState(null,"","#baca-"+(a+1)+(rc>=0?"-"+(rc+1):""));
+  if(!rd.open)rd.showModal();
+}
+$("rd-prev").onclick=()=>{if(rc>0)readerShow(ra,rc-1);};
+$("rd-next").onclick=()=>{const chs=(storyData[ra]||{}).chapters||[];if(rc<chs.length-1)readerShow(ra,rc+1);else if(ra<storyData.length-1)readerShow(ra+1,-1);};
+$("rd-list").onclick=()=>readerShow(ra,-1);
+$("rd-share").onclick=async()=>{
+  const u=location.origin+location.pathname+"#baca-"+(ra+1)+(rc>=0?"-"+(rc+1):"");
+  try{await navigator.clipboard.writeText(u);$("rd-share").textContent="Tautan disalin";}catch(e){prompt("Salin tautan:",u);}
+  setTimeout(()=>{$("rd-share").textContent="Bagikan";},1800);
+};
+rd.querySelector(".rd-x").onclick=()=>rd.close();
+rd.addEventListener("click",e=>{if(e.target===rd)rd.close();});
+rd.addEventListener("close",()=>{ra=-1;rc=-1;history.replaceState(null,"",location.pathname+location.search);});
+rd.addEventListener("keydown",e=>{if(rc<0)return;if(e.key==="ArrowRight")$("rd-next").click();if(e.key==="ArrowLeft")$("rd-prev").click();});
+
+$("btn-add-first-arc")?.addEventListener("click",()=>{if(!editing)setEdit(true);keep();addArc(0);});
 
 const nodes=()=>[
   ...items.flatMap(el=>[...el.querySelectorAll(".t,.d")]),
   ...document.querySelectorAll("#story-container .t, #story-container .d")
 ];
 
+const applyEditable=()=>nodes().forEach(n=>n.contentEditable=editing?"true":"false");
 const setEdit=on=>{
+  if(!on&&editing&&document.querySelector("#story-container .arc-block")){
+    if(JSON.stringify(syncFromDom())!==lastSaved&&!confirm("Ada perubahan cerita yang belum disimpan. Keluar tanpa menyimpan?"))return;
+  }
   editing=on;
   window.ewEdit=on;
   document.body.classList.toggle("editing",on);
-  nodes().forEach(n=>n.contentEditable=on?"true":"false");
+  if(!on){try{storyData=JSON.parse(lastSaved);}catch(e){}}
+  renderStory();
+  applyEditable();
   $("ed").innerHTML=on?"Selesai":"&#9998; Edit teks";
   $("sv").hidden=!on;
   $("st").textContent=on?"Klik teks lalu ketik, tekan Simpan.":"";
@@ -430,6 +524,7 @@ $("sv").onclick=async()=>{
     await fs.setDoc(ref,{...captionData,updatedAt:fs.serverTimestamp()},{merge:true});
     await fs.setDoc(storyRef,{arcs:newStoryData,updatedAt:fs.serverTimestamp()});
     storyData=newStoryData;
+    lastSaved=JSON.stringify(newStoryData);
     $("st").textContent="Tersimpan.";
   }catch(x){
     $("st").textContent="Gagal simpan: "+(x.code||x.message);
