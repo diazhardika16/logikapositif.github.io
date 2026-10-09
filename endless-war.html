@@ -152,6 +152,22 @@ dialog#reader::backdrop{background:#000d}
 .rd-text{white-space:pre-wrap;font-size:1.08rem;line-height:1.9;overflow-wrap:anywhere}
 .rd-nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between;margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line)}
 .rd-nav .btn{margin:0}.rd-nav .btn:disabled{opacity:.4;cursor:default}
+.o-tools{display:flex;gap:1rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap}
+.o-tools input{flex:1 1 220px;max-width:340px;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.55rem .8rem}
+.o-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem}
+.oc{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;padding:0;cursor:pointer;color:var(--ink);text-align:center;font:500 .9rem Inter,system-ui,sans-serif;display:flex;flex-direction:column}
+.oc img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block;background:#1b1112}
+.oc span{padding:.55rem .5rem;display:block}.oc:hover{border-color:var(--gold)}
+.o-more{text-align:center;margin-top:1.2rem}
+.o-grid.ed{grid-template-columns:1fr;gap:.8rem}
+.orow{display:grid;grid-template-columns:2rem 1fr 1fr;gap:.5rem;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.7rem}
+.orow input,.orow textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.5rem .7rem}
+.orow textarea{grid-column:2/4}.o-btns{grid-column:2/4;display:flex;gap:.4rem}.orow b{padding-top:.5rem;color:var(--muted)}
+#o-add{display:none}body.editing #o-add{display:inline-block}
+dialog#lbo{width:100%;height:100%;max-width:none;max-height:none;border:0;padding:0;background:#000e;color:#fff}
+dialog#lbo[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem}
+#lbo-img{max-width:94vw;max-height:80vh;object-fit:contain}
+#lbo-cap{margin:0;max-width:60ch;text-align:center;color:#d8cccc;font-size:.95rem;padding:0 1rem}
 </style><script src="lang.js" defer></script></head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
@@ -186,6 +202,15 @@ dialog#reader::backdrop{background:#000d}
 <article class="card" data-k="karakter-10"><button class="zoom" aria-label="Lihat gambar penuh karakter 10"><span class="ph">Gambar karakter 10 segera hadir</span><img src="ew-karakter-10.jpg" alt="Karakter 10" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 <article class="card" data-k="karakter-11"><button class="zoom" aria-label="Lihat gambar penuh karakter 11"><span class="ph">Gambar karakter 11 segera hadir</span><img src="ew-karakter-11.jpg" alt="Karakter 11" loading="lazy" onerror="this.style.display='none';this.closest('.card').classList.add('missing')"></button><div class="cap"><h3 class="t">Nama karakter</h3><p class="d">Peran dan deskripsi singkat.</p></div></article>
 </div><button class="nav next" aria-label="Karakter berikutnya">&#8250;</button></div></section>
+
+<section id="lainnya">
+  <div class="head"><h2>Karakter Lainnya</h2><p>Tokoh pendukung dan figur lain di dunia Endless War. Klik gambar untuk memperbesar.</p></div>
+  <div class="head">
+    <div class="o-tools" id="o-tools"><input id="o-search" type="search" placeholder="Cari karakter..." aria-label="Cari karakter"><span id="o-count" class="note"></span></div>
+    <div id="others-grid" class="o-grid"></div>
+    <div class="o-more"><button class="btn alt" id="o-more" type="button" hidden>Tampilkan lebih banyak</button><button class="btn red btn-sm" id="o-add" type="button">+ Tambah karakter</button></div>
+  </div>
+</section>
 
 <section id="proses"><div class="head"><h2>Pengembangan karakter</h2><p>Dari sketsa awal hingga wujud akhirnya.</p></div>
 <div class="show">
@@ -266,6 +291,14 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 <div id="admin" hidden><button class="btn alt" id="ed">&#9998; Edit teks</button><button class="btn" id="sv" hidden>Simpan</button><span id="st" role="status"></span></div>
 
 <!-- Pemutar Musik Floating -->
+<dialog id="lbo" aria-label="Karakter">
+  <button class="lbx" id="lbo-x" type="button" aria-label="Tutup">&times;</button>
+  <button class="nav prev" id="lbo-prev" type="button" aria-label="Sebelumnya">&#8249;</button>
+  <img id="lbo-img" alt="">
+  <p id="lbo-cap"></p>
+  <button class="nav next" id="lbo-next" type="button" aria-label="Berikutnya">&#8250;</button>
+</dialog>
+
 <dialog id="reader" aria-label="Pembaca cerita">
  <div class="rd-box">
   <button class="rd-x" type="button" aria-label="Tutup">&times;</button>
@@ -306,6 +339,9 @@ const storyRef=fs.doc(db,"captions","endless-war-cerita");
 
 let editing=false;
 let storyData=[];
+const othersRef=fs.doc(db,"captions","endless-war-lainnya");
+let others=[],lastOthers="[]",oShown=12,oQuery="";
+const normO=a=>JSON.stringify(a.map(x=>({img:(x.img||"").trim(),name:(x.name||"").trim(),desc:(x.desc||"").trim()})).filter(x=>x.img||x.name||x.desc));
 
 // Sync Captions
 fs.onSnapshot(ref,d=>{if(!d.exists()||editing)return;const v=d.data();items.forEach(el=>{const c=v[el.dataset.k];if(!c)return;if(c.t!=null)el.querySelector(".t").textContent=c.t;if(c.d!=null)el.querySelector(".d").textContent=c.d})});
@@ -319,6 +355,13 @@ fs.onSnapshot(storyRef,d=>{
   renderStory();
   if(!deepDone){deepDone=true;const m=location.hash.match(/^#baca-(\d+)(?:-(\d+))?$/);
     if(m){const ai=+m[1]-1,ci=m[2]?+m[2]-1:-1;if(storyData[ai])readerShow(ai,(ci>=0&&(storyData[ai].chapters||[])[ci])?ci:-1)}}
+});
+
+fs.onSnapshot(othersRef,d=>{
+  if(editing)return;
+  others=(d.exists()&&Array.isArray(d.data().items))?d.data().items:[];
+  lastOthers=normO(others);
+  renderOthers();
 });
 
 au.onAuthStateChanged(auth,u=>{
@@ -432,6 +475,83 @@ function addChapter(aIdx,cIdx){
   renderStory();
 }
 
+// ===== Karakter Lainnya: daftar dari database, gambar kecil, cari, dan muat bertahap =====
+const thumbOf=n=>n.replace(/(\.[A-Za-z0-9]+)$/,"-s$1");
+const mkInp=(cls,ph,v)=>{const e=document.createElement("input");e.type="text";e.className=cls;e.placeholder=ph;e.value=v||"";return e;};
+function othersFromDom(){
+  const out=[];
+  document.querySelectorAll("#others-grid .orow").forEach(r=>{
+    out.push({img:(r.querySelector(".o-img")?.value||"").trim(),name:(r.querySelector(".o-name")?.value||"").trim(),desc:(r.querySelector(".o-desc")?.value||"").trim()});
+  });
+  return out;
+}
+const keepO=()=>{ if(editing&&document.querySelector("#others-grid .orow")) others=othersFromDom(); };
+function renderOthers(){ if(editing)renderOthersEditor(); else renderOthersGrid(); }
+
+function renderOthersGrid(){
+  const g=$("others-grid");g.textContent="";g.classList.remove("ed");
+  $("o-tools").hidden=!others.length;
+  if(!others.length){
+    const p=document.createElement("p");p.className="note";p.textContent="Karakter lainnya segera hadir.";g.appendChild(p);
+    $("o-more").hidden=true;return;
+  }
+  const q=oQuery.trim().toLowerCase();
+  const list=others.filter(x=>!q||(x.name||"").toLowerCase().includes(q));
+  list.slice(0,oShown).forEach((x,i)=>{
+    const b=document.createElement("button");b.type="button";b.className="oc";
+    const src=safeImg(x.img);
+    if(src){
+      const im=document.createElement("img");im.loading="lazy";im.decoding="async";im.alt=x.name||"";im.src=thumbOf(src);
+      im.onerror=()=>{if(!im.dataset.fb){im.dataset.fb="1";im.src=src;}else im.remove();};
+      b.appendChild(im);
+    }
+    const n=document.createElement("span");n.textContent=x.name||"";b.appendChild(n);
+    b.onclick=()=>openOther(list,i);
+    g.appendChild(b);
+  });
+  if(!list.length){const p=document.createElement("p");p.className="note";p.textContent="Tidak ada karakter dengan nama itu.";g.appendChild(p);}
+  $("o-count").textContent=q?(list.length+" dari "+others.length+" karakter"):(others.length+" karakter");
+  $("o-more").hidden=list.length<=oShown;
+}
+
+function renderOthersEditor(){
+  const g=$("others-grid");g.textContent="";g.classList.add("ed");
+  $("o-tools").hidden=true;$("o-more").hidden=true;
+  if(!others.length){const p=document.createElement("p");p.className="note";p.textContent="Belum ada karakter. Klik + Tambah karakter.";g.appendChild(p);}
+  others.forEach((x,i)=>{
+    const r=document.createElement("div");r.className="orow";
+    const num=document.createElement("b");num.textContent=String(i+1);
+    const d=document.createElement("textarea");d.className="o-desc";d.rows=2;d.placeholder="Deskripsi singkat";d.value=x.desc||"";
+    const bt=document.createElement("div");bt.className="o-btns";
+    bt.append(
+      mkBtn("btn alt btn-sm","\u25B2",()=>{keepO();swapO(i,i-1);}),
+      mkBtn("btn alt btn-sm","\u25BC",()=>{keepO();swapO(i,i+1);}),
+      mkBtn("btn btn-sm btn-danger","Hapus",()=>{if(confirm("Hapus karakter ini dari daftar?")){keepO();others.splice(i,1);renderOthers();}})
+    );
+    r.append(num,mkInp("o-img","Nama file gambar, mis. ew-lain-1.jpg",x.img),mkInp("o-name","Nama karakter",x.name),d,bt);
+    g.appendChild(r);
+  });
+}
+function swapO(i,j){if(j<0||j>=others.length)return;[others[i],others[j]]=[others[j],others[i]];renderOthers();}
+$("o-add").onclick=()=>{keepO();others.push({img:"",name:"",desc:""});renderOthers();};
+$("o-search").oninput=e=>{oQuery=e.target.value;oShown=12;renderOthersGrid();};
+$("o-more").onclick=()=>{oShown+=12;renderOthersGrid();};
+
+// Lightbox khusus: gambar penuh baru dimuat saat diklik
+const lbo=$("lbo");let olist=[],oi=0;
+function showOther(n){
+  oi=(n+olist.length)%olist.length;const x=olist[oi],src=safeImg(x.img),im=$("lbo-img");
+  im.hidden=!src;if(src){im.src=src;im.alt=x.name||"";}
+  $("lbo-cap").textContent=[x.name,x.desc].filter(Boolean).join(" \u2014 ");
+}
+function openOther(list,i){olist=list;showOther(i);lbo.showModal();}
+$("lbo-prev").onclick=()=>showOther(oi-1);
+$("lbo-next").onclick=()=>showOther(oi+1);
+$("lbo-x").onclick=()=>lbo.close();
+lbo.addEventListener("click",e=>{if(e.target===lbo)lbo.close();});
+lbo.addEventListener("keydown",e=>{if(e.key==="ArrowRight")showOther(oi+1);if(e.key==="ArrowLeft")showOther(oi-1);});
+lbo.addEventListener("close",()=>{$("lbo-img").removeAttribute("src");});
+
 // Pembaca cerita (pop up): daftar chapter, isi chapter, sebelumnya / berikutnya
 const rd=$("reader"),rdBox=rd.querySelector(".rd-box");
 let ra=-1,rc=-1;
@@ -486,14 +606,17 @@ const nodes=()=>[
 
 const applyEditable=()=>nodes().forEach(n=>n.contentEditable=editing?"true":"false");
 const setEdit=on=>{
-  if(!on&&editing&&document.querySelector("#story-container .arc-block")){
-    if(JSON.stringify(syncFromDom())!==lastSaved&&!confirm("Ada perubahan cerita yang belum disimpan. Keluar tanpa menyimpan?"))return;
+  if(!on&&editing){
+    const sc=document.querySelector("#story-container .arc-block")&&JSON.stringify(syncFromDom())!==lastSaved;
+    const oc=document.querySelector("#others-grid .orow")&&normO(othersFromDom())!==lastOthers;
+    if((sc||oc)&&!confirm("Ada perubahan cerita atau daftar karakter yang belum disimpan. Keluar tanpa menyimpan?"))return;
   }
   editing=on;
   window.ewEdit=on;
   document.body.classList.toggle("editing",on);
-  if(!on){try{storyData=JSON.parse(lastSaved);}catch(e){}}
+  if(!on){try{storyData=JSON.parse(lastSaved);others=JSON.parse(lastOthers);}catch(e){}}
   renderStory();
+  renderOthers();
   applyEditable();
   $("ed").innerHTML=on?"Selesai":"&#9998; Edit teks";
   $("sv").hidden=!on;
@@ -518,11 +641,14 @@ $("sv").onclick=async()=>{
     $("st").textContent="Cerita terlalu besar untuk satu penyimpanan ("+Math.round(bytes/1024)+" KB, batas sekitar 900 KB). Pisahkan menjadi beberapa arc terlebih dahulu.";
     return;
   }
+  const newOthers=document.querySelector("#others-grid .orow")?JSON.parse(normO(othersFromDom())):JSON.parse(normO(others));
   $("st").textContent="Menyimpan...";
   try{
     await auth.currentUser.getIdToken(true);
     await fs.setDoc(ref,{...captionData,updatedAt:fs.serverTimestamp()},{merge:true});
     await fs.setDoc(storyRef,{arcs:newStoryData,updatedAt:fs.serverTimestamp()});
+    await fs.setDoc(othersRef,{items:newOthers,updatedAt:fs.serverTimestamp()});
+    others=newOthers;lastOthers=normO(newOthers);
     storyData=newStoryData;
     lastSaved=JSON.stringify(newStoryData);
     $("st").textContent="Tersimpan.";
