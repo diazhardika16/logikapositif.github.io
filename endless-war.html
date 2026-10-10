@@ -81,7 +81,8 @@ body.editing #dunia .slide{cursor:default}
 .audio-player{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.4rem;box-shadow:0 8px 24px #000a}
 .audio-player{gap:.3rem;flex-wrap:wrap;max-width:calc(100vw - 2rem);justify-content:flex-end}
 .audio-player .btn{margin:0;padding:.4rem .65rem;font-size:.85rem;cursor:pointer;min-width:2.2rem}
-.audio-player select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:.35rem .4rem;font:inherit;font-size:.82rem;max-width:7.5rem}
+.audio-player select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:.35rem .4rem;font:inherit;font-size:.82rem;max-width:9.5rem;text-overflow:ellipsis}
+#bgm-now{flex-basis:100%;text-align:right;font-size:.82rem;font-weight:600;color:var(--ink);padding:0 .3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #bgm-hint{flex-basis:100%;text-align:right;font-size:.78rem;color:var(--muted);padding:0 .3rem}
 
 /* Seksi Cerita & Arc */
@@ -168,7 +169,9 @@ dialog#lbo{width:100%;height:100%;max-width:none;max-height:none;border:0;paddin
 dialog#lbo[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem}
 #lbo-img{max-width:94vw;max-height:80vh;object-fit:contain}
 #lbo-cap{margin:0;max-width:60ch;text-align:center;color:#d8cccc;font-size:.95rem;padding:0 1rem}
-</style><script src="lang.js" defer></script></head>
+</style><script src="lang.js" defer></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8505911296307431"
+     crossorigin="anonymous"></script>
+</head>
 <body>
 <header class="hd"><div class="wrap hdw"><a class="logo" href="index.html">DIAZ HARDIKA</a>
 <nav aria-label="Menu utama"><a href="index.html">Beranda</a><a href="logika-positif.html">Logika Positif</a><a href="endless-war.html" aria-current="page">Endless War</a><a href="index.html#tentang">Tentang</a></nav></div></header>
@@ -318,6 +321,7 @@ lb.onkeydown=function(e){if(e.key==="ArrowRight")show(k+1,1);if(e.key==="ArrowLe
 </dialog>
 
 <div class="audio-player" id="bgm-box" role="group" aria-label="Musik latar">
+  <span id="bgm-now" aria-live="polite"></span>
   <button id="bgm-play" type="button" class="btn alt" aria-label="Putar atau jeda">&#9654;</button>
   <button id="bgm-prev" type="button" class="btn alt" aria-label="Lagu sebelumnya">&#9198;</button>
   <button id="bgm-next" type="button" class="btn alt" aria-label="Lagu berikutnya">&#9197;</button>
@@ -672,13 +676,16 @@ lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""
 (function(){
   // Ganti judul dan nama file sesuai lagumu. Unggah ketiga file MP3 ke lapisan luar repositori.
   var TRACKS=[
-    {t:"Lagu 1",src:"musik-endless-war.mp3"},
-    {t:"Lagu 2",src:"musik-endless-war-2.mp3"},
-    {t:"Lagu 3",src:"musik-endless-war-3.mp3"}
+    {t:"Below Erdalth Sky",src:"musik-endless-war.mp3"},
+    {t:"War of Halera",src:"musik-endless-war-2.mp3"},
+    {t:"Traces of Warmth in the Frostland",src:"musik-endless-war-3.mp3"},
+    {t:"Jenova, Eternal Creator",src:"musik-endless-war-4.mp3"}
+    // Lagu ke-5: hapus tanda // di bawah, ganti judulnya, lalu unggah musik-endless-war-5.mp3
+    // ,{t:"Judul Lagu 5",src:"musik-endless-war-5.mp3"}
   ];
   var a=document.getElementById("bgm"),play=document.getElementById("bgm-play"),prev=document.getElementById("bgm-prev"),
       next=document.getElementById("bgm-next"),sel=document.getElementById("bgm-sel"),mute=document.getElementById("bgm-mute"),
-      hint=document.getElementById("bgm-hint");
+      hint=document.getElementById("bgm-hint"),now=document.getElementById("bgm-now");
   if(!a)return;
   function get(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
   function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -687,8 +694,8 @@ lb.addEventListener("close",function(){nv.forEach(function(b){b.style.display=""
   a.volume=0.35;a.muted=get("ewMuted","0")==="1";
   TRACKS.forEach(function(t,n){var o=document.createElement("option");o.value=n;o.textContent=t.t;sel.appendChild(o)});
   function icons(){play.innerHTML=a.paused?"&#9654;":"&#9208;";mute.innerHTML=a.muted?"&#128263;":"&#128266;";
-    mute.setAttribute("aria-label",a.muted?"Suarakan":"Bisukan");sel.value=i}
-  function load(n,go){i=(n+TRACKS.length)%TRACKS.length;set("ewTrack",i);a.src=TRACKS[i].src;sel.value=i;
+    mute.setAttribute("aria-label",a.muted?"Suarakan":"Bisukan");sel.value=i;var T=TRACKS[i].t;now.textContent=(a.paused?"":"\u266A ")+T;now.title=T}
+  function load(n,go){i=(n+TRACKS.length)%TRACKS.length;set("ewTrack",i);a.src=TRACKS[i].src;sel.value=i;if("mediaSession" in navigator&&window.MediaMetadata){navigator.mediaSession.metadata=new MediaMetadata({title:TRACKS[i].t,album:"Endless War"});}
     if(go){var p=a.play();if(p&&p.catch)p.catch(function(){blocked()})}icons()}
   function blocked(){hint.hidden=false;icons();
     function once(){document.removeEventListener("pointerdown",once);document.removeEventListener("keydown",once);
