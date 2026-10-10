@@ -213,7 +213,7 @@ if(!l.length){const li=document.createElement("li");li.className="note";li.textC
 l.forEach(d=>{const li=document.createElement("li"),a=document.createElement("a");a.href="logika-positif.html#t="+d.id;a.textContent=d.data().title;li.append(a);T.append(li)});
 }catch(e){T.textContent="Topik belum bisa dimuat."}
 </script>
-<button class="tw-btn" id="tw-btn" aria-expanded="false" aria-controls="tw-pop"><img class="twi" src="burung.png" alt="" width="22" height="22">Kicauan</button>
+<button class="tw-btn" id="tw-btn" aria-expanded="false" aria-controls="tw-pop"><img class="twi" src="burung.png" alt="" width="22" height="22" onerror="this.remove()">Kicauan</button>
 <div class="tw-pop" id="tw-pop" hidden><div id="tw-cur"><p class="note">Memuat kicauan...</p></div>
 <div class="twfoot"><a href="logika-positif.html#kicauan">Lihat semua kicauan &rarr;</a><button class="btn blue" id="tw-new2" hidden>+ Tweet baru</button></div></div>
 <dialog id="twd" class="box" aria-label="Tweet"><p><strong id="twd-h">Tweet baru</strong></p><textarea id="twd-t" rows="4" maxlength="280" placeholder="Apa yang sedang kamu pikirkan?"></textarea>
@@ -238,7 +238,7 @@ $("twd-x").onclick=()=>dlg.close();
 $("twd-go").onclick=async()=>{const v=ta.value.trim();if(!v){$("twd-m").textContent="Tulis sesuatu dulu.";return}try{await auth.currentUser.getIdToken(true);if(eid)await fs.updateDoc(fs.doc(db,"topics",eid),{text:v,updatedAt:fs.serverTimestamp()});else await fs.addDoc(fs.collection(db,"topics"),{kind:"tweet",title:"Kicauan",text:v,createdAt:fs.serverTimestamp()});dlg.close()}catch(x){$("twd-m").textContent="Gagal simpan: "+(x.code||x.message)}};
 const del=async t=>{if(confirm("Hapus tweet ini?")){try{await fs.deleteDoc(fs.doc(db,"topics",t.id))}catch(x){alert("Gagal hapus: "+x.code)}}};
 const card=t=>{const c=document.createElement("article");c.className="tw";
-c.innerHTML='<div class="twh"><span class="twav" aria-hidden="true"></span><div><b>Diaz Hardika <i class="twv" title="Terverifikasi">\u2713</i></b><span class="twu">@DiazHardika</span></div><img class="twb" src="burung.png" alt="" aria-hidden="true"></div><p class="twt"></p><div class="twd"></div><div class="twa"></div>';
+c.innerHTML='<div class="twh"><span class="twav" aria-hidden="true"></span><div><b>Diaz Hardika <i class="twv" title="Terverifikasi">\u2713</i></b><span class="twu">@DiazHardika</span></div><img class="twb" src="burung.png" alt="" aria-hidden="true" onerror="this.remove()"></div><p class="twt"></p><div class="twd"></div><div class="twa"></div>';
 link(c.querySelector(".twt"),t.text);c.querySelector(".twd").textContent=fmt(ms(t));
 const a=c.querySelector(".twa");a.append(mk("\uD83D\uDCAC Komentar",()=>cmt(t.id)),mk("\uD83D\uDD17 Bagikan",()=>sh(t)));
 if(admin)a.append(mk("\u270E Edit",()=>ed(t)),mk("\uD83D\uDDD1 Hapus",()=>del(t)));return c};
